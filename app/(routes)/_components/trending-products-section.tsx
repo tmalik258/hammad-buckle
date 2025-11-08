@@ -77,7 +77,7 @@ export default function TrendingProductsSection() {
             <div className="grid grid-cols-2 gap-10">
               <div className="grid gap-10">
                 {/* Top Left - Blue to Pink Shadow */}
-                <div className="bg-black rounded-[2rem] shadow-[5px_5px_20px_rgba(236,72,153,0.6),5px_5px_40px_rgba(168,85,247,0.4)] border-[rgba(236,72,153,0.6)] border-1 overflow-hidden h-full">
+                <div className="bg-black rounded-[2rem] border-1 overflow-hidden h-full">
                   <Image
                     src="/images/controller-1.png"
                     alt="Xbox Controller 1"
@@ -87,7 +87,7 @@ export default function TrendingProductsSection() {
                   />
                 </div>
                 {/* Bottom Left - Pink Shadow */}
-                <div className="bg-black rounded-[2rem] shadow-[5px_5px_20px_rgba(236,72,153,0.6),5px_5px_40px_rgba(168,85,247,0.4)] border-[rgba(236,72,153,0.6)] border-1 overflow-hidden h-full">
+                <div className="bg-black rounded-[2rem] border-1 overflow-hidden h-full">
                   <Image
                     src="/images/controller-3.png"
                     alt="Xbox Controller 3"
@@ -99,7 +99,7 @@ export default function TrendingProductsSection() {
               </div>
               <div className="grid gap-10">
                 {/* Top Right - Pink Shadow */}
-                <div className="bg-black rounded-[2rem] shadow-[5px_5px_20px_rgba(236,72,153,0.6),5px_5px_40px_rgba(168,85,247,0.4)] border-[rgba(236,72,153,0.6)] border-1 overflow-hidden h-full">
+                <div className="bg-black rounded-[2rem] border-1 overflow-hidden h-full">
                   <Image
                     src="/images/controller-2.png"
                     alt="Xbox Controller 2"
@@ -109,7 +109,7 @@ export default function TrendingProductsSection() {
                   />
                 </div>
                 {/* Bottom Right - Pink Shadow */}
-                <div className="bg-black rounded-[2rem] shadow-[5px_5px_20px_rgba(236,72,153,0.6),5px_5px_40px_rgba(168,85,247,0.4)] border-[rgba(236,72,153,0.6)] border-1 overflow-hidden h-full">
+                <div className="bg-black rounded-[2rem] border-1 overflow-hidden h-full">
                   <Image
                     src="/images/controller-4.png"
                     alt="Xbox Controller 4"

@@ -124,24 +124,7 @@ function ProductsContent() {
   }
 
   return (
-    <div className="min-h-screen md:pt-20 relative z-0">
-      {/* Background decorative elements */}
-        <div className="absolute inset-0 -z-10">
-          {/* Ellipse - Pink/Magenta blur effect */}
-          <div
-            className="absolute top-20 -right-30 w-[60%] h-[100%] rounded-full max-w-[50vw] max-h-dvh overflow-hidden"
-            style={{
-              background: "#ea059a",
-              opacity: 0.4,
-              boxShadow: `
-                      0 0 100px 50px rgba(234, 5, 154, 0.6),
-                      0 0 300px 100px rgba(234, 5, 154, 0.4),
-                      0 0 800px 600px rgba(234, 5, 154, 0.2)
-                    `,
-              filter: "blur(800px)",
-            }}
-          />
-        </div>
+    <div className="min-h-screen md:pt-20 z-0">
       <div className="container mx-auto px-4 lg:px-6 py-4">
         {/* Hero Section */}
         <HeroSection

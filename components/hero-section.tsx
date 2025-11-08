@@ -46,35 +46,6 @@ export default function HeroSection({
         <div className="container mx-auto">
           <Card className="relative rounded-2xl lg:rounded-[3rem] overflow-hidden p-0">
             <CardContent className="p-4 sm:p-6 md:p-8 lg:p-12">
-              {/* Background decorative elements */}
-              <div className="absolute inset-0">
-                {/* Ellipse - Pink/Magenta blur effect */}
-                <div
-                  className="absolute top-1/2 -translate-y-1/3 -right-30 w-[40%] h-[100%] rounded-full max-w-[50vw] max-h-dvh overflow-hidden"
-                  style={{
-                    background: "#ea059a",
-                    opacity: 0.3,
-                    boxShadow: `
-                      0 0 200px 100px rgba(234, 5, 154, 0.6),
-                      0 0 400px 200px rgba(234, 5, 154, 0.4),
-                      0 0 0px 400px rgba(234, 5, 154, 0.2)
-                    `,
-                    filter: "blur(800px)",
-                  }}
-                />
-
-                {/* Mask group SVG - Decorative background */}
-                <div className="absolute top-0 right-0 opacity-50 md:max-w-[50%] max-h-[30vh] -z-20">
-                  <Image
-                    src="/images/mask-group.svg"
-                    alt="Decorative mask group"
-                    width={662}
-                    height={388}
-                    className="w-full h-full object-contain -z-10 opacity-70 blur-[0.3px]"
-                  />
-                </div>
-              </div>
-
               {/* Breadcrumb Navigation */}
               {showBreadcrumb && breadcrumbItems && (
                 <BreadcrumbNavigation items={breadcrumbItems} />
@@ -83,10 +54,10 @@ export default function HeroSection({
                 {/* Left Content */}
                 <div className="space-y-4 lg:space-y-6 text-center lg:text-left">
                   <div className="space-y-1 lg:space-y-2">
-                    <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white leading-tight">
+                    <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold leading-tight">
                       {beforeSubtitle}{" "}
                     </h2>
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
                       {title}{" "}
                       <span className="text-pink-400">{highlightText}</span>
                     </h1>
@@ -95,7 +66,7 @@ export default function HeroSection({
                     </p>
                   </div>
 
-                  <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+                  <p className="text-gray-800 text-sm sm:text-base lg:text-lg leading-relaxed">
                     {description}
                   </p>
 
@@ -103,7 +74,7 @@ export default function HeroSection({
                   {buttonText && showToggleButton && (
                     <Button
                       onClick={onButtonClick}
-                      className="bg-transparent border-2 border-pink-400 hover:bg-pink-400 text-pink-400 hover:text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-none rounded-tr-2xl rounded-bl-2xl cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl w-full sm:w-auto"
+                      className="bg-transparent border-2 border-black hover:bg-gray-900 text-pink-400 hover:px-4 sm:px-6 lg:px-8 py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-none rounded-tr-2xl rounded-bl-2xl cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl w-full sm:w-auto"
                     >
                       {buttonText}
                     </Button>

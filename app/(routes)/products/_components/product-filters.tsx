@@ -230,8 +230,8 @@ const ProductFilters = ({
 
   const FilterContent = () => (
     <div className="space-y-4 lg:space-y-6 h-full">
-      <div className="flex items-center justify-between top-0 bg-black py-2">
-        <h2 className="text-lg lg:text-xl font-bold text-white">Filters</h2>
+      <div className="flex items-center justify-between top-0 py-2">
+        <h2 className="text-lg lg:text-xl font-bold">Filters</h2>
         {hasActiveFilters() && (
           <Button
             variant="outline"
@@ -258,8 +258,8 @@ const ProductFilters = ({
       ) : (
         filterSections.map((section) => (
           <div key={section.id} className="content-rounded-2xl">
-            <div className="p-4 space-y-2 lg:space-y-3 bg-[#ffffff15] rounded-2xl">
-              <h3 className="text-sm font-semibold text-white">{section.name}</h3>
+            <div className="p-4 space-y-2 lg:space-y-3 bg-white/30 backdrop-blur-md rounded-2xl">
+              <h3 className="text-sm font-semibold">{section.name}</h3>
               <RadioGroup
                 value={selectedFilters[section.id] || ""}
                 onValueChange={(value) => handleFilterChange(section.id, value)}
@@ -276,8 +276,8 @@ const ProductFilters = ({
                       htmlFor={option.id}
                       className={`text-sm cursor-pointer ${
                         selectedFilters[section.id] === option.id
-                          ? "text-white"
-                          : "text-gray-400"
+                          ? "text-black"
+                          : "text-gray-800"
                       }`}
                     >
                       {option.name} {option.count && option?.count > 0 && `(${option.count})`}
@@ -292,8 +292,8 @@ const ProductFilters = ({
 
       {/* Price Range Filter */}
       <div className="content-rounded-2xl">
-        <div className="rounded-2xl bg-[#ffffff15] p-4 space-y-2 lg:space-y-3">
-          <h3 className="text-xs lg:text-sm font-semibold text-white">
+        <div className="rounded-2xl bg-white/30 backdrop-blur-md p-4 space-y-2 lg:space-y-3">
+          <h3 className="text-xs lg:text-sm font-semibold">
             Price Range: {priceStats && !priceStatsLoading 
               ? `${priceStats.min} KWD → ${priceStats.max}+ KWD`
               : "15 KWD → 300 KWD+"

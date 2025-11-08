@@ -12,10 +12,10 @@ export interface Review {
 
 const ReviewCard = ({ review }: { review: Review }) => {
   return (
-    <Card className="border-pink-500 bg-transparent rounded-[3rem] p-6 h-full">
+    <Card className="border border-black bg-white/30 backdrop-blur-md rounded-[3rem] p-6 h-full">
       <CardContent className="p-0 flex flex-col-reverse h-full min-h-52">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+          <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white font-semibold">
             {review.avatar ? (
               <img
                 src={review.avatar}
