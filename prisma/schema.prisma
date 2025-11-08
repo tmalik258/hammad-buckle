@@ -1,0 +1,403 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User model for authentication and profile management
+model User {
+  id               String   @id @default(cuid())
+  email            String   @unique
+  name             String?
+  avatar           String?
+  role             UserRole @default(CUSTOMER)
+  isActive         Boolean  @default(true)
+  stripeCustomerId String?  @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  orders    Order[]
+  reviews   Review[]
+  addresses Address[]
+  cartItems CartItem[]
+  wishlistItems WishlistItem[]
+  promoCodeUsages PromoCodeUsage[]
+
+  @@map("users")
+}
+
+// Category model for product organization
+model Category {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  description  String?
+  image        String?
+  productsCount Int      @default(0)
+  featured     Boolean  @default(false)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  products Product[]
+
+  @@map("categories")
+}
+
+// Type model for product types (e.g., Sneakers, Running Shoes, etc.)
+model Type {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  products Product[]
+
+  @@map("types")
+}
+
+// Occasion model for product occasions (e.g., Casual Wear, Sports & Gym, etc.)
+model Occasion {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  products Product[]
+
+  @@map("occasions")
+}
+
+// Wishlist for saving favorite products
+model WishlistItem {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  userId    String
+  productId String
+
+  // Relations
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId]) // One product per user in wishlist
+  @@map("wishlist_items")
+}
+
+// Product model for inventory management
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  price         Float
+  originalPrice Float?
+  image         String
+  images        String[] @default([])
+  categoryId    String?
+  typeId        String?
+  occasionId    String?
+  rating        Float    @default(0)
+  averageRating Float    @default(0)
+  reviewCount   Int      @default(0)
+  inStock       Boolean  @default(true)
+  stockQuantity Int      @default(0)
+  isNew         Boolean  @default(false)
+  isActive      Boolean  @default(true)
+  onSale        Boolean  @default(false)
+  featured      Boolean  @default(false)
+  sku           String?  @unique
+  weight        Float?
+  dimensions    String?
+  isValid       Boolean  @default(true)
+  validationErrors Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  type        Type?        @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  occasion    Occasion?    @relation(fields: [occasionId], references: [id], onDelete: Cascade)
+  reviews     Review[]
+  orderItems  OrderItem[]
+  cartItems   CartItem[]
+  variants    ProductVariant[]
+  wishlistItems WishlistItem[]
+
+  @@map("products")
+}
+
+// Product variants for size, color, etc.
+model ProductVariant {
+  id        String   @id @default(cuid())
+  productId String
+  name      String   // e.g., "Size", "Color"
+  value     String   // e.g., "Large", "Red"
+  price     Float?   // Additional price for this variant
+  stock     Int      @default(0)
+  sku       String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  product   Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cartItems CartItem[]
+
+  @@unique([productId, name, value])
+  @@map("product_variants")
+}
+
+// Order model for purchase tracking
+model Order {
+  id            String      @id @default(cuid())
+  userId        String
+  orderNumber   String      @unique
+  status        OrderStatus @default(PENDING)
+  totalAmount   Float
+  subtotal      Float
+  tax           Float       @default(0)
+  shipping      Float       @default(0)
+  discount      Float       @default(0)
+  paymentMethod String?
+  paymentStatus PaymentStatus @default(PENDING)
+  shippingAddressId String?
+  billingAddressId  String?
+  trackingNumber    String?
+  estimatedDelivery DateTime?
+  deliveredAt       DateTime?
+  promoCodeId       String?     // optional relation to applied promo code
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Relations
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items           OrderItem[]
+  shippingAddress Address?     @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+  billingAddress  Address?     @relation("BillingAddress", fields: [billingAddressId], references: [id])
+  timeline        OrderTimeline[]
+  payment         Payment?
+  promoCode       PromoCode?   @relation(fields: [promoCodeId], references: [id])
+  promoCodeUsage  PromoCodeUsage?
+
+  @@map("orders")
+}
+
+// Order items for detailed purchase tracking
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float    // Price at time of purchase
+  total     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}
+
+// Order timeline for tracking status changes
+model OrderTimeline {
+  id          String   @id @default(cuid())
+  orderId     String
+  status      String
+  description String?
+  timestamp   DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  // Relations
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_timeline")
+}
+
+// Address model for shipping and billing
+model Address {
+  id          String   @id @default(cuid())
+  userId      String
+  type        AddressType @default(SHIPPING)
+  name        String
+  email       String?
+  street    String?
+  city        String
+  area       String
+  postalCode  String
+  phone       String?
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shippingOrders  Order[] @relation("ShippingAddress")
+  billingOrders   Order[] @relation("BillingAddress")
+
+  @@map("addresses")
+}
+
+// Cart items for shopping cart functionality
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  variantId String?
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variant ProductVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId, variantId])
+  @@map("cart_items")
+}
+
+// Review model for product feedback
+model Review {
+  id        String       @id @default(cuid())
+  userId    String
+  productId String
+  rating    Int          // 1-5 stars
+  title     String?
+  comment   String?
+  status    ReviewStatus @default(PENDING)
+  verified  Boolean      @default(false) // Verified purchase
+  helpful   Int          @default(0)     // Helpful votes
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("reviews")
+}
+
+// Payment model for Stripe integration
+model Payment {
+  id                    String        @id @default(cuid())
+  orderId               String        @unique
+  stripePaymentIntentId String        @unique
+  stripeCustomerId      String?
+  amount                Float
+  currency              String        @default("usd")
+  status                PaymentStatus @default(PENDING)
+  paymentMethod         String?
+  stripePaymentMethodId String?
+  metadata              Json?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  
+  // Relations
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  @@map("payments")
+}
+
+// PromoCode model for promotional codes and discounts
+model PromoCode {
+  id                  String      @id @default(cuid())
+  code                String      @unique
+  discountType        DiscountType
+  discountValue       Float       // percentage (0-100) or fixed amount
+  minimumOrderAmount  Float?      // optional minimum order requirement
+  maxDiscountAmount   Float?      // optional max discount cap for percentage discounts
+  expirationDate      DateTime?   // optional expiration
+  usageLimit          Int?        // optional total usage limit
+  usageCount          Int         @default(0) // current usage count
+  isActive            Boolean     @default(true)
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  // Relations
+  orders              Order[]
+  promoCodeUsages     PromoCodeUsage[]
+
+  @@map("promo_codes")
+}
+
+// PromoCodeUsage model for tracking individual promo code usage
+model PromoCodeUsage {
+  id             String   @id @default(cuid())
+  promoCodeId    String
+  userId         String
+  orderId        String   @unique // One-to-one with Order
+  discountAmount Float    // actual discount applied
+  usedAt         DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  promoCode PromoCode @relation(fields: [promoCodeId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("promo_code_usages")
+}
+
+// Enums
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+  BOTH
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FLAGGED
+  HIDDEN
+  REPORTED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
