@@ -1,5 +1,5 @@
 {
-  "name": "wizza",
+  "name": "hammad-buckle",
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.15.1",
@@ -14,9 +14,9 @@
     "postbuild": "prisma generate",
     "deploy": "pnpm run build:prod && pnpm run start:prod",
     "pm2:start": "pm2 start ecosystem.config.js",
-    "pm2:stop": "pm2 stop wizza",
-    "pm2:restart": "pm2 restart wizza",
-    "pm2:logs": "pm2 logs wizza"
+    "pm2:stop": "pm2 stop hammad-buckle",
+    "pm2:restart": "pm2 restart hammad-buckle",
+    "pm2:logs": "pm2 logs hammad-buckle"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

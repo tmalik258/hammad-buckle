@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import HeroSection from "@/components/hero-section";
 import { Truck, Globe, Lock, Headphones } from "lucide-react";
 
 interface BreadcrumbItem {
@@ -144,17 +143,7 @@ const features = [
 export default function AboutUsPage() {
   return (
     <div className="min-h-screen md:pt-20">
-      {/* Hero Section */}
-      <HeroSection
-        title="About Us"
-        subtitle="From the moment you browse to the second it arrives, Wizza is designed with you at the center."
-        buttonText="Learn More"
-        imageSrc="/images/group-of-cartoon-people.png"
-        imageAlt="About Us Team"
-        breadcrumbItems={breadcrumbItems}
-        showBreadcrumb={true}
-        onButtonClick={() => console.log("Learn More clicked")}
-      />
+      {/* Removed HeroSection */}
 
       {/* Background decorative elements */}
       <div className="absolute inset-0 z-50">

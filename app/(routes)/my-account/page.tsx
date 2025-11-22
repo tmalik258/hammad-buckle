@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import HeroSection from "@/components/hero-section";
 import { ErrorComponent } from "@/components/ui/error-component";
 import { MyAccountSkeleton } from "./_components/my-account-skeleton";
 import {
@@ -342,19 +341,7 @@ export default function MyAccountPage() {
         </div>
       )}
 
-      {/* Hero Section */}
-      <div className="container mx-auto py-8">
-        <HeroSection
-          title="Welcome back!"
-          subtitle='"Manage your account, order, and preferences"'
-          description=""
-          imageSrc="/images/fizzy-avatar.png"
-          imageAlt="Welcome back illustration"
-          breadcrumbItems={breadcrumbItems}
-          showBreadcrumb={true}
-          showToggleButton={false}
-        />
-      </div>
+      {/* Removed HeroSection */}
 
       {/* Welcome Header */}
       <ProfileHeader

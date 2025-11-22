@@ -8,8 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ErrorComponent } from "@/components/ui/error-component";
 import { CartSkeleton } from "@/components/ui/route-skeletons";
-
-import HeroSection from "@/components/hero-section";
+ 
 import { Trash2, Plus, Minus, Heart, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/lib/stores";
@@ -115,21 +114,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-black md:pt-20">
-      {/* Hero Section with Integrated Breadcrumb */}
-      <div className="container mx-auto py-8">
-        <HeroSection
-          title="Your Cart,"
-          highlightText="Your Style"
-          subtitle="Review your selections before checkout."
-          description=""
-          buttonText="Continue Shopping"
-          imageSrc="/images/astronaut-product.png"
-          imageAlt="Woman with shopping bags"
-          breadcrumbItems={breadcrumbItems}
-          showBreadcrumb={true}
-          onButtonClick={() => window.location.href = '/products'}
-        />
-      </div>
+      {/* Removed HeroSection */}
 
       {/* Discount Badge */}
       {/* <div className="container mx-auto px-4 mb-8">
@@ -272,7 +257,7 @@ export default function CartPage() {
                   <Button 
                     size="lg" 
                     disabled={loading || cartItems.length === 0}
-                    className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     asChild
                   >
                     <Link href={"/checkout"}>{loading ? "Processing..." : "Proceed to Checkout"}</Link>

@@ -1,129 +1,99 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Star } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi,
-} from "@/components/ui/carousel";
 
-export default function HeroSection() {
-  const [api, setApi] = useState<CarouselApi>();
+interface HeroSectionProps {
+  className?: string;
+}
 
-  const products = [
-    {
-      image: "/images/sneakers-image.png",
-      name: "Premium Sneakers",
-      rating: 4.9,
-    },
-    {
-      image: "/images/astronaut-product.png",
-      name: "Space Explorer",
-      rating: 4.8,
-    },
-    {
-      image: "/images/desk-image.png",
-      name: "Modern Desk",
-      rating: 4.6,
-    },
-  ];
-
-  // Auto-play functionality
-  useEffect(() => {
-    if (!api) return;
-
-    const interval = setInterval(() => {
-      api.scrollNext();
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [api]);
-
+export default function HeroSection({ className = "" }: HeroSectionProps) {
   return (
-    <section className="relative min-h-screen max-md:pt-20">
-      {/* Main Content Container */}
-      <div className="relative z-50 px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 flex flex-col lg:flex-row items-center justify-between min-h-screen container mx-auto gap-8 lg:gap-12">
-        {/* Left Content */}
-        <div className="flex-1 max-w-2xl text-center lg:text-left">
-          {/* Main Heading */}
-          <div className="space-y-4 sm:space-y-6 mb-8 sm:mb-12">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight">
-              Smart Finds
-              <br />
-              <span className="text-primary">Curated For You</span>
-            </h1>
+    <section 
+      className={`relative py-20 md:py-32 ${className}`}
+      role="banner"
+      aria-label="Hero section"
+    >
+      <div className="container mx-auto px-4">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
+          <div className="space-y-8">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black leading-tight">
+                Premium Leather
+                <span className="block">Belt Buckles</span>
+              </h1>
+              <p className="text-lg md:text-xl text-black/80 max-w-lg">
+                Handcrafted with precision and designed for those who appreciate quality. 
+                Elevate your style with our exclusive collection of premium belt buckles.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/shop"
+                className="inline-flex items-center justify-center px-8 py-3 bg-black text-[#FFF8E7] font-medium rounded-lg hover:bg-black/90 transition-colors duration-200 cursor-pointer"
+                aria-label="Shop Now - Browse our premium belt buckles"
+              >
+                Shop Now
+              </Link>
+              <Link
+                href="/collections"
+                className="inline-flex items-center justify-center px-8 py-3 border-2 border-black text-black font-medium rounded-lg hover:bg-black hover:text-[#FFF8E7] transition-all duration-200 cursor-pointer"
+                aria-label="View Collections - Explore our exclusive collections"
+              >
+                View Collections
+              </Link>
+            </div>
 
-            <p className="text-base sm:text-lg font-medium text-muted-foreground max-w-lg mx-auto lg:mx-0">
-              Shop now and get fast delivery in{" "}
-              <span className="text-primary">Kuwait</span>!
-            </p>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-black/10">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-black">500+</div>
+                <div className="text-sm text-black/70">Happy Customers</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-black">50+</div>
+                <div className="text-sm text-black/70">Unique Designs</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-black">5+</div>
+                <div className="text-sm text-black/70">Years Experience</div>
+              </div>
+            </div>
           </div>
 
-          {/* CTA Button */}
-          <div className="mb-8 sm:mb-16">
-            <Button
-              size="lg"
-              className="bg-transparent border-2 border-primary hover:bg-primary text-primary hover:text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-none rounded-tr-2xl rounded-bl-2xl cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              asChild
-            >
-              <Link href="/products">Explore Now</Link>
-            </Button>
-          </div>
-        </div>
-
-        {/* Right Content - Product Carousel */}
-        <div className="flex-1 flex justify-center relative w-full lg:w-auto">
-          <div className="w-full max-w-md sm:max-w-lg lg:max-w-2xl">
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              setApi={setApi}
-              className="w-full"
-            >
-              <CarouselContent>
-                {products.map((product, index) => (
-                  <CarouselItem key={index}>
-                    <div className="relative">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        width={500}
-                        height={400}
-                        className="w-full h-auto rounded-2xl object-contain"
-                      />
-
-                      {/* Rating Badge */}
-                      <Badge
-                        variant="secondary"
-                        className="absolute top-[50%] sm:top-[60%] right-2 sm:right-4 bg-card/80 backdrop-blur-sm border border-border hover:bg-accent/40 rounded-none rounded-tr-2xl rounded-bl-2xl px-2 sm:px-4 py-1 sm:py-2 text-foreground cursor-pointer transition-colors duration-300 text-xs sm:text-sm"
-                      >
-                        <Star className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                        {product.rating}/5
-                      </Badge>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+          {/* Image */}
+          <div className="relative">
+            <div className="relative aspect-square max-w-lg mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent rounded-3xl"></div>
+              <Image
+                src="https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Premium%20leather%20belt%20buckle%20on%20elegant%20display%2C%20luxury%20product%20photography%2C%20high-end%20styling%2C%20professional%20lighting%2C%20sophisticated%20background&image_size=square_hd"
+                alt="Premium leather belt buckle showcase"
+                fill
+                className="object-cover rounded-3xl shadow-2xl"
+                priority
+              />
+            </div>
+            
+            {/* Floating elements */}
+            <div className="absolute -top-4 -right-4 w-20 h-20 bg-black rounded-full flex items-center justify-center shadow-lg">
+              <span className="text-[#FFF8E7] text-xs font-bold text-center leading-tight">
+                NEW<br/>ARRIVAL
+              </span>
+            </div>
+            
+            <div className="absolute -bottom-6 -left-6 border-2 border-black rounded-2xl p-4 shadow-lg">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-black text-sm font-medium">In Stock</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center">
-        <p className="text-muted-foreground text-sm mb-2">Scroll to Explore</p>
-        <div className="w-6 h-10 border-2 border-border rounded-full flex justify-center mx-auto animate-bounce">
-          <div className="w-1 h-3 bg-muted-foreground rounded-full mt-2 animate-pulse" />
-        </div>
-      </div>
+      {/* Decorative elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-black/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-black/5 rounded-full blur-3xl"></div>
     </section>
   );
 }

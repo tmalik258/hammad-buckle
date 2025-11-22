@@ -68,7 +68,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link href={`/products/${product.id}`}>
-      <Card className="group border content-rounded-xl overflow-hidden transition-all duration-300 cursor-pointer p-0 h-full">
+      <Card className="group border border-border content-rounded-xl overflow-hidden transition-all duration-300 cursor-pointer p-0 h-full hover:bg-accent">
         <CardContent className="p-4 bg-card/80 h-full">
           <div className="relative rounded-2xl">
             <Image
@@ -86,7 +86,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {/* Wishlist Heart Icon */}
             <button
               onClick={handleWishlistClick}
-              className="absolute top-2 lg:top-3 right-2 lg:right-3 p-2 rounded-full bg-black/50 backdrop-blur-sm hover:bg-black/70 transition-all duration-200 z-10"
+              className="absolute top-2 lg:top-3 right-2 lg:right-3 p-2 rounded-full bg-muted/60 text-muted-foreground hover:bg-muted/80 transition-all duration-200 z-10"
               aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
             >
               <Heart
@@ -115,7 +115,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <h3 className="font-bold text-foreground text-sm sm:text-base lg:text-lg group-hover:text-primary transition-colors line-clamp-2">
               &quot;{product.name}&quot;
             </h3>
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed line-clamp-2">
+            <p className="text-xs sm:text-sm text-muted-foreground leading-6 line-clamp-2">
               Lightweight, breathable, perfect for running
             </p>
             <div className="flex items-center justify-between h-full flex-row-reverse">

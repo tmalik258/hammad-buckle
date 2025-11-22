@@ -14,7 +14,8 @@ import {
   Settings,
   LogOut,
   Info,
-  X
+  X,
+  Search
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +26,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
@@ -89,9 +92,9 @@ export function Header() {
             >
               <div className="flex flex-col h-full">
                 {/* Header Section with Logo */}
-                <div className="flex items-center border-b border-pink-500/20 mb-6">
+                <div className="flex items-center mb-6">
                   <Image
-                    src="/images/logo.png"
+                    src="/logo-transparent.png"
                     alt="Wizza"
                     width={100}
                     height={100}
@@ -140,16 +143,6 @@ export function Header() {
                     <Home className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                     <span className="font-medium group-hover:text-foreground transition-colors">
                       Home
-                    </span>
-                  </Link>
-
-                  <Link
-                    href="/categories"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer"
-                  >
-                    <Grid3X3 className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                    <span className="font-medium group-hover:text-foreground transition-colors">
-                      Categories
                     </span>
                   </Link>
 
@@ -245,10 +238,10 @@ export function Header() {
           </Sheet>
 
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center cursor-pointer">
             <div className="font-bold text-2xl font-serif text-primary">
               <Image
-                src="/images/logo.png"
+                src="/logo-transparent.png"
                 alt="Wizza"
                 width={100}
                 height={100}
@@ -264,12 +257,6 @@ export function Header() {
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               Home
-            </Link>
-            <Link
-              href="/categories"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Categories
             </Link>
             <Link
               href="/products"
@@ -301,23 +288,11 @@ export function Header() {
           <div className="flex items-center">
             {isAuthenticated && isInitialized ? (
               <>
-                {/* Language */}
-                {/* <Select defaultValue="english">
-                  <SelectTrigger className="w-[100px] border-0 !bg-transparent hover:!bg-neutral-900 cursor-pointer transition-colors delay-75">
-                    <SelectValue placeholder="Language" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="english">English</SelectItem>
-                    <SelectItem value="spanish">Spanish</SelectItem>
-                    <SelectItem value="french">French</SelectItem>
-                  </SelectContent>
-                </Select> */}
-
                 {/* Search Icon */}
-                {/* <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon">
                   <Search className="h-5 w-5" />
                   <span className="sr-only">Search</span>
-                </Button> */}
+                </Button>
 
                 {/* User Account */}
                 <DropdownMenu>
@@ -331,78 +306,19 @@ export function Header() {
                       <span className="sr-only">Account</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="w-80 p-0 bg-card text-foreground border shadow-2xl rounded-3xl overflow-hidden z-[1000]"
-                  >
-                    {/* User Profile Header */}
-                    <div className="p-6 pb-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-border">
-                          {isLoading ? (
-                            <div className="w-full h-full bg-white/20 animate-pulse rounded-full" />
-                          ) : (
-                            <EnhancedImage
-                              src={profile?.avatar || user?.user_metadata?.avatar_url}
-                              alt="Profile"
-                              width={48}
-                              height={48}
-                              className="w-full h-full"
-                              fallbackInitial={profile?.name?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U'}
-                            />
-                          )}
-                        </div>
-                        <div className="text-foreground">
-                          {isLoading ? (
-                            <div className="h-6 w-32 bg-muted animate-pulse rounded" />
-                          ) : (
-                            <p className="text-lg font-medium">
-                              {profile?.name || user?.email || "User"}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Separator */}
-                    <div className="h-px bg-border mx-6"></div>
-
-                    {/* Menu Items */}
-                    <div className="p-6 pt-4 space-y-2">
-                      <DropdownMenuItem
-                        asChild
-                        className="p-0 focus:bg-accent rounded-xl"
-                      >
-                        <Link
-                          href="/my-account"
-                          className="flex items-center px-4 py-3 text-foreground text-lg font-medium hover:bg-accent rounded-xl transition-colors cursor-pointer"
-                        >
-                          Profile
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        asChild
-                        className="p-0 focus:bg-accent rounded-xl"
-                      >
-                        <Link
-                          href="/wishlist"
-                          className="flex items-center px-4 py-3 text-foreground text-lg font-medium hover:bg-accent rounded-xl transition-colors cursor-pointer"
-                        >
-                          Wishlist
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        asChild
-                        className="p-0 focus:bg-accent rounded-xl"
-                      >
-                        <button
-                          onClick={handleLogout}
-                          className="flex items-center w-full px-4 py-3 text-foreground text-lg font-medium hover:bg-accent rounded-xl transition-colors cursor-pointer"
-                        >
-                          Logout
-                        </button>
-                      </DropdownMenuItem>
-                    </div>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>
+                      {profile?.name || user?.email || "User"}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/my-account">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/wishlist">Wishlist</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
 
@@ -425,13 +341,13 @@ export function Header() {
                 </Button>
               </>
             ) : isInitialized ? (
-              /* Unauthenticated User - Get Started Button */
-              <Button
-                  asChild
-                  className="bg-transparent border-2 border-primary hover:bg-primary text-primary hover:text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-none rounded-tr-2xl rounded-bl-2xl cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                <Link href="/auth/login">Get Started</Link>
-              </Button>
+              /* Unauthenticated User - Get Started Link with border */
+              <Link
+                href="/auth/login"
+                className="inline-flex items-center justify-center h-9 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-none rounded-tr-2xl rounded-bl-2xl cursor-pointer border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                Get Started
+              </Link>
             ) : (
               /* Loading state - show nothing to prevent flickering */
               <div className="w-32 h-12" />

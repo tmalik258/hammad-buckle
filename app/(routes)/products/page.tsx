@@ -4,7 +4,6 @@ import React, { useState, useCallback, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ProductsPageSkeleton } from "@/components/ui/route-skeletons";
-import HeroSection from "@/components/hero-section";
 import ProductFilters from "./_components/product-filters";
 import ProductGrid from "./_components/product-grid";
 import { useProducts } from "@/lib/hooks/useProducts";
@@ -126,25 +125,7 @@ function ProductsContent() {
   return (
     <div className="min-h-screen md:pt-20 z-0">
       <div className="container mx-auto px-4 lg:px-6 py-4">
-        {/* Hero Section */}
-        <HeroSection
-          beforeSubtitle="Shoes Collection"
-          title="Next-gen Comfort. Designed for every move."
-          buttonText="Shop Now"
-          imageSrc="/images/hero-sneaker-2.png"
-          imageAlt="Featured Product"
-          breadcrumbItems={[
-            { label: "Home", href: "/" },
-            { label: "Shoes", href: "/products" },
-          ]}
-          showBreadcrumb={true}
-          onButtonClick={() => {
-            // Scroll to products section
-            document
-              .getElementById("products-section")
-              ?.scrollIntoView({ behavior: "smooth" });
-          }}
-        />
+        {/* Removed HeroSection */}
 
         {/* Main Content Layout */}
         <div

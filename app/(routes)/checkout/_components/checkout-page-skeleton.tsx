@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import HeroSection from "@/components/hero-section";
 
 export default function CheckoutPageSkeleton() {
   return (

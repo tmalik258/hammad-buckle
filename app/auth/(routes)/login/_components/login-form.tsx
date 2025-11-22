@@ -140,7 +140,7 @@ export function LoginForm() {
             {/* Login Button */}
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 py-3 rounded-3xl font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              className="w-full cursor-pointer"
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? (

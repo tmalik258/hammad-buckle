@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import axios from "axios";
-import HeroSection from "@/components/hero-section";
 import { useCartStore } from "@/lib/stores/cart-store";
 import { useUserStore } from "@/lib/stores/user-store";
 import { ErrorComponent } from "@/components/ui/error-component";
@@ -452,19 +451,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen md:pt-20">
-      {/* Hero Section */}
-      <div className="container mx-auto py-8">
-        <HeroSection
-          title="Secure"
-          highlightText="Checkout"
-          subtitle='"Your Checkout, Your Moment."'
-          imageSrc="/images/astronaut-product.png"
-          imageAlt="Secure checkout illustration"
-          breadcrumbItems={breadcrumbItems}
-          showBreadcrumb={true}
-          showToggleButton={false}
-        />
-      </div>
+      {/* Removed HeroSection */}
 
       <div className="container mx-auto px-4 pb-16">
         <form onSubmit={handleSubmit}>

@@ -2,7 +2,6 @@
 
 import { useWishlistStore } from "@/lib/stores/wishlist-store";
 import { useCartStore } from "@/lib/stores/cart-store";
-import HeroSection from "@/components/hero-section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -89,26 +88,7 @@ export default function WishlistPage() {
 
   return (
     <div className="container mx-auto min-h-screen md:pt-20">
-      {/* Hero Section */}
-      <HeroSection
-        beforeSubtitle="Your"
-        title="Wishlist"
-        highlightText="💖"
-        subtitle="Save your favorite products and shop them anytime"
-        buttonText="Shop Your Favorite"
-        imageSrc="https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=3D%20pink%20heart%20floating%20with%20sparkles%20and%20glow%20effect%20on%20transparent%20background%20romantic%20love%20symbol&image_size=square_hd"
-        imageAlt="Pink heart 3D render"
-        breadcrumbItems={breadcrumbItems}
-        showBreadcrumb={true}
-        showToggleButton={true}
-        onButtonClick={() => {
-          if (items.length > 0) {
-            window.location.href = `/products/${items[0].id}`;
-          } else {
-            window.location.href = "/products";
-          }
-        }}
-      />
+      {/* Removed HeroSection */}
 
       {/* Wishlist Content */}
       <div className="container mx-auto px-4 lg:px-0 pb-16">

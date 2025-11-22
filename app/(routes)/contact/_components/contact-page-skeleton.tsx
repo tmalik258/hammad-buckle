@@ -1,20 +1,10 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import HeroSection from "@/components/hero-section";
 
 export function ContactPageSkeleton() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
-      <HeroSection 
-        title="Contact Us" 
-        subtitle="Get in touch with our team. We&apos;re here to help with any questions or concerns."
-        imageSrc="/images/contact-hero.jpg"
-        imageAlt="Contact Us"
-        showToggleButton={false}
-        description="Contact us for any inquiries, feedback, or support."
-        highlightText="Contact Us"
-        buttonText="Get in Touch"
-      />
+      {/* Removed HeroSection */}
       
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

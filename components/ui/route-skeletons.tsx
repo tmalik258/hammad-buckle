@@ -62,47 +62,15 @@ export function CartSkeleton() {
 // Products Page Skeleton
 export const ProductsPageSkeleton = () => {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 lg:px-6 py-4">
-        {/* Hero Section Skeleton */}
-        <div className="mb-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 py-8 lg:py-16">
-            {/* Left Content */}
-            <div className="flex-1 text-center lg:text-left space-y-6">
-              {/* Breadcrumb */}
-              <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
-                <div className="h-4 w-12 bg-gray-700 rounded animate-pulse"></div>
-                <div className="h-4 w-4 bg-gray-700 rounded animate-pulse"></div>
-                <div className="h-4 w-16 bg-gray-700 rounded animate-pulse"></div>
-              </div>
-              
-              {/* Before Subtitle */}
-              <div className="h-4 w-32 bg-gray-700 rounded animate-pulse mx-auto lg:mx-0"></div>
-              
-              {/* Title */}
-              <div className="space-y-2">
-                <div className="h-8 lg:h-12 w-full max-w-md bg-gray-700 rounded animate-pulse mx-auto lg:mx-0"></div>
-                <div className="h-8 lg:h-12 w-3/4 max-w-sm bg-gray-700 rounded animate-pulse mx-auto lg:mx-0"></div>
-              </div>
-              
-              {/* Button */}
-              <div className="h-12 w-32 bg-gray-700 rounded animate-pulse mx-auto lg:mx-0"></div>
-            </div>
-            
-            {/* Right Image */}
-            <div className="flex-1 flex justify-center lg:justify-end">
-              <div className="w-64 h-64 lg:w-80 lg:h-80 bg-gray-700 rounded-lg animate-pulse"></div>
-            </div>
-          </div>
-        </div>
-
         {/* Main Content Layout */}
         <div id="products-section" className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Filters Sidebar */}
           <div className="w-full lg:w-80 lg:flex-shrink-0">
             {/* Mobile Filter Button */}
             <div className="lg:hidden mb-4">
-              <div className="h-10 w-24 bg-gray-700 rounded animate-pulse"></div>
+              <div className="h-10 w-24 bg-muted rounded animate-pulse"></div>
             </div>
             
             {/* Desktop Sidebar */}
@@ -111,18 +79,18 @@ export const ProductsPageSkeleton = () => {
                 <div className="flex-1 overflow-y-auto p-4 lg:p-6">
                   <div className="space-y-4 lg:space-y-6 h-full">
                     {/* Filters Title */}
-                    <div className="h-6 bg-gray-700 rounded animate-pulse mb-2 lg:mb-4"></div>
+                    <div className="h-6 bg-muted rounded animate-pulse mb-2 lg:mb-4"></div>
                     
                     {/* Filter sections */}
                     {[1, 2, 3].map((i) => (
                       <div key={i} className="content-rounded-2xl">
-                        <div className="p-4 space-y-2 lg:space-y-3 bg-[#ffffff11]">
-                          <div className="h-4 bg-gray-700 rounded animate-pulse mb-3"></div>
+                        <div className="p-4 space-y-2 lg:space-y-3 bg-accent">
+                          <div className="h-4 bg-muted rounded animate-pulse mb-3"></div>
                           <div className="space-y-1 lg:space-y-2">
                             {[1, 2, 3, 4].map((j) => (
                               <div key={j} className="flex items-center space-x-2">
-                                <div className="w-4 h-4 bg-gray-700 rounded-full animate-pulse"></div>
-                                <div className="h-3 bg-gray-700 rounded animate-pulse flex-1"></div>
+                                <div className="w-4 h-4 bg-muted rounded-full animate-pulse"></div>
+                                <div className="h-3 bg-muted rounded animate-pulse flex-1"></div>
                               </div>
                             ))}
                           </div>
@@ -133,21 +101,21 @@ export const ProductsPageSkeleton = () => {
                     {/* Price Range Filter */}
                     <div className="content-rounded-2xl">
                       <div className="rounded-2xl p-4 space-y-2 lg:space-y-3">
-                        <div className="h-4 bg-gray-700 rounded animate-pulse mb-3"></div>
+                        <div className="h-4 bg-muted rounded animate-pulse mb-3"></div>
                         <div className="px-2">
                           <div className="relative">
-                            <div className="h-2 bg-gray-700 rounded-full">
-                              <div className="h-2 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full w-3/5"></div>
+                            <div className="h-2 bg-muted rounded-full">
+                              <div className="h-2 bg-accent rounded-full w-3/5"></div>
                             </div>
-                            <div className="flex justify-between text-xs text-gray-400 mt-2">
-                              <div className="h-3 w-12 bg-gray-700 rounded animate-pulse"></div>
-                              <div className="h-3 w-16 bg-gray-700 rounded animate-pulse"></div>
+                            <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                              <div className="h-3 w-12 bg-muted rounded animate-pulse"></div>
+                              <div className="h-3 w-16 bg-muted rounded animate-pulse"></div>
                             </div>
                           </div>
                         </div>
                         <div className="grid grid-cols-2 lg:flex lg:flex-wrap gap-1 lg:gap-2 mt-2 lg:mt-4">
                           {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="h-8 bg-gray-700 rounded animate-pulse"></div>
+                            <div key={i} className="h-8 bg-muted rounded animate-pulse"></div>
                           ))}
                         </div>
                       </div>
@@ -163,12 +131,12 @@ export const ProductsPageSkeleton = () => {
             {/* Header with Sort and Product Count */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 lg:mb-6">
               <div className="flex items-center gap-4 w-full sm:w-auto">
-                <div className="w-full sm:w-48 h-10 bg-gray-700 rounded animate-pulse"></div>
-                <div className="h-4 w-20 bg-gray-700 rounded animate-pulse hidden sm:block"></div>
+                <div className="w-full sm:w-48 h-10 bg-muted rounded animate-pulse"></div>
+                <div className="h-4 w-20 bg-muted rounded animate-pulse hidden sm:block"></div>
               </div>
               <div className="flex items-center gap-2 w-full sm:w-auto">
-                <div className="h-4 w-20 bg-gray-700 rounded animate-pulse sm:hidden"></div>
-                <div className="h-8 w-32 bg-gray-700 rounded animate-pulse ml-auto sm:ml-0"></div>
+                <div className="h-4 w-20 bg-muted rounded animate-pulse sm:hidden"></div>
+                <div className="h-8 w-32 bg-muted rounded animate-pulse ml-auto sm:ml-0"></div>
               </div>
             </div>
 
@@ -176,11 +144,11 @@ export const ProductsPageSkeleton = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 9 }).map((_, i) => (
                 <div key={i} className="content-rounded-lg overflow-hidden">
-                  <div className="h-64 bg-gray-700 animate-pulse"></div>
+                  <div className="h-64 bg-muted animate-pulse"></div>
                   <div className="p-4 space-y-3">
-                    <div className="h-4 bg-gray-700 rounded animate-pulse"></div>
-                    <div className="h-3 bg-gray-700 rounded animate-pulse w-3/4"></div>
-                    <div className="h-5 bg-gray-700 rounded animate-pulse w-1/2"></div>
+                    <div className="h-4 bg-muted rounded animate-pulse"></div>
+                    <div className="h-3 bg-muted rounded animate-pulse w-3/4"></div>
+                    <div className="h-5 bg-muted rounded animate-pulse w-1/2"></div>
                   </div>
                 </div>
               ))}
@@ -190,9 +158,9 @@ export const ProductsPageSkeleton = () => {
 
         {/* Pagination Skeleton */}
         <div className="flex justify-center items-center space-x-4 mt-12">
-          <div className="h-10 w-20 bg-gray-700 rounded animate-pulse"></div>
-          <div className="h-4 w-24 bg-gray-700 rounded animate-pulse"></div>
-          <div className="h-10 w-16 bg-gray-700 rounded animate-pulse"></div>
+          <div className="h-10 w-20 bg-muted rounded animate-pulse"></div>
+          <div className="h-4 w-24 bg-muted rounded animate-pulse"></div>
+          <div className="h-10 w-16 bg-muted rounded animate-pulse"></div>
         </div>
       </div>
     </div>
