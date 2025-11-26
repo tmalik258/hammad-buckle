@@ -51,7 +51,7 @@ export function ProductImages({
           priority
         />
         {brand && (
-          <Badge className="absolute top-4 left-4 bg-pink-500 text-white px-3 py-1 text-sm font-medium">
+          <Badge className="absolute top-4 left-4 bg-black text-white px-3 py-1 text-sm font-medium">
             {brand}
           </Badge>
         )}

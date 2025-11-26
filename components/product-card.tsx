@@ -64,7 +64,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const imageSrc =
     typeof product.image === "string" && product.image.trim() !== ""
       ? product.image
-      : "/images/logo.png";
+      : "/logo-transparent.png";
 
   return (
     <Link href={`/products/${product.id}`}>

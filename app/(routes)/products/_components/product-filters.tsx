@@ -258,7 +258,7 @@ const ProductFilters = ({
       ) : (
         filterSections.map((section) => (
           <div key={section.id} className="content-rounded-2xl">
-            <div className="p-4 space-y-2 lg:space-y-3 bg-white/30 backdrop-blur-md rounded-2xl">
+            <div className="p-4 space-y-2 lg:space-y-3 bg-black/10 rounded-2xl">
               <h3 className="text-sm font-semibold">{section.name}</h3>
               <RadioGroup
                 value={selectedFilters[section.id] || ""}
@@ -270,7 +270,7 @@ const ProductFilters = ({
                     <RadioGroupItem
                       value={option.id}
                       id={option.id}
-                      className="w-4 h-4 content-text-pink-400 focus:ring-pink-400"
+                      className="w-4 h-4 text-black focus:ring-black"
                     />
                     <Label
                       htmlFor={option.id}
@@ -292,7 +292,7 @@ const ProductFilters = ({
 
       {/* Price Range Filter */}
       <div className="content-rounded-2xl">
-        <div className="rounded-2xl bg-white/30 backdrop-blur-md p-4 space-y-2 lg:space-y-3">
+        <div className="rounded-2xl bg-black/10 p-4 space-y-2 lg:space-y-3">
           <h3 className="text-xs lg:text-sm font-semibold">
             Price Range: {priceStats && !priceStatsLoading 
               ? `${priceStats.min} KWD → ${priceStats.max}+ KWD`
@@ -320,10 +320,10 @@ const ProductFilters = ({
                 variant="outline"
                 size="sm"
                 onClick={() => handlePriceRangeChange(range.value)}
-                className={`text-xs lg:text-xs border-pink-400 hover:bg-pink-400/10 px-2 py-1 ${
+                className={`text-xs lg:text-xs border-black hover:bg-black/10 px-2 py-1 ${
                   selectedPriceRange === range.value
-                    ? "bg-pink-400/20 text-pink-300"
-                    : "text-pink-400"
+                    ? "bg-black/20 text-black"
+                    : "text-black"
                 }`}
               >
                 {range.label}
@@ -339,23 +339,23 @@ const ProductFilters = ({
     <>
       {/* Mobile Filter Sheet */}
       <div className="lg:hidden">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="content-text-pink-400 hover:bg-pink-400/10 mb-4"
-            >
-              <Filter className="w-4 h-4 mr-2" />
-              Filters
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="bg-black content-w-80 flex flex-col">
-            <div className="flex-1 overflow-y-auto px-4">
-              <FilterContent />
-            </div>
-          </SheetContent>
-        </Sheet>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-black hover:bg-black/10 mb-4"
+              >
+                <Filter className="w-4 h-4 mr-2" />
+                Filters
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="bg-background content-w-80 flex flex-col z-[4001]">
+              <div className="flex-1 overflow-y-auto px-4">
+                <FilterContent />
+              </div>
+            </SheetContent>
+          </Sheet>
       </div>
 
       {/* Desktop Sidebar */}

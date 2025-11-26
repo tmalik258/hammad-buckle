@@ -170,7 +170,7 @@ function ProductsContent() {
               scrollToProductsTop();
             }}
             disabled={currentPage === 1 || isLoading}
-            className="border-gray-700 text-white hover:bg-gray-800 cursor-pointer disabled:cursor-none"
+            className="border-gray-700 text-black hover:bg-black/10 cursor-pointer disabled:cursor-none"
           >
             Previous
           </Button>
@@ -194,7 +194,7 @@ function ProductsContent() {
               scrollToProductsTop();
             }}
             disabled={currentPage >= totalPages || isLoading}
-            className="border-gray-700 text-white hover:bg-gray-800 cursor-pointer disabled:cursor-none"
+            className="border-gray-700 text-black hover:bg-black/10 cursor-pointer disabled:cursor-none"
           >
             Next
           </Button>

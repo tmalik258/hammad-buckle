@@ -107,7 +107,7 @@ export default function WishlistPage() {
                 Start adding products you love to your wishlist
               </p>
               <Link href="/products">
-                <Button className="bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 px-8 py-3 rounded-xl font-semibold">
+                <Button className="bg-gradient-to-r from-purple-400 to-black hover:from-purple-500 hover:to-black px-8 py-3 rounded-xl font-semibold">
                   Browse Products
                 </Button>
               </Link>
@@ -128,7 +128,7 @@ export default function WishlistPage() {
                       <Badge
                         className={`px-3 py-1 text-sm font-medium rounded-tr-2xl rounded-bl-2xl ${
                           item.inStock
-                            ? "bg-gradient-to-r from-purple-400 to-pink-500"
+                            ? "bg-gradient-to-r from-purple-400 to-black"
                             : "bg-purple-400"
                         }`}
                       >
@@ -162,7 +162,7 @@ export default function WishlistPage() {
 
                       {/* Price and Actions */}
                       <div className="flex items-center justify-between pt-2">
-                        <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                        <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-black bg-clip-text text-transparent">
                           {item.price} KWD
                         </span>
                         <div className="flex items-center gap-2">
@@ -176,7 +176,7 @@ export default function WishlistPage() {
                             className="p-0 transition-all duration-200"
                             variant="link"
                           >
-                            <Trash2 className="w-5 h-5 text-pink-400 hover:text-pink-600" />
+                            <Trash2 className="w-5 h-5 text-black hover:text-black" />
                           </Button>
                           <Button
                             onClick={(e) => {
@@ -202,7 +202,7 @@ export default function WishlistPage() {
               <Link href="/profile">
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 bg-gradient-to-r from-purple-400 to-pink-500 border-0 px-6 py-3 rounded-xl font-semibold hover:from-purple-500 hover:to-pink-600"
+                  className="flex items-center gap-2 bg-gradient-to-r from-purple-400 to-black border-0 px-6 py-3 rounded-xl font-semibold hover:from-purple-500 hover:to-black"
                 >
                   <ArrowLeft className="w-4 h-4 rotate-90" />
                   Back to Profile
@@ -210,7 +210,7 @@ export default function WishlistPage() {
               </Link>
 
               <Link href="/products">
-                <Button className="bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 px-6 py-3 rounded-xl font-semibold">
+                <Button className="bg-gradient-to-r from-purple-400 to-black hover:from-purple-500 hover:to-black px-6 py-3 rounded-xl font-semibold">
                   Continue Shopping
                 </Button>
               </Link>

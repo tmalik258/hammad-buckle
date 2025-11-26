@@ -36,7 +36,7 @@ export function ProductGrid({
   if (products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <div className="text-gray-400 mb-4">
+        <div className="text-black mb-4">
           <svg
             className="w-16 h-16 mx-auto"
             fill="none"
@@ -51,10 +51,10 @@ export function ProductGrid({
             />
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-white mb-2">
+        <h3 className="text-lg font-semibold text-black mb-2">
           No products found
         </h3>
-        <p className="text-gray-400">
+        <p className="text-black">
           Try adjusting your filters or search criteria
         </p>
       </div>
@@ -93,7 +93,7 @@ export function ProductGrid({
       {/* Products Grid Container */}
       <div className="content-p-4 md:p-7 rounded-2xl space-y-4">
         {/* Section Title */}
-        <h2 className="text-xl lg:text-2xl font-bold text-white mb-4 lg:mb-6">
+        <h2 className="text-xl lg:text-2xl font-bold text-black mb-4 lg:mb-6">
           Shoes, Best Sellers & New Arrivals
         </h2>
         <div

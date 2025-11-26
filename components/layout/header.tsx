@@ -122,7 +122,7 @@ export function Header() {
                       </div>
                       <div className="flex-1 min-w-0">
                         {isLoading ? (
-                          <div className="h-4 w-24 bg-pink-400/20 animate-pulse rounded" />
+                          <div className="h-4 w-24 bg-black/20 animate-pulse rounded" />
                         ) : (
                           <p className="text-sm font-medium text-foreground truncate">
                             {profile?.name || user?.email || "User"}
@@ -191,10 +191,10 @@ export function Header() {
                     <>
                       <Link
                         href="/profile"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20 hover:border-pink-400/30 border border-transparent transition-all duration-300 group cursor-pointer"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-black/20 hover:border-black/30 border border-transparent transition-all duration-300 group cursor-pointer"
                       >
-                        <Settings className="h-5 w-5 text-pink-400 group-hover:text-pink-300 transition-colors" />
-                        <span className="font-medium group-hover:text-pink-300 transition-colors">
+                        <Settings className="h-5 w-5 text-black group-hover:text-black transition-colors" />
+                        <span className="font-medium group-hover:text-black transition-colors">
                           Profile Settings
                         </span>
                       </Link>

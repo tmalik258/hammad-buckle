@@ -84,7 +84,7 @@ export function ProductInfo({
       {/* Price and Rating */}
       <div className="flex flex-col-reverse gap-2 justify-between">
         <div className="flex items-center space-x-4">
-          <span className="text-3xl font-bold text-pink-400">
+          <span className="text-3xl font-bold text-black">
             {product.price}
           </span>
           {product.originalPrice && (
@@ -100,7 +100,7 @@ export function ProductInfo({
                 key={star}
                 className={`h-5 w-5 ${
                   star <= Math.floor(product.rating)
-                    ? "fill-pink-400 text-pink-400"
+                    ? "fill-black text-black"
                     : "text-gray-600"
                 }`}
               />
@@ -135,8 +135,8 @@ export function ProductInfo({
                 onClick={() => setSelectedSize(size)}
                 className={`px-4 py-2 border rounded-lg font-medium transition-all ${
                   selectedSize === size
-                    ? "border-pink-400 bg-pink-400 text-white"
-                    : "border-gray-600 text-gray-300 hover:border-pink-400 hover:text-pink-400"
+                    ? "border-black bg-black text-white"
+                    : "border-gray-600 text-gray-300 hover:border-black hover:text-black"
                 }`}
               >
                 {size}
@@ -157,7 +157,7 @@ export function ProductInfo({
                 onClick={() => setSelectedColor(color.name)}
                 className={`relative w-10 h-10 rounded-full border-2 transition-all ${
                   selectedColor === color.name
-                    ? "border-pink-400 scale-110"
+                    ? "border-black scale-110"
                     : "border-gray-600 hover:border-gray-400"
                 }`}
                 style={{ backgroundColor: color.value }}

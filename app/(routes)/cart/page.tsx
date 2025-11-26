@@ -76,12 +76,12 @@ export default function CartPage() {
               <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] rounded-full"
                 style={{
-                  background: "#ea059a",
+                  background: "#000000",
                   opacity: 0.05,
                   boxShadow: `
-                    0 0 200px 100px rgba(234, 5, 154, 0.3),
-                    0 0 400px 200px rgba(234, 5, 154, 0.2),
-                    0 0 800px 400px rgba(234, 5, 154, 0.1)
+                    0 0 200px 100px rgba(0, 0, 0, 0.3),
+                    0 0 400px 200px rgba(0, 0, 0, 0.2),
+                    0 0 800px 400px rgba(0, 0, 0, 0.1)
                   `,
                   filter: "blur(400px)",
                 }}
@@ -90,13 +90,13 @@ export default function CartPage() {
             
             <div className="relative z-10">
               <div className="bg-black/40 border border-purple-500/30 backdrop-blur-sm rounded-2xl p-8 mb-8">
-                <ShoppingBag className="h-24 w-24 text-pink-400 mx-auto mb-6" />
+                <ShoppingBag className="h-24 w-24 text-black mx-auto mb-6" />
                 <h1 className="text-3xl font-bold text-white mb-4">Your cart is empty</h1>
                 <p className="text-gray-300 mb-8 leading-relaxed">Looks like you haven&apos;t added anything to your cart yet. Start exploring our amazing products!</p>
               </div>
               
               <Link href="/products">
-                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer px-8 py-3 text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105">
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-black hover:from-purple-700 hover:to-black text-white cursor-pointer px-8 py-3 text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105">
                   Continue Shopping
                 </Button>
               </Link>

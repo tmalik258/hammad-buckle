@@ -62,7 +62,7 @@ export function ProductTabs({ product, loading = false }: ProductTabsProps) {
                 : "text-white hover:text-white"
             }`}
           >
-            <div className={cn("p-2 px-4", activeTab === tab.id && "bg-gradient-to-r from-pink-300 to-pink-600")}>{tab.label}</div>
+            <div className={cn("p-2 px-4", activeTab === tab.id && "bg-gradient-to-r from-gray-300 to-black")}>{tab.label}</div>
           </Button>
         ))}
       </div>
@@ -83,7 +83,7 @@ export function ProductTabs({ product, loading = false }: ProductTabsProps) {
                 <ul className="space-y-3">
                   {product.keyFeatures.map((feature, index) => (
                     <li key={index} className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 flex-shrink-0" />
+                      <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
                       <span className="text-gray-300">{feature}</span>
                     </li>
                   ))}
@@ -118,19 +118,19 @@ export function ProductTabs({ product, loading = false }: ProductTabsProps) {
             <h3 className="text-xl font-semibold mb-4">Shipping Information</h3>
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 flex-shrink-0" />
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
                 <p className="text-gray-300">Free shipping on orders over 50 KWD</p>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 flex-shrink-0" />
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
                 <p className="text-gray-300">Standard delivery: 3-5 business days</p>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 flex-shrink-0" />
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
                 <p className="text-gray-300">Express delivery: 1-2 business days (additional charges apply)</p>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 flex-shrink-0" />
+                <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
                 <p className="text-gray-300">Same-day delivery available in Kuwait City</p>
               </div>
             </div>

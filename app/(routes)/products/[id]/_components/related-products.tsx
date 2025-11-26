@@ -54,8 +54,8 @@ export function RelatedProducts({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-0 md:-left-4 bg-black/50 hover:bg-black/80 border border-pink-400/30" />
-          <CarouselNext className="right-0 md:-right-4 bg-black/50 hover:bg-black/80 border border-pink-400/30" />
+          <CarouselPrevious className="left-0 md:-left-4 bg-black/50 hover:bg-black/80 border border-black/30" />
+          <CarouselNext className="right-0 md:-right-4 bg-black/50 hover:bg-black/80 border border-black/30" />
         </Carousel>
       </div>
     </div>

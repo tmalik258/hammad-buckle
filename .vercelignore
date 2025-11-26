@@ -5,3 +5,5 @@ dist
 .trae
 .log
 .figma
+.trunk
+.trunk/**
