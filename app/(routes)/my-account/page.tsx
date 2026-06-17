@@ -31,7 +31,6 @@ import ProfileHeader from "./_components/profile-header";
 import ProfileOverview from "./_components/profile-overview";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { ProfileInfoCard } from "./_components/profile-info-card";
-import { PaymentMethods } from "./_components/payment-methods";
 import { UserProfile } from "@/lib/types";
 import { AxiosError } from "axios";
 
@@ -361,9 +360,6 @@ export default function MyAccountPage() {
 
       {/* Profile Overview */}
       <ProfileInfoCard displayProfile={displayProfile} />
-
-      {/* Payment Methods */}
-      <PaymentMethods />
 
       {/* Picture Change Modal */}
       <PictureChangeModal

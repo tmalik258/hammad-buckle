@@ -38,8 +38,6 @@ export function useProductForm({ product, onSuccess }: UseProductFormProps) {
         price: product.price,
         originalPrice: product.originalPrice || undefined,
         categoryId: product.categoryId || undefined,
-        typeId: product.typeId || undefined,
-        occasionId: product.occasionId || undefined,
         image: product.image || '',
         images: product.images || [],
         stockQuantity: product.stockQuantity,
@@ -50,6 +48,7 @@ export function useProductForm({ product, onSuccess }: UseProductFormProps) {
         featured: product.featured,
         isNew: product.isNew,
         onSale: product.onSale,
+        genderTarget: product.genderTarget,
       });
 
       if (product.image) {
@@ -114,8 +113,6 @@ export function useProductForm({ product, onSuccess }: UseProductFormProps) {
         price: data.price,
         originalPrice: data.originalPrice || null,
         categoryId: data.categoryId,
-        typeId: data.typeId,
-        occasionId: data.occasionId,
         image: finalImageUrl,
         images: data.images || [],
         stockQuantity: data.stockQuantity,
@@ -126,7 +123,8 @@ export function useProductForm({ product, onSuccess }: UseProductFormProps) {
         featured: data.featured,
         isNew: data.isNew,
         onSale: data.onSale,
-        isActive: true, // Default to active
+        genderTarget: data.genderTarget,
+        isActive: true,
       };
 
       if (product) {

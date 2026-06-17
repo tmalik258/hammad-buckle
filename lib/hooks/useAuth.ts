@@ -39,7 +39,6 @@ export function useAuth() {
         avatar: user.user_metadata?.avatar_url,
         role: (user.user_metadata?.role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER),
         isActive: true,
-        stripeCustomerId: user.user_metadata?.stripeCustomerId,
         createdAt: new Date(user.created_at),
         updatedAt: new Date(user.updated_at || user.created_at),
       };
@@ -103,7 +102,6 @@ export function useAuth() {
         avatar: user.user_metadata?.avatar_url || null,
         role: (user.user_metadata?.role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER),
         isActive: true,
-        stripeCustomerId: user.user_metadata?.stripeCustomerId || null,
         createdAt: new Date(user.created_at),
         updatedAt: new Date(user.updated_at || user.created_at),
       };
@@ -251,7 +249,6 @@ export function useAuth() {
             avatar: session.user.user_metadata?.avatar_url || null,
             role: (session.user.user_metadata?.role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER),
             isActive: true,
-            stripeCustomerId: session.user.user_metadata?.stripeCustomerId || null,
             createdAt: new Date(session.user.created_at),
             updatedAt: new Date(session.user.updated_at || session.user.created_at),
           };

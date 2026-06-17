@@ -1,17 +1,12 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
 }
 
 // User model for authentication and profile management
@@ -22,7 +17,6 @@ model User {
   avatar           String?
   role             UserRole @default(CUSTOMER)
   isActive         Boolean  @default(true)
-  stripeCustomerId String?  @unique
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -51,38 +45,9 @@ model Category {
 
   // Relations
   products Product[]
+  homeSpotlights HomeCategorySpotlight[]
 
   @@map("categories")
-}
-
-// Type model for product types (e.g., Sneakers, Running Shoes, etc.)
-model Type {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  products Product[]
-
-  @@map("types")
-}
-
-// Occasion model for product occasions (e.g., Casual Wear, Sports & Gym, etc.)
-model Occasion {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  products Product[]
-
-  @@map("occasions")
 }
 
 // Wishlist for saving favorite products
@@ -110,8 +75,6 @@ model Product {
   image         String
   images        String[] @default([])
   categoryId    String?
-  typeId        String?
-  occasionId    String?
   rating        Float    @default(0)
   averageRating Float    @default(0)
   reviewCount   Int      @default(0)
@@ -126,19 +89,20 @@ model Product {
   dimensions    String?
   isValid       Boolean  @default(true)
   validationErrors Json?
+  genderTarget  GenderTarget @default(UNISEX)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   // Relations
   category    Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  type        Type?        @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  occasion    Occasion?    @relation(fields: [occasionId], references: [id], onDelete: Cascade)
   reviews     Review[]
   orderItems  OrderItem[]
   cartItems   CartItem[]
   variants    ProductVariant[]
   wishlistItems WishlistItem[]
+  homePicks   HomeProductPick[]
 
+  @@index([genderTarget])
   @@map("products")
 }
 
@@ -295,20 +259,17 @@ model Review {
   @@map("reviews")
 }
 
-// Payment model for Stripe integration
+// Payment model
 model Payment {
-  id                    String        @id @default(cuid())
-  orderId               String        @unique
-  stripePaymentIntentId String        @unique
-  stripeCustomerId      String?
-  amount                Float
-  currency              String        @default("usd")
-  status                PaymentStatus @default(PENDING)
-  paymentMethod         String?
-  stripePaymentMethodId String?
-  metadata              Json?
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
+  id            String        @id @default(cuid())
+  orderId       String        @unique
+  amount        Float
+  currency      String        @default("usd")
+  status        PaymentStatus @default(PENDING)
+  paymentMethod String?
+  metadata      Json?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   
   // Relations
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
@@ -400,4 +361,113 @@ enum ReviewStatus {
 enum DiscountType {
   PERCENTAGE
   FIXED
+}
+
+enum GenderTarget {
+  WOMENS
+  MENS
+  UNISEX
+}
+
+enum AnnouncementStyle {
+  NEUTRAL
+  SALE
+  INFO
+}
+
+enum HomeProductPickSection {
+  HERO_SECONDARY
+  EDITORIAL_GRID
+  TRENDING
+}
+
+enum PromoBannerLayout {
+  SPLIT_LEFT_IMAGE
+  SPLIT_RIGHT_IMAGE
+  FULL_WIDTH
+}
+
+/// Singleton storefront configuration (id always "default")
+model StorefrontSettings {
+  id                   String             @id @default("default")
+  announcementEnabled  Boolean            @default(false)
+  announcementText     String?
+  announcementHref     String?
+  announcementStyle    AnnouncementStyle  @default(NEUTRAL)
+  homeTitle            String?
+  homeDescription      String?
+  newsletterTitle      String?
+  newsletterSubtitle   String?
+  trustBadgesJson         Json?
+  homeSectionOrderJson    Json?
+  homeSectionHeadingsJson Json?
+  updatedAt               DateTime           @updatedAt
+
+  @@map("storefront_settings")
+}
+
+model HeroSlide {
+  id                String   @id @default(cuid())
+  sortOrder         Int      @default(0)
+  isActive          Boolean  @default(true)
+  imageDesktop      String
+  imageMobile       String?
+  heading           String
+  subheading        String?
+  badgeText         String?
+  primaryCtaLabel   String
+  primaryCtaHref    String
+  secondaryCtaLabel String?
+  secondaryCtaHref  String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("hero_slides")
+}
+
+model HomeCategorySpotlight {
+  id             String    @id @default(cuid())
+  categoryId     String
+  sortOrder      Int       @default(0)
+  titleOverride  String?
+  imageOverride  String?
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId])
+  @@map("home_category_spotlights")
+}
+
+model HomeProductPick {
+  id        String                 @id @default(cuid())
+  productId String
+  section   HomeProductPickSection
+  sortOrder Int                    @default(0)
+  isActive  Boolean                @default(true)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([section])
+  @@map("home_product_picks")
+}
+
+model HomePromoBanner {
+  id        String           @id @default(cuid())
+  sortOrder Int              @default(0)
+  title     String
+  body      String?
+  imageUrl  String
+  href      String
+  layout    PromoBannerLayout @default(SPLIT_LEFT_IMAGE)
+  isActive  Boolean          @default(true)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@map("home_promo_banners")
 }

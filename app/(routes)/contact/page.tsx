@@ -39,7 +39,7 @@ const contactInfo = {
     country: "United States"
   },
   phone: "+1 (555) 123-4567",
-  email: "support@wizza.com",
+  email: "support@hammadbuckle.com",
   hours: {
     weekdays: "Monday - Friday: 9:00 AM - 8:00 PM EST",
     weekends: "Saturday - Sunday: 10:00 AM - 6:00 PM EST"

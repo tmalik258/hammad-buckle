@@ -3,8 +3,8 @@ import { AdminSidebar } from './_components/admin-sidebar';
 import { AdminHeader } from './_components/admin-header';
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard | Wizza',
-  description: 'Manage your Wizza store from the admin dashboard',
+  title: 'Admin Dashboard | Hammad Buckle',
+  description: 'Manage your Hammad Buckle store from the admin dashboard',
 };
 
 export default function AdminLayout({

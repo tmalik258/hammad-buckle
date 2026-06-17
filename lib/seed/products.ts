@@ -1,3 +1,4 @@
+import { GenderTarget } from '@prisma/client';
 import { prisma } from '../prisma';
 
 const products = [
@@ -14,8 +15,6 @@ const products = [
       'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=iPhone%20back%20view%20camera%20system%20titanium%20finish&image_size=square_hd'
     ],
     categoryId: 'cat-electronics',
-    typeId: 'type-premium',
-    occasionId: 'occasion-everyday',
     averageRating: 4.8,
     reviewCount: 0,
     inStock: true,
@@ -26,6 +25,7 @@ const products = [
     sku: 'IPH-15-PM-256',
     weight: 221.0,
     dimensions: '159.9 x 76.7 x 8.25 mm',
+    genderTarget: GenderTarget.UNISEX,
   },
   {
     id: 'prod-macbook-air',
@@ -34,8 +34,6 @@ const products = [
     price: 1099.99,
     image: 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20laptop%20MacBook%20style%20thin%20design%20premium%20aluminum%20finish%20product%20photography&image_size=square_hd',
     categoryId: 'cat-electronics',
-    typeId: 'type-professional',
-    occasionId: 'occasion-work-office',
     averageRating: 4.7,
     reviewCount: 0,
     inStock: true,
@@ -46,6 +44,7 @@ const products = [
     sku: 'MBA-M3-13-256',
     weight: 1290.0,
     dimensions: '304.1 x 215 x 11.3 mm',
+    genderTarget: GenderTarget.UNISEX,
   },
   // Fashion
   {
@@ -56,8 +55,6 @@ const products = [
     originalPrice: 399.99,
     image: 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=premium%20leather%20jacket%20black%20modern%20fit%20fashion%20photography%20studio%20lighting&image_size=square_hd',
     categoryId: 'cat-fashion',
-    typeId: 'type-luxury',
-    occasionId: 'occasion-special-events',
     averageRating: 4.6,
     reviewCount: 0,
     inStock: true,
@@ -67,6 +64,7 @@ const products = [
     featured: true,
     sku: 'LJ-PREM-BLK-L',
     weight: 1200.0,
+    genderTarget: GenderTarget.WOMENS,
   },
   {
     id: 'prod-running-shoes',
@@ -75,8 +73,6 @@ const products = [
     price: 179.99,
     image: 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20running%20shoes%20athletic%20footwear%20white%20and%20blue%20design%20product%20photography&image_size=square_hd',
     categoryId: 'cat-fashion',
-    typeId: 'type-standard',
-    occasionId: 'occasion-fitness-sports',
     averageRating: 4.5,
     reviewCount: 0,
     inStock: true,
@@ -86,6 +82,7 @@ const products = [
     featured: false,
     sku: 'UB-RUN-WB-10',
     weight: 320.0,
+    genderTarget: GenderTarget.UNISEX,
   },
   // Home & Garden
   {
@@ -95,8 +92,6 @@ const products = [
     price: 249.99,
     image: 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20coffee%20maker%20machine%20stainless%20steel%20kitchen%20appliance%20product%20photography&image_size=square_hd',
     categoryId: 'cat-home-garden',
-    typeId: 'type-smart',
-    occasionId: 'occasion-home-personal',
     averageRating: 4.4,
     reviewCount: 0,
     inStock: true,
@@ -107,6 +102,7 @@ const products = [
     sku: 'CM-SMART-PRO',
     weight: 3500.0,
     dimensions: '350 x 200 x 400 mm',
+    genderTarget: GenderTarget.UNISEX,
   },
 ];
 

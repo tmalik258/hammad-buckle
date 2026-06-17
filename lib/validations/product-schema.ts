@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { GenderTarget } from '@prisma/client';
 
 // Product creation form validation schema
 export const productFormSchema = z.object({
@@ -34,16 +35,6 @@ export const productFormSchema = z.object({
   categoryId: z
     .string()
     .min(1, 'Category is required'),
-  
-  // Type
-  typeId: z
-    .string()
-    .min(1, 'Type is required'),
-  
-  // Occasion
-  occasionId: z
-    .string()
-    .min(1, 'Occasion is required'),
   
   // Images
   image: z
@@ -100,6 +91,8 @@ export const productFormSchema = z.object({
   onSale: z
     .boolean()
     .default(false),
+
+  genderTarget: z.nativeEnum(GenderTarget).default(GenderTarget.UNISEX),
 })
 .refine((data) => {
   // If originalPrice is provided, it should be greater than or equal to price
@@ -132,8 +125,6 @@ export const defaultProductFormValues: ProductFormData = {
   price: 0,
   originalPrice: null,
   categoryId: '',
-  typeId: '',
-  occasionId: '',
   image: '',
   images: [],
   stockQuantity: 0,
@@ -144,6 +135,7 @@ export const defaultProductFormValues: ProductFormData = {
   featured: false,
   isNew: false,
   onSale: false,
+  genderTarget: GenderTarget.UNISEX,
 };
 
 // Validation schema for product variants (if needed)

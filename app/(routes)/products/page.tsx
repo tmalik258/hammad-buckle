@@ -14,13 +14,12 @@ function ProductsContent() {
   const [filters, setFilters] = useState({
     search: "",
     category: "",
+    genderTarget: "",
     status: "",
     sortBy: "createdAt",
     sortOrder: "desc" as "asc" | "desc",
     minPrice: undefined as number | undefined,
     maxPrice: undefined as number | undefined,
-    type: "",
-    occasion: "",
   });
 
   const scrollToProductsTop = useCallback(() => {
@@ -35,21 +34,19 @@ function ProductsContent() {
   // Initialize filters from URL parameters on mount
   useEffect(() => {
     const urlCategory = searchParams.get("category") || "";
-    const urlType = searchParams.get("type") || "";
-    const urlOccasion = searchParams.get("occasion") || "";
     const urlMinPrice = searchParams.get("minPrice");
     const urlMaxPrice = searchParams.get("maxPrice");
     const urlSearch = searchParams.get("search") || "";
     const urlSortBy = searchParams.get("sortBy") || "createdAt";
     const urlSortOrder = searchParams.get("sortOrder") || "desc";
     const urlPage = searchParams.get("page");
+    const urlGender = searchParams.get("genderTarget") || "";
 
     setFilters((prev) => ({
       ...prev,
       search: urlSearch,
       category: urlCategory,
-      type: urlType,
-      occasion: urlOccasion,
+      genderTarget: urlGender,
       minPrice: urlMinPrice ? Number(urlMinPrice) : undefined,
       maxPrice: urlMaxPrice ? Number(urlMaxPrice) : undefined,
       sortBy: urlSortBy,
@@ -123,7 +120,7 @@ function ProductsContent() {
   }
 
   return (
-    <div className="min-h-screen md:pt-20 z-0">
+    <div className="min-h-screen pt-20 z-0">
       <div className="container mx-auto px-4 lg:px-6 py-4">
         {/* Removed HeroSection */}
 
@@ -175,7 +172,7 @@ function ProductsContent() {
             Previous
           </Button>
 
-          <span className="text-white">
+          <span className="text-black">
             Page {currentPage} of {totalPages}
           </span>
 

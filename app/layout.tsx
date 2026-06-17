@@ -21,7 +21,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Hammad Buckle - Premium E-commerce Store",
   description:
-    "Discover premium products with exceptional quality and style at Wizza.",
+    "Discover premium products with exceptional quality and style at Hammad Buckle.",
 };
 
 export default function RootLayout({

@@ -1,5 +1,5 @@
 import { OrderStatus } from "@prisma/client";
-import { OrderItem } from "../generated/prisma";
+import { OrderItem } from "@prisma/client";
 
 // Order tracking related types
 export interface TrackingInfo {

@@ -224,57 +224,29 @@ async function createOrder(orderData: z.infer<typeof orderSubmissionSchema>) {
   }
 }
 
-// Real payment processing function
+// Payment processing function - COD only
 async function processPayment(orderId: string, paymentMethod: string, amount: number) {
   console.log('🔄 processPayment called with:', { orderId, paymentMethod, amount });
   
   try {
-    if (paymentMethod === 'cod') {
-      console.log('💰 Processing COD payment for order:', orderId);
-      
-      // For COD, mark as pending payment
-      await prisma.order.update({
-        where: { id: orderId },
-        data: { paymentStatus: PaymentStatus.PENDING },
-      });
-      
-      console.log('✅ COD payment processed successfully for order:', orderId);
-      
-      return {
-        success: true,
-        paymentIntentId: `cod_${orderId}`,
-        status: 'pending',
-      };
+    if (paymentMethod !== 'cod') {
+      throw new Error('Only Cash on Delivery (COD) is supported');
     }
 
-    console.log('💳 Processing card payment for order:', orderId);
-
-    // For card payments, create a payment record
-    const payment = await prisma.payment.create({
-      data: {
-        orderId,
-        stripePaymentIntentId: `pi_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        amount,
-        currency: 'usd',
-        status: PaymentStatus.PAID,
-        paymentMethod,
-      },
-    });
-
-    console.log('💳 Payment record created:', payment.id);
-
-    // Update order payment status
+    console.log('💰 Processing COD payment for order:', orderId);
+    
+    // For COD, mark as pending payment
     await prisma.order.update({
       where: { id: orderId },
-      data: { paymentStatus: PaymentStatus.PAID },
+      data: { paymentStatus: PaymentStatus.PENDING },
     });
-
-    console.log('✅ Card payment processed successfully for order:', orderId);
-
+    
+    console.log('✅ COD payment processed successfully for order:', orderId);
+    
     return {
       success: true,
-      paymentIntentId: payment.stripePaymentIntentId,
-      status: 'succeeded',
+      paymentIntentId: `cod_${orderId}`,
+      status: 'pending',
     };
   } catch (error) {
     console.log('❌ Error processing payment:', error);
@@ -426,9 +398,7 @@ export async function POST(request: NextRequest) {
       orderNumber: order.orderNumber,
       paymentIntentId: paymentResult.paymentIntentId,
       status: newStatus,
-      message: validatedData.paymentMethod === 'cod' 
-        ? 'Order placed successfully! You will pay upon delivery.' 
-        : 'Order placed and payment processed successfully!',
+      message: 'Order placed successfully! You will pay upon delivery.',
     };
     
     console.log('🎉 Order submission completed successfully:', response);

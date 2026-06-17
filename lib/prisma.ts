@@ -1,28 +1,39 @@
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { Pool } from "pg";
+import { getDatabaseUrl } from "@/lib/db/connection";
 
-// Extend the client type inline
+const pool = new Pool({
+  connectionString: getDatabaseUrl(),
+  max: 10,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
+
+const adapter = new PrismaPg(pool);
+
 const prismaClient = new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-}).$extends(withAccelerate());
+  adapter,
+  log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+});
 
 const globalForPrisma = globalThis as unknown as {
   prisma: typeof prismaClient;
 };
 
-// Only create new client in dev to avoid hot-reload issues
 export const prisma = globalForPrisma.prisma ?? prismaClient;
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
-// Graceful shutdown
-process.on('SIGINT', async () => {
+
+process.on("SIGINT", async () => {
   await prisma.$disconnect();
   process.exit(0);
 });
 
-process.on('SIGTERM', async () => {
+process.on("SIGTERM", async () => {
   await prisma.$disconnect();
   process.exit(0);
 });

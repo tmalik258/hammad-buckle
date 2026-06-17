@@ -13,8 +13,6 @@ import {
 } from "lucide-react";
 import { useProductForm } from "@/lib/hooks/useProductForm";
 import { useCategories } from "@/lib/hooks/useCategories";
-import { useTypes } from "@/lib/hooks/useTypes";
-import { useOccasions } from "@/lib/hooks/useOccasions";
 import ImageUploadWrapper from "@/components/image-upload-wrapper";
 import VariantManagement from "./variant-management";
 import {
@@ -63,12 +61,8 @@ export default function ProductFormModal({
   mode,
 }: ProductFormModalProps) {
   const { data: categoriesData } = useCategories();
-  const { data: typesData } = useTypes();
-  const { data: occasionsData } = useOccasions();
 
   const categories = categoriesData?.categories || [];
-  const types = typesData?.types || [];
-  const occasions = occasionsData?.occasions || [];
 
   const handleSuccess = () => {
     // Call success callback if provided
@@ -115,8 +109,6 @@ export default function ProductFormModal({
     watchedValues.name &&
     watchedValues.price > 0 &&
     watchedValues.categoryId &&
-    watchedValues.typeId &&
-    watchedValues.occasionId &&
     (hasImage || watchedValues.image)
   );
 
@@ -355,10 +347,10 @@ export default function ProductFormModal({
                       />
                       <FormField
                         control={form.control}
-                        name="typeId"
+                        name="genderTarget"
                         render={({ field }) => (
                           <FormItem className="flex-1">
-                            <FormLabel>Type</FormLabel>
+                            <FormLabel>Gender target</FormLabel>
                             <Select
                               onValueChange={field.onChange}
                               value={field.value}
@@ -366,46 +358,13 @@ export default function ProductFormModal({
                             >
                               <FormControl>
                                 <SelectTrigger className="w-full">
-                                  <SelectValue placeholder="Select type" />
+                                  <SelectValue placeholder="Select audience" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {types.map((type) => (
-                                  <SelectItem key={type.id} value={type.id}>
-                                    {type.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="occasionId"
-                        render={({ field }) => (
-                          <FormItem className="flex-1 md:col-span-2">
-                            <FormLabel>Occasion</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                              disabled={isSubmitting}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="w-full">
-                                  <SelectValue placeholder="Select occasion" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {occasions.map((occasion) => (
-                                  <SelectItem
-                                    key={occasion.id}
-                                    value={occasion.id}
-                                  >
-                                    {occasion.name}
-                                  </SelectItem>
-                                ))}
+                                <SelectItem value="WOMENS">Women&apos;s</SelectItem>
+                                <SelectItem value="MENS">Men&apos;s</SelectItem>
+                                <SelectItem value="UNISEX">Unisex</SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />

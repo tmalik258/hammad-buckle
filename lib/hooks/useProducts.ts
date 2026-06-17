@@ -15,10 +15,9 @@ export interface ProductsParams {
   maxPrice?: number;
   inStock?: boolean;
   featured?: boolean;
+  genderTarget?: string;
   categories?: string[];
   rating?: number;
-  type?: string;
-  occasion?: string;
 }
 
 interface ProductsResponse {
@@ -46,18 +45,15 @@ export function useProducts(params: ProductsParams = {}) {
     maxPrice,
     inStock,
     featured,
+    genderTarget,
     categories = [],
     rating,
-    type = '',
-    occasion = '',
   } = params;
 
   // Normalize empty strings to undefined for consistent cache keys
   const normalizedCategory = category || undefined;
   const normalizedStatus = status || undefined;
   const normalizedSearch = search || undefined;
-  const normalizedType = type || undefined;
-  const normalizedOccasion = occasion || undefined;
 
   return useQuery({
     queryKey: ['products', { 
@@ -71,11 +67,10 @@ export function useProducts(params: ProductsParams = {}) {
       minPrice, 
       maxPrice, 
       inStock, 
-      featured, 
+      featured,
+      genderTarget,
       categories, 
       rating,
-      type: normalizedType,
-      occasion: normalizedOccasion
     }],
     queryFn: async (): Promise<ProductsResponse> => {
       const searchParams = new URLSearchParams({
@@ -90,10 +85,9 @@ export function useProducts(params: ProductsParams = {}) {
         ...(maxPrice !== undefined && { maxPrice: maxPrice.toString() }),
         ...(inStock !== undefined && { inStock: inStock.toString() }),
         ...(featured !== undefined && { featured: featured.toString() }),
+        ...(genderTarget && { genderTarget }),
         ...(categories.length > 0 && { categories: categories.join(',') }),
         ...(rating !== undefined && { rating: rating.toString() }),
-        ...(normalizedType && { typeId: normalizedType }),
-        ...(normalizedOccasion && { occasionId: normalizedOccasion }),
       });
 
       const response = await fetch(`/api/products?${searchParams}`);

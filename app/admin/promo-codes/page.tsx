@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { Suspense } from 'react';
 import { PromoCodesClient } from './_components/promo-codes-client';
 import { PromoCodesStats } from './_components/promo-codes-stats';

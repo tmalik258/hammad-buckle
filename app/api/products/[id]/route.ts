@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { GenderTarget } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 import { clearProductsCache } from '@/lib/utils/cache';
@@ -10,8 +11,6 @@ const updateProductSchema = z.object({
   price: z.number().positive('Price must be positive').optional(),
   originalPrice: z.number().positive('Original price must be positive').optional().nullable(),
   categoryId: z.string().min(1, 'Category ID is required').optional(),
-  typeId: z.string().min(1, 'Type ID is required').optional(),
-  occasionId: z.string().min(1, 'Occasion ID is required').optional(),
   image: z.string().optional(),
   images: z.array(z.string()).optional(),
   stockQuantity: z.number().int().min(0, 'Stock quantity must be non-negative').optional(),
@@ -23,6 +22,7 @@ const updateProductSchema = z.object({
   isNew: z.boolean().optional(),
   onSale: z.boolean().optional(),
   isActive: z.boolean().optional(),
+  genderTarget: z.nativeEnum(GenderTarget).optional(),
 })
 .refine((data) => {
   // If originalPrice is provided, it should be greater than or equal to price
@@ -186,8 +186,6 @@ export async function PUT(
       image: string;
       images: string[];
       categoryId: string;
-      typeId: string;
-      occasionId: string;
       inStock: boolean;
       stockQuantity: number;
       isNew: boolean;
@@ -195,6 +193,7 @@ export async function PUT(
       onSale: boolean;
       featured: boolean;
       sku: string | null;
+      genderTarget: GenderTarget;
     }> = { ...validatedData };
     
     const product = await prisma.product.update({

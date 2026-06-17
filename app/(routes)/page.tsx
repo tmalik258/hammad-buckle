@@ -1,23 +1,20 @@
-import HeroSection from "./_components/hero-section";
-import BrandLogosSection from "./_components/brand-logos-section";
-import DealsOfTheMonthSection from "./_components/deals-of-the-month-section";
-import NewArrivalsSection from "./_components/new-arrivals-section";
-import FeatureBannerSection from "./_components/feature-banner-section";
-import InstagramGallerySection from "./_components/instagram-gallery-section";
-import TestimonialsSection from "./_components/testimonials-section";
-import NewsletterSection from "./_components/newsletter-section";
+import type { Metadata } from "next";
+import { getHomeMetadata } from "@/lib/storefront/get-home-data";
+import { StorefrontHome } from "./_components/storefront/storefront-home";
 
-export default function Home() {
-  return (
-    <div className="min-h-screen overflow-x-hidden">
-        <HeroSection />
-        <BrandLogosSection />
-        <DealsOfTheMonthSection />
-        <NewArrivalsSection />
-        <FeatureBannerSection />
-        <InstagramGallerySection />
-        <TestimonialsSection />
-        <NewsletterSection />
-    </div>
-  );
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return getHomeMetadata();
+}
+
+/**
+ * Page: Home
+ * Rendering: SSR + `unstable_cache` in loaders (tag invalidation from Admin → Storefront). Route is
+ * `force-dynamic` so builds succeed without a live DB; cache TTL is set on cached data fetches.
+ * Last Updated: 2026-02-11
+ */
+
+export default function HomePage() {
+  return <StorefrontHome />;
 }

@@ -49,8 +49,8 @@ class EmailService {
       },
     };
     
-    this.fromName = process.env.EMAIL_FROM_NAME || 'Wizza Store';
-    this.fromAddress = process.env.EMAIL_FROM_ADDRESS || 'noreply@wizza.com';
+    this.fromName = process.env.EMAIL_FROM_NAME || 'Hammad Buckle';
+    this.fromAddress = process.env.EMAIL_FROM_ADDRESS || 'noreply@hammadbuckle.com';
     
     this.initializeTransporter();
   }

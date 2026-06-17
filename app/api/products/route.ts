@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type { GenderTarget } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { productFormSchema } from '@/lib/validations/product-schema';
 import { getProductsQuerySchema } from '@/lib/validations/product-query-schema';
@@ -27,8 +28,6 @@ export async function GET(request: NextRequest) {
       limit,
       search,
       categoryId,
-      typeId,
-      occasionId,
       featured,
       inStock,
       onSale,
@@ -38,6 +37,7 @@ export async function GET(request: NextRequest) {
       maxPrice,
       sortBy,
       sortOrder,
+      genderTarget,
     } = queryResult.data;
 
     // Generate cache key based on query parameters
@@ -53,13 +53,12 @@ export async function GET(request: NextRequest) {
     const where: {
       OR?: Array<{ name?: { contains: string; mode: 'insensitive' }; description?: { contains: string; mode: 'insensitive' } }>;
       categoryId?: string;
-      typeId?: string;
-      occasionId?: string;
       featured?: boolean;
       inStock?: boolean;
       onSale?: boolean;
       isNew?: boolean;
       isActive?: boolean;
+      genderTarget?: GenderTarget;
       price?: { gte?: number; lte?: number };
     } = {};
 
@@ -71,13 +70,12 @@ export async function GET(request: NextRequest) {
     }
 
     if (categoryId) where.categoryId = categoryId;
-    if (typeId) where.typeId = typeId;
-    if (occasionId) where.occasionId = occasionId;
     if (featured !== undefined) where.featured = featured;
     if (inStock !== undefined) where.inStock = inStock;
     if (onSale !== undefined) where.onSale = onSale;
     if (isNew !== undefined) where.isNew = isNew;
     if (isActive !== undefined) where.isActive = isActive;
+    if (genderTarget) where.genderTarget = genderTarget;
 
     // Price range filtering
     if (minPrice !== undefined || maxPrice !== undefined) {
@@ -115,12 +113,6 @@ export async function GET(request: NextRequest) {
         take: limit,
         include: {
           category: {
-            select: { id: true, name: true },
-          },
-          type: {
-            select: { id: true, name: true },
-          },
-          occasion: {
             select: { id: true, name: true },
           },
         },
@@ -190,12 +182,6 @@ export async function POST(request: NextRequest) {
       },
       include: {
         category: {
-          select: { id: true, name: true },
-        },
-        type: {
-          select: { id: true, name: true },
-        },
-        occasion: {
           select: { id: true, name: true },
         },
       },

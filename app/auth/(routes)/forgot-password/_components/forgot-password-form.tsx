@@ -4,6 +4,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,6 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { forgotPassword } from "@/lib/actions/auth";
@@ -27,6 +29,18 @@ const formSchema = z.object({
 
 export function ForgotPasswordForm() {
   const [success, setSuccess] = React.useState(false);
+  const searchParams = useSearchParams();
+  const [urlError, setUrlError] = React.useState<string | null>(null);
+
+  // Check for error parameter from URL (e.g., from confirm route redirect)
+  React.useEffect(() => {
+    const errorParam = searchParams.get('error');
+    if (errorParam) {
+      const decodedError = decodeURIComponent(errorParam);
+      setUrlError(decodedError);
+      toast.error(decodedError);
+    }
+  }, [searchParams]);
 
   // Initialize react-hook-form with Zod validation
   const form = useForm<z.infer<typeof formSchema>>({
@@ -99,10 +113,10 @@ export function ForgotPasswordForm() {
             <div className="text-center text-sm text-gray-400">
               <p>Need help? Contact support at</p>
               <a 
-                href="mailto:support@wizza.com" 
+                href="mailto:support@hammadbuckle.com" 
                 className="text-purple-300 hover:text-purple-200 underline cursor-pointer"
               >
-                support@wizza.com
+                support@hammadbuckle.com
               </a>
             </div>
           </div>
@@ -125,6 +139,13 @@ export function ForgotPasswordForm() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {/* Error Alert from URL */}
+            {urlError && (
+              <Alert variant="destructive" className="bg-red-500/10 border-red-500/50">
+                <AlertDescription className="text-red-200">{urlError}</AlertDescription>
+              </Alert>
+            )}
+            
             {/* Email Field */}
             <FormField
               control={form.control}

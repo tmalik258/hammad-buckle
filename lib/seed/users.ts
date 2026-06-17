@@ -4,7 +4,7 @@ import { UserRole } from '@prisma/client';
 const users = [
   {
     id: 'user-admin-1',
-    email: 'admin@wizza.com',
+    email: 'admin@hammadbuckle.com',
     name: 'Admin User',
     avatar: 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20business%20person%20avatar%20friendly%20smile%20modern%20style&image_size=square',
     role: UserRole.ADMIN,

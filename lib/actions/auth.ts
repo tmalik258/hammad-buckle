@@ -91,8 +91,18 @@ export async function forgotPassword(formData: FormData) {
 
   const email = formData.get("email") as string;
 
+  // Validate environment variable
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!siteUrl) {
+    console.log("Forgot password error: NEXT_PUBLIC_SITE_URL is not set");
+    return { error: "Server configuration error. Please contact support." };
+  }
+
+  // Redirect through confirm route to verify token first
+  const redirectTo = `${siteUrl}/auth/confirm?next=/auth/reset-password`;
+
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/reset-password`,
+    redirectTo,
   });
 
   if (error) {

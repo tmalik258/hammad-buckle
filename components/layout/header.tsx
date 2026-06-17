@@ -95,7 +95,7 @@ export function Header() {
                 <div className="flex items-center mb-6">
                   <Image
                     src="/logo-transparent.png"
-                    alt="Wizza"
+                    alt="Hammad Buckle"
                     width={100}
                     height={100}
                     className="h-full w-auto"
@@ -242,7 +242,7 @@ export function Header() {
             <div className="font-bold text-2xl font-serif text-primary">
               <Image
                 src="/logo-transparent.png"
-                alt="Wizza"
+                alt="Hammad Buckle"
                 width={100}
                 height={100}
                 className="w-full h-full"

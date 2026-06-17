@@ -17,6 +17,7 @@ import {
   Calendar,
   Tag,
   Ticket,
+  PanelsTopLeft,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -24,7 +25,7 @@ interface NavItem {
   title: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
-  badgeKey?: 'pendingOrders' | 'pendingReviews' | 'lowStockProducts' | 'inactiveCategories' | 'inactiveOccasions' | 'inactiveTypes';
+  badgeKey?: 'pendingOrders' | 'pendingReviews' | 'lowStockProducts' | 'inactiveCategories';
 }
 
 const navItems: NavItem[] = [
@@ -32,6 +33,11 @@ const navItems: NavItem[] = [
     title: 'Dashboard',
     href: '/admin',
     icon: LayoutDashboard,
+  },
+  {
+    title: 'Storefront',
+    href: '/admin/storefront',
+    icon: PanelsTopLeft,
   },
   {
     title: 'Products',
@@ -44,18 +50,6 @@ const navItems: NavItem[] = [
     href: '/admin/categories',
     icon: FolderTree,
     badgeKey: 'inactiveCategories',
-  },
-  {
-    title: 'Occasions',
-    href: '/admin/occasions',
-    icon: Calendar,
-    badgeKey: 'inactiveOccasions',
-  },
-  {
-    title: 'Types',
-    href: '/admin/types',
-    icon: Tag,
-    badgeKey: 'inactiveTypes',
   },
   {
     title: 'Orders',
@@ -94,7 +88,7 @@ export function AdminSidebar() {
         <Link href="/admin" className="flex items-center justify-center">
           <Image
             src="/images/logo.png"
-            alt="Wizza Admin"
+            alt="Hammad Buckle Admin"
             width={150}
             height={100}
             className='mx-auto max-md:w-[120px] max-md:h-auto'
@@ -144,7 +138,7 @@ export function AdminSidebar() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm max-md:text-xs font-medium truncate">Admin User</p>
-            <p className="text-xs max-md:text-[10px] text-violet-500 truncate">admin@wizza.com</p>
+            <p className="text-xs max-md:text-[10px] text-violet-500 truncate">admin@hammadbuckle.com</p>
           </div>
         </div>
       </div>

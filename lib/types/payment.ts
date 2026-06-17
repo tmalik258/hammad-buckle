@@ -7,8 +7,8 @@ export interface Payment {
   amount: number;
   currency: string;
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled' | 'refunded' | 'partially_refunded';
-  method: 'credit_card' | 'debit_card' | 'paypal' | 'stripe' | 'bank_transfer' | 'cash' | 'crypto' | 'apple_pay' | 'google_pay';
-  provider: 'stripe' | 'paypal' | 'square' | 'razorpay' | 'mollie' | 'adyen' | 'braintree' | 'authorize_net';
+  method: 'cash' | 'cod';
+  provider?: string;
   providerTransactionId?: string;
   providerPaymentId?: string;
   description?: string;
@@ -68,7 +68,7 @@ export interface Payment {
 export interface CustomPaymentMethod {
   id: string;
   name: string;
-  type: 'credit_card' | 'stripe' | 'cash';
+  type: 'cash' | 'cod';
   icon: string;
   description?: string;
 }
@@ -82,7 +82,7 @@ export interface PaymentIntent {
   status: 'requires_payment_method' | 'requires_confirmation' | 'requires_action' | 'processing' | 'requires_capture' | 'canceled' | 'succeeded';
   paymentMethodId?: string;
   clientSecret: string;
-  provider: 'stripe' | 'paypal' | 'square' | 'razorpay' | 'mollie' | 'adyen';
+  provider?: string;
   providerIntentId: string;
   description?: string;
   metadata: Record<string, unknown>;
@@ -96,7 +96,6 @@ export interface PaymentIntent {
       url: string;
       returnUrl: string;
     };
-    useStripeSdk?: Record<string, unknown>;
   };
   lastPaymentError?: {
     code: string;

@@ -15,8 +15,6 @@ export function useCreateProduct() {
       price: number;
       originalPrice?: number | null;
       categoryId: string;
-      typeId: string;
-      occasionId: string;
       image: string;
       images?: string[];
       stockQuantity: number;
@@ -27,6 +25,7 @@ export function useCreateProduct() {
       featured: boolean;
       isNew: boolean;
       onSale: boolean;
+      genderTarget?: string;
       isActive?: boolean;
     }): Promise<ProductWithRelations> => {
       const response = await fetch('/api/products', {
@@ -78,8 +77,6 @@ export function useUpdateProduct() {
       price?: number;
       originalPrice?: number | null;
       categoryId?: string;
-      typeId?: string;
-      occasionId?: string;
       image?: string;
       images?: string[];
       stockQuantity?: number;
@@ -90,6 +87,7 @@ export function useUpdateProduct() {
       featured?: boolean;
       isNew?: boolean;
       onSale?: boolean;
+      genderTarget?: string;
       isActive?: boolean;
     }): Promise<ProductWithRelations> => {
       console.log('Updating product with data:', { id, ...data });

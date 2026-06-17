@@ -13,8 +13,6 @@ const csvRowSchema = z.object({
     val === 0 || String(val) === '' || val === null || val === undefined ? null : val
   ),
   categoryName: z.string().min(1, 'Category name is required'),
-  typeName: z.string().min(1, 'Type name is required'),
-  occasionName: z.string().min(1, 'Occasion name is required'),
   image: z.url('Image must be a valid URL'),
   // Accept images separated by comma, semicolon, or pipe
   images: z.string().optional().transform(val => 
@@ -93,8 +91,6 @@ const CanonicalHeaderMap: Record<string, string> = {
   price: 'price',
   originalprice: 'originalPrice',
   categoryname: 'categoryName',
-  typename: 'typeName',
-  occasionname: 'occasionName',
   image: 'image',
   images: 'images',
   stockquantity: 'stockQuantity',
@@ -217,28 +213,20 @@ function parseCSVLine(line: string, delimiter: string = ','): string[] {
 }
 
 // Convert names to IDs and validate references exist in database
-async function convertNamesToIds(categoryName: string, typeName: string, occasionName: string) {
-  console.log(`Looking up: Category='${categoryName}', Type='${typeName}', Occasion='${occasionName}'`);
+async function convertNamesToIds(categoryName: string) {
+  console.log(`Looking up: Category='${categoryName}'`);
   
-  const [category, type, occasion] = await Promise.all([
-    prisma.category.findFirst({ where: { name: { equals: categoryName, mode: 'insensitive' } } }),
-    prisma.type.findFirst({ where: { name: { equals: typeName, mode: 'insensitive' } } }),
-    prisma.occasion.findFirst({ where: { name: { equals: occasionName, mode: 'insensitive' } } })
-  ]);
+  const category = await prisma.category.findFirst({ where: { name: { equals: categoryName, mode: 'insensitive' } } });
 
-  console.log(`Found: Category=${category?.name || 'null'}, Type=${type?.name || 'null'}, Occasion=${occasion?.name || 'null'}`);
+  console.log(`Found: Category=${category?.name || 'null'}`);
 
   const errors: string[] = [];
   if (!category) errors.push(`Category with name '${categoryName}' not found`);
-  if (!type) errors.push(`Type with name '${typeName}' not found`);
-  if (!occasion) errors.push(`Occasion with name '${occasionName}' not found`);
 
   return { 
     isValid: errors.length === 0, 
     errors,
     categoryId: category?.id,
-    typeId: type?.id,
-    occasionId: occasion?.id
   };
 }
 
@@ -338,20 +326,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Prefetch category/type/occasion maps once
-    const [categories, types, occasions] = await Promise.all([
-      prisma.category.findMany({ select: { id: true, name: true } }),
-      prisma.type.findMany({ select: { id: true, name: true } }),
-      prisma.occasion.findMany({ select: { id: true, name: true } }),
-    ]);
-    result.metrics!.actualQueries += 3;
+    // Prefetch category map once
+    const categories = await prisma.category.findMany({ select: { id: true, name: true } });
+    result.metrics!.actualQueries += 1;
     const normalizeName = (s: string) => s.trim().toLowerCase();
     const catMap = new Map<string, string>();
     for (const c of categories) catMap.set(normalizeName(c.name), c.id);
-    const typeMap = new Map<string, string>();
-    for (const t of types) typeMap.set(normalizeName(t.name), t.id);
-    const occMap = new Map<string, string>();
-    for (const o of occasions) occMap.set(normalizeName(o.name), o.id);
 
     // Prefetch existing SKUs for the CSV rows in chunks of batchSize
     const uniqueCsvSkus = Array.from(seenSkusInFile);
@@ -405,13 +385,9 @@ export async function POST(request: NextRequest) {
 
           // Convert names to IDs using maps and validate references
           const categoryId = catMap.get(normalizeName(validatedData.categoryName));
-          const typeId = typeMap.get(normalizeName(validatedData.typeName));
-          const occasionId = occMap.get(normalizeName(validatedData.occasionName));
 
           const missingRefs: string[] = [];
           if (!categoryId) missingRefs.push(`Category with name '${validatedData.categoryName}' not found`);
-          if (!typeId) missingRefs.push(`Type with name '${validatedData.typeName}' not found`);
-          if (!occasionId) missingRefs.push(`Occasion with name '${validatedData.occasionName}' not found`);
 
           if (missingRefs.length > 0) {
             // Prepare invalid record to insert individually
@@ -426,8 +402,6 @@ export async function POST(request: NextRequest) {
               price: Math.max(validatedData.price || 0, 0.01),
               originalPrice: validatedData.originalPrice,
               categoryId: categoryId || null,
-              typeId: typeId || null,
-              occasionId: occasionId || null,
               image: validatedData.image || '',
               images: validatedData.images || [],
               stockQuantity: validatedData.stockQuantity || 0,
@@ -456,8 +430,6 @@ export async function POST(request: NextRequest) {
           const productValidation = productFormSchema.safeParse({
             ...validatedData,
             categoryId,
-            typeId,
-            occasionId,
           });
           if (!productValidation.success) {
             for (const issue of productValidation.error.issues) {
@@ -474,8 +446,6 @@ export async function POST(request: NextRequest) {
             price: validatedData.price,
             originalPrice: validatedData.originalPrice,
             categoryId,
-            typeId,
-            occasionId,
             image: validatedData.image,
             images: validatedData.images,
             stockQuantity: validatedData.stockQuantity || 0,
@@ -516,8 +486,6 @@ export async function POST(request: NextRequest) {
             price: Math.max(parseFloat(row.price) || 0, 0.01),
             originalPrice: row.originalPrice ? parseFloat(row.originalPrice) : null,
             categoryId: 'cat-electronics', // Default fallback category
-            typeId: 'type-standard', // Default fallback type
-            occasionId: 'occasion-everyday', // Default fallback occasion
             image: row.image || '',
             images: row.images ? row.images.split(',').map((img: string) => img.trim()) : [],
             stockQuantity: parseInt(row.stockQuantity) || 0,

@@ -32,23 +32,64 @@ function ResetPasswordContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [isValidSession, setIsValidSession] = useState(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
   
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
 
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        setIsValidSession(true);
-      } else {
-        setError('Invalid or expired reset link. Please request a new password reset.');
+    const initializeReset = async () => {
+      // Check if token_hash and type are in URL (user came directly from email link)
+      const tokenHash = searchParams.get('token_hash');
+      const type = searchParams.get('type');
+      
+      if (tokenHash && type) {
+        // Redirect to confirm route to verify token first
+        // Preserve all query parameters and add next parameter
+        const confirmUrl = `/auth/confirm?token_hash=${encodeURIComponent(tokenHash)}&type=${encodeURIComponent(type)}&next=${encodeURIComponent('/auth/reset-password')}`;
+        router.push(confirmUrl);
+        return;
       }
+
+      // Check for error parameter from confirm route
+      const errorParam = searchParams.get('error');
+      if (errorParam) {
+        setError(decodeURIComponent(errorParam));
+        setIsCheckingSession(false);
+        return;
+      }
+
+      // Check for valid session (token should already be verified by confirm route)
+      const checkSession = async () => {
+        try {
+          const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+          
+          if (sessionError) {
+            console.error('Session check error:', sessionError);
+            setError('Failed to verify session. Please request a new password reset link.');
+            setIsCheckingSession(false);
+            return;
+          }
+
+          if (session) {
+            setIsValidSession(true);
+          } else {
+            setError('Invalid or expired reset link. Please request a new password reset.');
+          }
+        } catch (err) {
+          console.error('Error checking session:', err);
+          setError('An unexpected error occurred. Please try again.');
+        } finally {
+          setIsCheckingSession(false);
+        }
+      };
+
+      checkSession();
     };
 
-    checkSession();
-  }, [supabase.auth]);
+    initializeReset();
+  }, [searchParams, router, supabase.auth]);
 
   const validateForm = () => {
     if (!password) {
@@ -94,7 +135,7 @@ function ResetPasswordContent() {
     }
   };
 
-  if (!isValidSession && !error) {
+  if (isCheckingSession || (!isValidSession && !error)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
         <Card className="w-full max-w-md">
@@ -123,7 +164,7 @@ function ResetPasswordContent() {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
             
-            <Button asChild className="w-full">
+            <Button asChild className="w-full cursor-pointer">
               <a href="/auth/forgot-password">
                 Request New Reset Link
               </a>

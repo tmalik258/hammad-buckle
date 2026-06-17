@@ -9,20 +9,20 @@ export function ProductCardSkeleton() {
     <Card className="bg-gray-900/50 border border-pink-400/30 rounded-lg overflow-hidden">
       <CardContent className="p-0">
         <div className="relative">
-          <Skeleton className="w-full h-40 sm:h-44 lg:h-48 bg-gray-800" />
-          <Skeleton className="absolute top-2 lg:top-3 left-2 lg:left-3 w-12 h-6 bg-gray-700" />
+          <Skeleton className="w-full h-40 sm:h-44 lg:h-48" />
+          <Skeleton className="absolute top-2 lg:top-3 left-2 lg:left-3 w-12 h-6" />
         </div>
         <div className="p-3 lg:p-4 space-y-2 lg:space-y-3">
-          <Skeleton className="h-4 sm:h-5 lg:h-6 w-3/4 bg-gray-800" />
-          <Skeleton className="h-3 sm:h-4 w-full bg-gray-800" />
-          <Skeleton className="h-3 sm:h-4 w-2/3 bg-gray-800" />
+          <Skeleton className="h-4 sm:h-5 lg:h-6 w-3/4" />
+          <Skeleton className="h-3 sm:h-4 w-full" />
+          <Skeleton className="h-3 sm:h-4 w-2/3" />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Skeleton key={i} className="h-3 w-3 lg:h-4 lg:w-4 bg-gray-700" />
+                <Skeleton key={i} className="h-3 w-3 lg:h-4 lg:w-4" />
               ))}
             </div>
-            <Skeleton className="h-4 sm:h-5 lg:h-6 w-16 bg-gray-700" />
+            <Skeleton className="h-4 sm:h-5 lg:h-6 w-16" />
           </div>
         </div>
       </CardContent>
@@ -48,26 +48,26 @@ export function ProductImageSkeleton() {
       {/* Main image container with brand badge and navigation */}
       <div className="relative aspect-square w-full rounded-2xl bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden">
         {/* Main image skeleton */}
-        <Skeleton className="w-full h-full bg-gradient-to-br from-gray-800/50 to-gray-900/50" />
+        <Skeleton className="w-full h-full" />
         
         {/* Brand badge skeleton */}
         <div className="absolute top-4 left-4">
-          <Skeleton className="h-8 w-20 rounded-full bg-gradient-to-br from-gray-800/50 to-gray-900/50" />
+          <Skeleton className="h-8 w-20 rounded-full" />
         </div>
         
         {/* Navigation arrows skeleton */}
         <div className="absolute left-4 top-1/2 -translate-y-1/2">
-          <Skeleton className="h-10 w-10 rounded-full bg-gradient-to-br from-gray-800/50 to-gray-900/50" />
+          <Skeleton className="h-10 w-10 rounded-full" />
         </div>
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
-          <Skeleton className="h-10 w-10 rounded-full bg-gradient-to-br from-gray-800/50 to-gray-900/50" />
+          <Skeleton className="h-10 w-10 rounded-full" />
         </div>
       </div>
       
       {/* Thumbnail images */}
       <div className="flex space-x-2">
         {[...Array(4)].map((_, i) => (
-          <Skeleton key={i} className="aspect-square w-16 rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-900/50" />
+          <Skeleton key={i} className="aspect-square w-16 rounded-lg" />
         ))}
       </div>
     </div>
@@ -80,38 +80,38 @@ export function ProductInfoSkeleton() {
     <div className="space-y-6 text-white">
       {/* Product name and description */}
       <div>
-        <Skeleton className="h-10 w-3/4 bg-gray-800 mb-2" />
-        <Skeleton className="h-6 w-full bg-gray-800 mb-2" />
-        <Skeleton className="h-6 w-2/3 bg-gray-800" />
+        <Skeleton className="h-10 w-3/4 mb-2" />
+        <Skeleton className="h-6 w-full mb-2" />
+        <Skeleton className="h-6 w-2/3" />
       </div>
 
       {/* Price and rating section */}
       <div className="flex items-center space-x-4">
-        <Skeleton className="h-8 w-24 bg-gray-700" />
+        <Skeleton className="h-8 w-24" />
         <div className="flex items-center space-x-1">
           {[...Array(5)].map((_, i) => (
-            <Skeleton key={i} className="h-5 w-5 bg-gray-700" />
+            <Skeleton key={i} className="h-5 w-5" />
           ))}
-          <Skeleton className="h-4 w-12 bg-gray-700 ml-2" />
+          <Skeleton className="h-4 w-12 ml-2" />
         </div>
       </div>
 
       {/* Size Selection Skeleton */}
       <div className="space-y-3">
-        <Skeleton className="h-6 w-24 bg-gray-800" />
+        <Skeleton className="h-6 w-24" />
         <div className="grid grid-cols-5 gap-2">
           {[...Array(10)].map((_, i) => (
-            <Skeleton key={i} className="h-10 w-full bg-gray-800 rounded-md" />
+            <Skeleton key={i} className="h-10 w-full rounded-md" />
           ))}
         </div>
       </div>
 
       {/* Color Selection Skeleton */}
       <div className="space-y-3">
-        <Skeleton className="h-6 w-24 bg-gray-800" />
+        <Skeleton className="h-6 w-24" />
         <div className="flex space-x-3">
           {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} className="w-10 h-10 rounded-full bg-gray-800" />
+            <Skeleton key={i} className="w-10 h-10 rounded-full" />
           ))}
         </div>
       </div>
@@ -119,14 +119,14 @@ export function ProductInfoSkeleton() {
       {/* Action Buttons Skeleton */}
       <div className="space-y-4 pt-4">
         <div className="flex space-x-4">
-          <Skeleton className="flex-1 h-12 bg-gray-800 rounded-md" />
-          <Skeleton className="h-12 w-12 bg-gray-800 rounded-md" />
+          <Skeleton className="flex-1 h-12 rounded-md" />
+          <Skeleton className="h-12 w-12 rounded-md" />
         </div>
-        <Skeleton className="w-full h-12 bg-gray-800 rounded-md" />
+        <Skeleton className="w-full h-12 rounded-md" />
         
         {/* Size guide note skeleton */}
         <div className="text-center">
-          <Skeleton className="h-4 w-48 bg-gray-700 mx-auto" />
+          <Skeleton className="h-4 w-48 mx-auto" />
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ export function ProductTabsSkeleton() {
       {/* Tab navigation skeleton */}
       <div className="flex space-x-8 mb-8 border-b border-gray-600">
         {[...Array(4)].map((_, i) => (
-          <Skeleton key={i} className="h-6 w-20 bg-gray-800 mb-4" />
+          <Skeleton key={i} className="h-6 w-20 mb-4" />
         ))}
       </div>
       
@@ -148,22 +148,22 @@ export function ProductTabsSkeleton() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left column */}
         <div>
-          <Skeleton className="h-6 w-32 bg-gray-800 mb-4" />
+          <Skeleton className="h-6 w-32 mb-4" />
           <div className="space-y-3">
-            <Skeleton className="h-4 w-full bg-gray-800" />
-            <Skeleton className="h-4 w-full bg-gray-800" />
-            <Skeleton className="h-4 w-3/4 bg-gray-800" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
           </div>
         </div>
         
         {/* Right column */}
         <div>
-          <Skeleton className="h-6 w-32 bg-gray-800 mb-4" />
+          <Skeleton className="h-6 w-32 mb-4" />
           <div className="space-y-3">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="flex items-start space-x-3">
-                <Skeleton className="w-2 h-2 rounded-full bg-gray-700 mt-2 flex-shrink-0" />
-                <Skeleton className="h-4 flex-1 bg-gray-800" />
+                <Skeleton className="w-2 h-2 rounded-full mt-2 flex-shrink-0" />
+                <Skeleton className="h-4 flex-1" />
               </div>
             ))}
           </div>
@@ -178,7 +178,7 @@ export function RelatedProductsSkeleton() {
   return (
     <div className="rounded-2xl p-4 mt-5">
       {/* Title skeleton */}
-      <Skeleton className="h-8 w-48 bg-gray-800 mb-8" />
+      <Skeleton className="h-8 w-48 mb-8" />
       
       {/* Carousel container */}
       <div className="relative">
@@ -193,26 +193,26 @@ export function RelatedProductsSkeleton() {
                   <CardContent className="p-0">
                     {/* Product image skeleton */}
                     <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-50 rounded-t-xl overflow-hidden">
-                      <Skeleton className="w-full h-full bg-gray-800" />
+                      <Skeleton className="w-full h-full" />
                     </div>
                     
                     {/* Product info skeleton */}
                     <div className="p-4 space-y-2">
                       {/* Product name */}
-                      <Skeleton className="h-5 w-3/4 bg-gray-800" />
+                      <Skeleton className="h-5 w-3/4" />
                       
                       {/* Product subtitle */}
-                      <Skeleton className="h-4 w-full bg-gray-800" />
+                      <Skeleton className="h-4 w-full" />
                       
                       {/* Rating and price section */}
                       <div className="flex items-center justify-between pt-2">
                         <div className="flex items-center space-x-1">
                           {[...Array(5)].map((_, j) => (
-                            <Skeleton key={j} className="h-3 w-3 bg-gray-700" />
+                            <Skeleton key={j} className="h-3 w-3" />
                           ))}
-                          <Skeleton className="h-3 w-8 bg-gray-700 ml-1" />
+                          <Skeleton className="h-3 w-8 ml-1" />
                         </div>
-                        <Skeleton className="h-5 w-16 bg-gray-700" />
+                        <Skeleton className="h-5 w-16" />
                       </div>
                     </div>
                   </CardContent>
@@ -224,10 +224,10 @@ export function RelatedProductsSkeleton() {
         
         {/* Navigation arrows skeleton */}
         <div className="absolute left-0 md:-left-4 top-1/2 -translate-y-1/2">
-          <Skeleton className="h-10 w-10 rounded-full bg-black/50" />
+          <Skeleton className="h-10 w-10 rounded-full" />
         </div>
         <div className="absolute right-0 md:-right-4 top-1/2 -translate-y-1/2">
-          <Skeleton className="h-10 w-10 rounded-full bg-black/50" />
+          <Skeleton className="h-10 w-10 rounded-full" />
         </div>
       </div>
     </div>

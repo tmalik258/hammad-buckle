@@ -17,15 +17,32 @@ export async function GET(request: NextRequest) {
       type,
       token_hash,
     })
+    
     if (!error) {
-      // redirect user to specified redirect URL or root of app
-      redirect(next)
+      // For recovery type, ensure we redirect to reset password page
+      const redirectPath = type === 'recovery' && next === '/' 
+        ? '/auth/reset-password' 
+        : next;
+      
+      // redirect user to specified redirect URL or reset password page
+      redirect(redirectPath)
     }
 
-    console.log('[auth/confirm] Invalid token_hash or type provided for email confirmation:', error.message)
-    redirect(`/login?error="${error.message}"`)
+    // Improved error handling for different token types
+    const errorMessage = type === 'recovery' 
+      ? `Password reset link is invalid or has expired. ${error.message}`
+      : error.message;
+    
+    console.log(`[auth/confirm] Invalid token_hash or type provided for ${type}:`, error.message)
+    
+    // For recovery type errors, redirect to forgot password page
+    if (type === 'recovery') {
+      redirect(`/auth/forgot-password?error=${encodeURIComponent(errorMessage)}`)
+    }
+    
+    redirect(`/auth/login?error=${encodeURIComponent(errorMessage)}`)
   }
 
   // redirect the user to an error page with some instructions
-  redirect(`/login?error=invalid_token`)
+  redirect(`/auth/login?error=${encodeURIComponent('Invalid or missing token. Please request a new password reset link.')}`)
 }

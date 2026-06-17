@@ -32,7 +32,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           avatar: user.user_metadata?.avatar_url,
           role: (user.user_metadata?.role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER),
           isActive: true,
-          stripeCustomerId: user.user_metadata?.stripeCustomerId,
           createdAt: new Date(user.created_at),
           updatedAt: new Date(user.updated_at || user.created_at),
         };
@@ -49,7 +48,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           avatar: user.user_metadata?.avatar_url,
           role: (user.user_metadata?.role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER),
           isActive: true,
-          stripeCustomerId: user.user_metadata?.stripeCustomerId,
           createdAt: new Date(user.created_at),
           updatedAt: new Date(user.updated_at || user.created_at),
         };

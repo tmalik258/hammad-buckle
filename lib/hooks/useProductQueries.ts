@@ -12,18 +12,6 @@ export type ProductWithRelations = Prisma.ProductGetPayload<{
         name: true;
       };
     };
-    type: {
-      select: {
-        id: true;
-        name: true;
-      };
-    };
-    occasion: {
-      select: {
-        id: true;
-        name: true;
-      };
-    };
     variants: {
       select: {
         id: true;

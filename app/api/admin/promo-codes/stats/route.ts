@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { DiscountType } from '@prisma/client';
 
 // GET /api/admin/promo-codes/stats - Get promo codes analytics and statistics
 export async function GET(request: NextRequest) {
@@ -138,17 +139,15 @@ export async function GET(request: NextRequest) {
     }
 
     // Get discount type distribution
-    const discountTypeStats = await prisma.promoCode.groupBy({
-      by: ['discountType'],
-      _count: {
-        id: true,
-      },
-    }) as Array<{
-      discountType: string;
-      _count: {
-        id: number;
-      };
-    }>;
+    const [percentageCount, fixedCount] = await Promise.all([
+      prisma.promoCode.count({ where: { discountType: DiscountType.PERCENTAGE } }),
+      prisma.promoCode.count({ where: { discountType: DiscountType.FIXED } }),
+    ]);
+
+    const discountTypeStats = [
+      { discountType: DiscountType.PERCENTAGE, _count: { id: percentageCount } },
+      { discountType: DiscountType.FIXED, _count: { id: fixedCount } },
+    ];
 
     const stats = {
       totalCodes,

@@ -5,6 +5,21 @@ import { useState, useEffect } from "react";
 
 interface TestimonialsSectionProps {
   className?: string;
+  reviews: Array<{
+    id: string;
+    rating: number;
+    comment: string;
+    verified: boolean;
+    user: {
+      id: string;
+      name: string;
+      avatar: string | null;
+    };
+    product: {
+      id: string;
+      name: string;
+    };
+  }>;
 }
 
 interface Testimonial {
@@ -17,49 +32,6 @@ interface Testimonial {
   image: string;
   verified: boolean;
 }
-
-const testimonials: Testimonial[] = [
-  {
-    id: "1",
-    name: "Michael Rodriguez",
-    role: "Fashion Designer",
-    company: "Elite Styles",
-    rating: 5,
-    text: "The craftsmanship of these belt buckles is absolutely exceptional. Each piece tells a story of dedication and attention to detail. I've been using them in my fashion shows and the response has been incredible.",
-    image: "https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Professional%20fashion%20designer%20portrait%2C%20confident%20smile%2C%20modern%20styling%2C%20professional%20headshot%20style%2C%20high%20quality%20portrait%20photography&image_size=square",
-    verified: true
-  },
-  {
-    id: "2",
-    name: "Sarah Chen",
-    role: "Marketing Executive",
-    company: "Tech Innovations",
-    rating: 5,
-    text: "I purchased a custom belt buckle for my husband's birthday and the quality exceeded all expectations. The customer service was outstanding and the delivery was prompt. Highly recommend!",
-    image: "https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Professional%20businesswoman%20portrait%2C%20confident%20smile%2C%20corporate%20styling%2C%20professional%20headshot%20style%2C%20high%20quality%20portrait%20photography&image_size=square",
-    verified: true
-  },
-  {
-    id: "3",
-    name: "David Thompson",
-    role: "Collector",
-    company: "Antique & Craft",
-    rating: 5,
-    text: "As a collector of fine belt buckles for over 20 years, I can confidently say these are among the finest I've encountered. The traditional techniques combined with modern precision create something truly special.",
-    image: "https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Experienced%20collector%20portrait%2C%20wise%20expression%2C%20classic%20styling%2C%20professional%20headshot%20style%2C%20high%20quality%20portrait%20photography&image_size=square",
-    verified: true
-  },
-  {
-    id: "4",
-    name: "Emma Williams",
-    role: "Stylist",
-    company: "Celebrity Looks",
-    rating: 5,
-    text: "These belt buckles are perfect for adding that touch of elegance to any outfit. My clients love them and they're always asking where to get them. The quality is consistently excellent.",
-    image: "https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Professional%20fashion%20stylist%20portrait%2C%20creative%20expression%2C%20trendy%20styling%2C%20professional%20headshot%20style%2C%20high%20quality%20portrait%20photography&image_size=square",
-    verified: true
-  }
-];
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -124,28 +96,75 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; 
   );
 }
 
-export default function TestimonialsSection({ className = "" }: TestimonialsSectionProps) {
+// Map reviews to testimonials format
+function mapReviewsToTestimonials(reviews: TestimonialsSectionProps['reviews']): Testimonial[] {
+  const defaultRoles = ['Customer', 'Verified Buyer', 'Satisfied Customer', 'Happy Customer'];
+  const defaultCompanies = ['Premium Member', 'Valued Customer', 'Loyal Customer', 'Trusted Buyer'];
+  
+  return reviews.map((review, index) => ({
+    id: review.id,
+    name: review.user.name || 'Anonymous',
+    role: defaultRoles[index % defaultRoles.length],
+    company: defaultCompanies[index % defaultCompanies.length],
+    rating: review.rating,
+    text: review.comment,
+    image: review.user.avatar || '/pfp-placeholder.jpg',
+    verified: review.verified,
+  }));
+}
+
+export default function TestimonialsSection({ className = "", reviews }: TestimonialsSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  // Map reviews to testimonials format
+  const testimonials = mapReviewsToTestimonials(reviews || []);
+
   const nextSlide = () => {
+    if (testimonials.length === 0) return;
     setCurrentSlide((prev) => (prev + 1) % testimonials.length);
   };
 
   const prevSlide = () => {
+    if (testimonials.length === 0) return;
     setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
   const goToSlide = (index: number) => {
+    if (testimonials.length === 0) return;
     setCurrentSlide(index);
   };
 
   useEffect(() => {
-    if (!isPaused) {
-      const interval = setInterval(nextSlide, 5000);
+    if (!isPaused && testimonials.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % testimonials.length);
+      }, 5000);
       return () => clearInterval(interval);
     }
-  }, [currentSlide, isPaused]);
+  }, [isPaused, testimonials.length]);
+
+  // Handle empty state
+  if (!reviews || reviews.length === 0) {
+    return (
+      <section
+        className={`py-16 ${className}`}
+        role="region"
+        aria-label="Customer testimonials"
+      >
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+              What Our Customers Say
+            </h2>
+            <p className="text-black/70 max-w-2xl mx-auto">
+              No testimonials available at the moment. Be the first to share your experience!
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

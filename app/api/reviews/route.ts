@@ -98,33 +98,31 @@ export async function GET(request: NextRequest) {
     // Calculate rating statistics if filtering by product
     let ratingStats = null;
     if (productId) {
-      const stats = await prisma.review.groupBy({
-        by: ['rating'],
-        where: { productId },
-        _count: {
-          rating: true,
-        },
-      }) as Array<{
-        rating: number;
-        _count: {
-          rating: number;
-        };
-      }>;
+      const [avgAgg, r1, r2, r3, r4, r5] = await Promise.all([
+        prisma.review.aggregate({
+          where: { productId },
+          _avg: { rating: true },
+          _count: { rating: true },
+        }),
+        prisma.review.count({ where: { productId, rating: 1 } }),
+        prisma.review.count({ where: { productId, rating: 2 } }),
+        prisma.review.count({ where: { productId, rating: 3 } }),
+        prisma.review.count({ where: { productId, rating: 4 } }),
+        prisma.review.count({ where: { productId, rating: 5 } }),
+      ]);
 
-      const totalReviews = stats.reduce((sum, stat) => sum + stat._count.rating, 0);
-      const averageRating = totalReviews > 0 
-        ? stats.reduce((sum, stat) => sum + (stat.rating * stat._count.rating), 0) / totalReviews
-        : 0;
+      const totalReviews = avgAgg._count.rating;
+      const averageRating = avgAgg._avg.rating ?? 0;
 
       ratingStats = {
         average: Math.round(averageRating * 10) / 10,
         total: totalReviews,
         distribution: {
-          5: stats.find(s => s.rating === 5)?._count.rating || 0,
-          4: stats.find(s => s.rating === 4)?._count.rating || 0,
-          3: stats.find(s => s.rating === 3)?._count.rating || 0,
-          2: stats.find(s => s.rating === 2)?._count.rating || 0,
-          1: stats.find(s => s.rating === 1)?._count.rating || 0,
+          5: r5,
+          4: r4,
+          3: r3,
+          2: r2,
+          1: r1,
         },
       };
     }

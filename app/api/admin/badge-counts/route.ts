@@ -37,31 +37,11 @@ export async function GET() {
       }
     });
 
-    // Get inactive occasions count (occasions with no products)
-    const inactiveOccasions = await prisma.occasion.count({
-      where: {
-        products: {
-          none: {} // Occasions with no products
-        }
-      }
-    });
-
-    // Get inactive types count (types with no products)
-    const inactiveTypes = await prisma.type.count({
-      where: {
-        products: {
-          none: {} // Types with no products
-        }
-      }
-    });
-
     return NextResponse.json({
       pendingOrders,
       pendingReviews,
       lowStockProducts,
       inactiveCategories,
-      inactiveOccasions,
-      inactiveTypes
     });
   } catch (error) {
     console.log('Error fetching badge counts:', error);

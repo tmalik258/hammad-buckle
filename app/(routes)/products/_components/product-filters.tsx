@@ -20,13 +20,12 @@ interface ProductFiltersProps {
   filters: {
     search: string;
     category: string;
+    genderTarget: string;
     status: string;
     sortBy: string;
     sortOrder: "asc" | "desc";
     minPrice?: number;
     maxPrice?: number;
-    type?: string;
-    occasion?: string;
   };
   onFilterChange: (filters: Partial<ProductFiltersProps['filters']>) => void;
 }
@@ -46,22 +45,18 @@ const ProductFilters = ({
   // Initialize selected filters from URL params or props
   useEffect(() => {
     const urlCategory = searchParams.get('category') || '';
-    const urlType = searchParams.get('type') || '';
-    const urlOccasion = searchParams.get('occasion') || '';
     const urlMinPrice = searchParams.get('minPrice');
     const urlMaxPrice = searchParams.get('maxPrice');
     
     setSelectedFilters({
       categories: urlCategory || filters.category || "",
-      types: urlType || filters.type || "",
-      occasions: urlOccasion || filters.occasion || "",
     });
 
     // Set price range from URL params
     if (urlMinPrice && urlMaxPrice) {
       setSelectedPriceRange(`${urlMinPrice}-${urlMaxPrice}`);
     }
-  }, [searchParams, filters.category, filters.type, filters.occasion]);
+  }, [searchParams, filters.category]);
   
   // Generate price ranges based on real data or fallback to defaults
   const generatePriceRanges = (min: number = 15, max: number = 300): PriceRange[] => {
@@ -126,22 +121,6 @@ const ProductFilters = ({
         }
         onFilterChange({ category: value });
         break;
-      case 'types':
-        if (value) {
-          params.set('type', value);
-        } else {
-          params.delete('type');
-        }
-        onFilterChange({ type: value });
-        break;
-      case 'occasions':
-        if (value) {
-          params.set('occasion', value);
-        } else {
-          params.delete('occasion');
-        }
-        onFilterChange({ occasion: value });
-        break;
     }
     
     // Update URL without page reload
@@ -193,8 +172,6 @@ const ProductFilters = ({
     // Reset all filter states
     setSelectedFilters({
       categories: "",
-      types: "",
-      occasions: "",
     });
     setSelectedPriceRange("");
     
@@ -208,8 +185,7 @@ const ProductFilters = ({
     // Reset all filters to default values
     onFilterChange({
       category: "",
-      type: "",
-      occasion: "",
+      genderTarget: "",
       minPrice: undefined,
       maxPrice: undefined,
     });
@@ -222,9 +198,8 @@ const ProductFilters = ({
   const hasActiveFilters = () => {
     return (
       selectedFilters.categories ||
-      selectedFilters.types ||
-      selectedFilters.occasions ||
-      selectedPriceRange
+      selectedPriceRange ||
+      filters.genderTarget
     );
   };
 
@@ -244,7 +219,42 @@ const ProductFilters = ({
           </Button>
         )}
       </div>
-      
+
+      <div className="space-y-2">
+        <Label className="text-sm font-semibold">Shop for</Label>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "All", value: "" },
+            { label: "Women's", value: "WOMENS" },
+            { label: "Men's", value: "MENS" },
+            { label: "Unisex", value: "UNISEX" },
+          ].map((opt) => (
+            <button
+              key={opt.value || "all"}
+              type="button"
+              className={cn(
+                "rounded-full border px-3 py-1.5 text-xs font-medium transition cursor-pointer md:text-sm",
+                filters.genderTarget === opt.value
+                  ? "border-black bg-black text-white"
+                  : "border-zinc-300 bg-white text-zinc-800 hover:border-zinc-400"
+              )}
+              onClick={() => {
+                const params = new URLSearchParams(searchParams);
+                if (opt.value) {
+                  params.set("genderTarget", opt.value);
+                } else {
+                  params.delete("genderTarget");
+                }
+                onFilterChange({ genderTarget: opt.value });
+                router.push(`?${params.toString()}`, { scroll: false });
+              }}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Filter Sections */}
       {isLoading ? (
         <div className="space-y-4">

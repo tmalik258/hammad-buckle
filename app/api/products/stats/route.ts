@@ -22,20 +22,6 @@ export async function GET() {
       }
     });
 
-    // Get products by category
-    const productsByCategory = await prisma.product.groupBy({
-      by: ['categoryId'],
-      _count: {
-        id: true
-      }
-    }) as Array<{ categoryId: string; _count: { id: number } }>;
-
-    // Convert to Record<string, number> format
-    const categoryStats: Record<string, number> = {};
-    for (const item of productsByCategory) {
-      categoryStats[item.categoryId] = item._count.id;
-    }
-
     // Get products by featured status (since no type field exists)
     const productsByType: Record<string, number> = {
       'featured': featuredProducts,

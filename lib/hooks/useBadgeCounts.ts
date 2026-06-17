@@ -7,8 +7,6 @@ interface BadgeCounts {
   pendingReviews: number;
   lowStockProducts: number;
   inactiveCategories: number;
-  inactiveOccasions: number;
-  inactiveTypes: number;
 }
 
 // Hook to fetch badge counts for admin sidebar

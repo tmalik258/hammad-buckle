@@ -62,7 +62,7 @@ export function CartSkeleton() {
 // Products Page Skeleton
 export const ProductsPageSkeleton = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-20 z-0">
       <div className="container mx-auto px-4 lg:px-6 py-4">
         {/* Main Content Layout */}
         <div id="products-section" className="flex flex-col lg:flex-row gap-6 lg:gap-8">
@@ -70,7 +70,7 @@ export const ProductsPageSkeleton = () => {
           <div className="w-full lg:w-80 lg:flex-shrink-0">
             {/* Mobile Filter Button */}
             <div className="lg:hidden mb-4">
-              <div className="h-10 w-24 bg-black rounded animate-pulse"></div>
+              <Skeleton className="h-10 w-24" />
             </div>
             
             {/* Desktop Sidebar */}
@@ -79,18 +79,18 @@ export const ProductsPageSkeleton = () => {
                 <div className="flex-1 overflow-y-auto p-4 lg:p-6">
                   <div className="space-y-4 lg:space-y-6 h-full">
                     {/* Filters Title */}
-                    <div className="h-6 bg-muted rounded animate-pulse mb-2 lg:mb-4"></div>
+                    <Skeleton className="h-6 mb-2 lg:mb-4" />
                     
                     {/* Filter sections */}
-                    {[1, 2, 3].map((i) => (
+                    {[1, 2].map((i) => (
                       <div key={i} className="content-rounded-2xl">
-                        <div className="p-4 space-y-2 lg:space-y-3 bg-black">
-                          <div className="h-4 bg-black rounded animate-pulse mb-3"></div>
+                        <div className="p-4 space-y-2 lg:space-y-3 bg-black/10 rounded-2xl">
+                          <Skeleton className="h-4 mb-3" />
                           <div className="space-y-1 lg:space-y-2">
                             {[1, 2, 3, 4].map((j) => (
                               <div key={j} className="flex items-center space-x-2">
-                                <div className="w-4 h-4 bg-black rounded-full animate-pulse"></div>
-                                <div className="h-3 bg-black rounded animate-pulse flex-1"></div>
+                                <Skeleton className="w-4 h-4 rounded-full" />
+                                <Skeleton className="h-3 flex-1" />
                               </div>
                             ))}
                           </div>
@@ -100,22 +100,20 @@ export const ProductsPageSkeleton = () => {
                     
                     {/* Price Range Filter */}
                     <div className="content-rounded-2xl">
-                      <div className="rounded-2xl p-4 space-y-2 lg:space-y-3">
-                        <div className="h-4 bg-black rounded animate-pulse mb-3"></div>
+                      <div className="rounded-2xl bg-black/10 p-4 space-y-2 lg:space-y-3">
+                        <Skeleton className="h-4 mb-3" />
                         <div className="px-2">
                           <div className="relative">
-                            <div className="h-2 bg-black rounded-full">
-                              <div className="h-2 bg-black rounded-full w-3/5"></div>
-                            </div>
+                            <Skeleton className="h-2 rounded-full" />
                             <div className="flex justify-between text-xs mt-2">
-                              <div className="h-3 w-12 bg-black rounded animate-pulse"></div>
-                              <div className="h-3 w-16 bg-black rounded animate-pulse"></div>
+                              <Skeleton className="h-3 w-12" />
+                              <Skeleton className="h-3 w-16" />
                             </div>
                           </div>
                         </div>
                         <div className="grid grid-cols-2 lg:flex lg:flex-wrap gap-1 lg:gap-2 mt-2 lg:mt-4">
                           {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="h-8 bg-black rounded animate-pulse"></div>
+                            <Skeleton key={i} className="h-8" />
                           ))}
                         </div>
                       </div>
@@ -131,12 +129,12 @@ export const ProductsPageSkeleton = () => {
             {/* Header with Sort and Product Count */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 lg:mb-6">
               <div className="flex items-center gap-4 w-full sm:w-auto">
-                <div className="w-full sm:w-48 h-10 bg-black rounded animate-pulse"></div>
-                <div className="h-4 w-20 bg-black rounded animate-pulse hidden sm:block"></div>
+                <Skeleton className="w-full sm:w-48 h-10" />
+                <Skeleton className="h-4 w-20 hidden sm:block" />
               </div>
               <div className="flex items-center gap-2 w-full sm:w-auto">
-                <div className="h-4 w-20 bg-black rounded animate-pulse sm:hidden"></div>
-                <div className="h-8 w-32 bg-black rounded animate-pulse ml-auto sm:ml-0"></div>
+                <Skeleton className="h-4 w-20 sm:hidden" />
+                <Skeleton className="h-8 w-32 ml-auto sm:ml-0" />
               </div>
             </div>
 
@@ -144,11 +142,11 @@ export const ProductsPageSkeleton = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 9 }).map((_, i) => (
                 <div key={i} className="content-rounded-lg overflow-hidden">
-                  <div className="h-64 bg-black animate-pulse"></div>
+                  <Skeleton className="h-64 w-full" />
                   <div className="p-4 space-y-3">
-                    <div className="h-4 bg-black rounded animate-pulse"></div>
-                    <div className="h-3 bg-black rounded animate-pulse w-3/4"></div>
-                    <div className="h-5 bg-black rounded animate-pulse w-1/2"></div>
+                    <Skeleton className="h-4" />
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-5 w-1/2" />
                   </div>
                 </div>
               ))}
@@ -158,9 +156,9 @@ export const ProductsPageSkeleton = () => {
 
         {/* Pagination Skeleton */}
         <div className="flex justify-center items-center space-x-4 mt-12">
-          <div className="h-10 w-20 bg-black rounded animate-pulse"></div>
-          <div className="h-4 w-24 bg-black rounded animate-pulse"></div>
-          <div className="h-10 w-16 bg-black rounded animate-pulse"></div>
+          <Skeleton className="h-10 w-20" />
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-10 w-16" />
         </div>
       </div>
     </div>

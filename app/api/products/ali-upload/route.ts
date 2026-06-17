@@ -18,8 +18,6 @@ const aliCsvHeaders = {
 } as const;
 
 const MappingDefaults = {
-  typeName: 'Standard',
-  occasionName: 'Everyday Use',
   stockQuantity: 0,
   inStock: true,
   isActive: true,
@@ -37,8 +35,6 @@ const EnrichedRowSchema = z.object({
   image: z.string().optional().default(''),
   images: z.array(z.string()).optional().default([]),
   categoryName: z.string().min(1),
-  typeName: z.string().min(1).default(MappingDefaults.typeName),
-  occasionName: z.string().min(1).default(MappingDefaults.occasionName),
   stockQuantity: z.number().int().nonnegative().default(MappingDefaults.stockQuantity),
   inStock: z.boolean().default(MappingDefaults.inStock),
   isActive: z.boolean().default(MappingDefaults.isActive),
@@ -92,13 +88,9 @@ function generateSku(name: string): string {
   return `${slug}-${rand}`.slice(0, 32);
 }
 
-async function lookupRefs(categoryName: string, typeName: string, occasionName: string) {
-  const [category, type, occasion] = await Promise.all([
-    prisma.category.findFirst({ where: { name: { equals: categoryName, mode: 'insensitive' } } }),
-    prisma.type.findFirst({ where: { name: { equals: typeName, mode: 'insensitive' } } }),
-    prisma.occasion.findFirst({ where: { name: { equals: occasionName, mode: 'insensitive' } } }),
-  ]);
-  return { category, type, occasion };
+async function lookupRefs(categoryName: string) {
+  const category = await prisma.category.findFirst({ where: { name: { equals: categoryName, mode: 'insensitive' } } });
+  return { category };
 }
 
 // For now, we do not scrape. We rely on CSV data and safe defaults.
@@ -166,8 +158,6 @@ export async function POST(req: NextRequest) {
         const normalizedCategory = (rawCategory || '').toLowerCase();
         const mappedCategoryName = normalizedCategory === 'baby items' ? 'Fashion & Clothing' : (rawCategory || 'Fashion & Clothing');
         const categoryName = (mappedCategoryName || categoryFallback || 'Fashion & Clothing').trim();
-        const typeName = MappingDefaults.typeName;
-        const occasionName = MappingDefaults.occasionName;
 
         const enriched = EnrichedRowSchema.parse({
           name,
@@ -178,8 +168,6 @@ export async function POST(req: NextRequest) {
           image,
           images,
           categoryName,
-          typeName,
-          occasionName,
           stockQuantity: MappingDefaults.stockQuantity,
           inStock: MappingDefaults.inStock,
           isActive: MappingDefaults.isActive,
@@ -188,11 +176,9 @@ export async function POST(req: NextRequest) {
           sku: generateSku(name),
         });
 
-        const refs = await lookupRefs(enriched.categoryName, enriched.typeName, enriched.occasionName);
+        const refs = await lookupRefs(enriched.categoryName);
         // Fallback to known IDs if names are not present, to avoid Invalid Product entries
         const categoryId = refs.category?.id || 'cat-electronics';
-        const typeId = refs.type?.id || 'type-standard';
-        const occasionId = refs.occasion?.id || 'occasion-everyday';
 
         // Create valid product
         await prisma.product.create({
@@ -202,8 +188,6 @@ export async function POST(req: NextRequest) {
             price: enriched.price,
             originalPrice: enriched.originalPrice ?? null,
             categoryId,
-            typeId,
-            occasionId,
             image: enriched.image,
             images: enriched.images,
             stockQuantity: enriched.stockQuantity,

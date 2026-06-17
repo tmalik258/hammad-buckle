@@ -1,7 +1,6 @@
 import { seedCategories } from './categories';
-import { seedTypes } from './types';
-import { seedOccasions } from './occasions';
 import { seedProducts } from './products';
+import { seedStorefront } from './storefront';
 import { seedUsers } from './users';
 import { seedOrders } from './orders';
 import { seedReviews } from './reviews';
@@ -14,6 +13,11 @@ export async function seedDatabase() {
 
     // Clear existing data in reverse order of dependencies
     console.log('🧹 Clearing existing data...');
+    await prisma.homeProductPick.deleteMany();
+    await prisma.homeCategorySpotlight.deleteMany();
+    await prisma.homePromoBanner.deleteMany();
+    await prisma.heroSlide.deleteMany();
+    await prisma.storefrontSettings.deleteMany();
     await prisma.review.deleteMany();
     await prisma.cartItem.deleteMany();
     await prisma.orderTimeline.deleteMany();
@@ -24,8 +28,6 @@ export async function seedDatabase() {
     await prisma.productVariant.deleteMany();
     await prisma.product.deleteMany();
     await prisma.category.deleteMany();
-    await prisma.type.deleteMany();
-    await prisma.occasion.deleteMany();
     await prisma.user.deleteMany();
 
     // Seed data in order of dependencies
@@ -35,14 +37,11 @@ export async function seedDatabase() {
     console.log('🏷️ Seeding categories...');
     await seedCategories();
 
-    console.log('🔖 Seeding types...');
-    await seedTypes();
-
-    console.log('🎯 Seeding occasions...');
-    await seedOccasions();
-
     console.log('📦 Seeding products...');
     await seedProducts();
+
+    console.log('🪟 Seeding storefront CMS...');
+    await seedStorefront();
 
     console.log('🎫 Seeding promo codes...');
     await seedPromoCodes();

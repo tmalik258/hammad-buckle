@@ -1,19 +1,5 @@
 // Filter-related TypeScript types for dynamic data fetching
 
-export interface Type {
-  id: string;
-  name: string;
-  description?: string;
-  isActive: boolean;
-}
-
-export interface Occasion {
-  id: string;
-  name: string;
-  description?: string;
-  isActive: boolean;
-}
-
 export interface PriceStatistics {
   min: number;
   max: number;
@@ -58,16 +44,12 @@ export interface FilterSection {
 
 export interface DynamicFiltersData {
   categories: CategoryWithCount[];
-  types: Type[];
-  occasions: Occasion[];
   priceStats: PriceStatistics;
   filterSections: FilterSection[];
 }
 
 export interface FilterState {
   categories: string[];
-  types: string[];
-  occasions: string[];
   priceRange: {
     min: number;
     max: number;
@@ -104,8 +86,6 @@ export interface FilterQueryResult<T> {
 
 export interface UseFiltersResult {
   categories: FilterQueryResult<CategoryWithCount[]>;
-  types: FilterQueryResult<Type[]>;
-  occasions: FilterQueryResult<Occasion[]>;
   priceStats: FilterQueryResult<PriceStatistics>;
   filterSections: FilterSection[];
   isLoading: boolean;

@@ -21,43 +21,19 @@ const footerSections: FooterSection[] = [
   {
     title: "Shop",
     links: [
-      { label: "New Arrivals", href: "/new-arrivals" },
-      { label: "Best Sellers", href: "/best-sellers" },
-      { label: "Deals of the Month", href: "/deals" },
-      { label: "Custom Orders", href: "/custom" },
-      { label: "Gift Cards", href: "/gift-cards" }
-    ]
+      { label: "Shop all", href: "/products" },
+      { label: "New arrivals", href: "/products?isNew=true" },
+      { label: "Collections", href: "/collections" },
+    ],
   },
   {
-    title: "Collections",
-    links: [
-      { label: "Classic Series", href: "/collections/classic" },
-      { label: "Premium Series", href: "/collections/premium" },
-      { label: "Limited Edition", href: "/collections/limited" },
-      { label: "Vintage Collection", href: "/collections/vintage" },
-      { label: "Custom Designs", href: "/collections/custom" }
-    ]
-  },
-  {
-    title: "Support",
+    title: "Help",
     links: [
       { label: "Contact Us", href: "/contact" },
-      { label: "Size Guide", href: "/size-guide" },
-      { label: "Care Instructions", href: "/care" },
-      { label: "Warranty", href: "/warranty" },
-      { label: "FAQ", href: "/faq" }
-    ]
+      { label: "About Us", href: "/about-us" },
+      { label: "FAQ", href: "/faq" },
+    ],
   },
-  {
-    title: "Company",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Our Story", href: "/story" },
-      { label: "Craftsmanship", href: "/craftsmanship" },
-      { label: "Press", href: "/press" },
-      { label: "Careers", href: "/careers" }
-    ]
-  }
 ];
 
 const socialLinks = [
@@ -99,26 +75,19 @@ const socialLinks = [
   }
 ];
 
-const paymentMethods = [
-  { name: "Visa", icon: "VISA" },
-  { name: "Mastercard", icon: "MC" },
-  { name: "American Express", icon: "AMEX" },
-  { name: "PayPal", icon: "PP" }
-];
-
 export function Footer({ className = "" }: FooterProps) {
   return (
     <footer className={`bg-black text-white ${className}`} role="contentinfo">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-2 space-y-6">
             <div className="space-y-4">
               <h2 className="text-2xl font-bold text-[#FFF8E7]">Hammad Buckle</h2>
               <p className="text-white/80 text-sm leading-relaxed max-w-sm">
-                Crafting premium belt buckles since 1995. Each piece is meticulously handcrafted 
-                using traditional techniques combined with modern precision for unparalleled quality.
+                Modern apparel and footwear for women and men — curated drops, timeless staples,
+                and responsive service you can trust.
               </p>
             </div>
 
@@ -147,13 +116,13 @@ export function Footer({ className = "" }: FooterProps) {
                 <svg className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#FFF8E7]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                 </svg>
-                <span>123 Craft Street, Artisan District, New York, NY 10001</span>
+                <span>42 Mall Road, Gulberg III, Lahore, Punjab 54000, Pakistan</span>
               </div>
               <div className="flex items-center space-x-3">
                 <svg className="w-4 h-4 flex-shrink-0 text-[#FFF8E7]" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                <span>(555) 123-BUCK</span>
+                <span>+92 300 847 2653</span>
               </div>
               <div className="flex items-center space-x-3">
                 <svg className="w-4 h-4 flex-shrink-0 text-[#FFF8E7]" fill="currentColor" viewBox="0 0 20 20">
@@ -185,62 +154,6 @@ export function Footer({ className = "" }: FooterProps) {
           ))}
         </div>
 
-        {/* Newsletter Signup */}
-        <div className="border-t border-white/20 pt-8 mb-8">
-          <div className="max-w-md mx-auto text-center">
-            <h3 className="font-semibold text-[#FFF8E7] mb-2">Stay Updated</h3>
-            <p className="text-white/80 text-sm mb-4">
-              Get the latest news, offers, and craftsmanship stories
-            </p>
-            <form className="flex space-x-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#FFF8E7] focus:border-transparent"
-                aria-label="Email address for newsletter"
-              />
-              <button
-                type="submit"
-                className="px-6 py-2 text-black font-medium rounded-lg hover:bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#FFF8E7]"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Payment Methods */}
-        <div className="border-t border-white/20 pt-8 mb-8">
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <div className="flex items-center space-x-4">
-              <span className="text-white/80 text-sm">We accept:</span>
-              <div className="flex space-x-2">
-                {paymentMethods.map((method) => (
-                  <div
-                    key={method.name}
-                    className="w-12 h-8 bg-white rounded flex items-center justify-center text-xs font-bold text-black"
-                    title={method.name}
-                  >
-                    {method.icon}
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4 text-sm text-white/80">
-              <span>Secure payments by</span>
-              <div className="flex space-x-2">
-                <div className="w-8 h-6 bg-white rounded flex items-center justify-center text-xs font-bold text-black">
-                  SSL
-                </div>
-                <div className="w-8 h-6 bg-white rounded flex items-center justify-center text-xs font-bold text-black">
-                  PCI
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Bottom Footer */}
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
@@ -264,7 +177,7 @@ export function Footer({ className = "" }: FooterProps) {
               <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
               </svg>
-              <span>in New York</span>
+              <span>in Pakistan</span>
             </div>
           </div>
         </div>

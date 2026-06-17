@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ShieldX, ArrowLeft, Home } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Unauthorized Access | Wizza',
+  title: 'Unauthorized Access | Hammad Buckle',
   description: 'You do not have permission to access this page.',
 };
 
@@ -42,10 +42,10 @@ export default function UnauthorizedPage() {
           <div className="text-center text-sm text-gray-500">
             <p>Need help? Contact support at</p>
             <a 
-              href="mailto:support@wizza.com" 
+              href="mailto:support@hammadbuckle.com" 
               className="text-blue-600 hover:text-blue-800 underline"
             >
-              support@wizza.com
+              support@hammadbuckle.com
             </a>
           </div>
         </CardContent>

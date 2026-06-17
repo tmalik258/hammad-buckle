@@ -84,6 +84,8 @@ const nextConfig: NextConfig = {
   // Output configuration for standalone deployment
   output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
 
+  serverExternalPackages: ['@prisma/client', '@prisma/adapter-pg', 'pg'],
+
   // Experimental features for production
   experimental: {
     optimizeCss: true,

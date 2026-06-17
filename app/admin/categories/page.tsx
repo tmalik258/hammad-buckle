@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { Suspense } from 'react';
 import CategoriesStats from './_components/categories-stats';
 import CategoriesTable from './_components/categories-table';

@@ -24,17 +24,6 @@ export default async function ReviewsStats() {
     }),
   ]);
 
-  // Calculate rating distribution
-  const ratingDistribution = await prisma.review.groupBy({
-    by: ['rating'],
-    _count: {
-      rating: true,
-    },
-    orderBy: {
-      rating: 'desc',
-    },
-  });
-
   // Calculate growth rate (reviews this month vs last month)
   const currentMonth = new Date();
   const lastMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);

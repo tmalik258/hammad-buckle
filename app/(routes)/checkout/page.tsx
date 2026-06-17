@@ -22,7 +22,7 @@ export default function CheckoutPage() {
 
   console.log(profile?.id)
 
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
   const [selectedShippingMethod, setSelectedShippingMethod] =
     useState("standard");
   // Removed currentStep state for single-page layout
@@ -136,7 +136,7 @@ export default function CheckoutPage() {
 
   // Payment data for PaymentMethod component
   const [paymentData, setPaymentData] = useState({
-    selectedPaymentType: "card",
+    selectedPaymentType: "cod",
     saveCard: false,
   });
 

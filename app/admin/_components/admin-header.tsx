@@ -68,7 +68,7 @@ export function AdminHeader() {
       name: displayName,
       avatar: displayAvatar,
       initials,
-      email: user?.email || "admin@wizza.com",
+      email: user?.email || "admin@hammadbuckle.com",
     };
   }, [profile, user]);
 

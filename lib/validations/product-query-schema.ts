@@ -27,16 +27,6 @@ export const getProductsQuerySchema = z.object({
     .optional()
     .transform((val) => val?.trim() || undefined),
   
-  typeId: z
-    .string()
-    .optional()
-    .transform((val) => val?.trim() || undefined),
-  
-  occasionId: z
-    .string()
-    .optional()
-    .transform((val) => val?.trim() || undefined),
-  
   // Boolean filters
   featured: z
     .string()
@@ -62,6 +52,10 @@ export const getProductsQuerySchema = z.object({
     .string()
     .optional()
     .transform((val) => val === 'true' ? true : val === 'false' ? false : undefined),
+
+  genderTarget: z
+    .enum(['WOMENS', 'MENS', 'UNISEX'])
+    .optional(),
   
   // Price range filters
   minPrice: z
