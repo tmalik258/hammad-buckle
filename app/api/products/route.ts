@@ -5,6 +5,7 @@ import { productFormSchema } from '@/lib/validations/product-schema';
 import { getProductsQuerySchema } from '@/lib/validations/product-query-schema';
 import { apiCache, generateCacheKey } from '@/lib/cache';
 import { clearProductsCache } from '@/lib/utils/cache';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // GET /api/products - Get paginated products with filtering and sorting
 export async function GET(request: NextRequest) {
@@ -152,6 +153,9 @@ export async function GET(request: NextRequest) {
 
 // POST /api/products - Create a new product
 export async function POST(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const body = await request.json();
     

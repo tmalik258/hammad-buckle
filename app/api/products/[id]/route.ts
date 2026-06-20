@@ -3,6 +3,7 @@ import { GenderTarget } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 import { clearProductsCache } from '@/lib/utils/cache';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // Validation schema for product update
 const updateProductSchema = z.object({
@@ -133,6 +134,9 @@ export async function PUT(
   request: NextRequest,
   { params }: RouteParams
 ) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { id } = await params;
     const body = await request.json();
@@ -257,6 +261,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: RouteParams
 ) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { id } = await params;
 

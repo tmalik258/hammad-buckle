@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // GET /api/admin/promo-codes - Get all promo codes with filtering and pagination
 export async function GET(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -99,6 +103,9 @@ export async function GET(request: NextRequest) {
 
 // POST /api/admin/promo-codes - Create a new promo code
 export async function POST(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const body = await request.json();
     const {
@@ -158,6 +165,9 @@ export async function POST(request: NextRequest) {
 
 // DELETE /api/admin/promo-codes - Bulk delete promo codes
 export async function DELETE(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { searchParams } = new URL(request.url);
     const ids = searchParams.get('ids')?.split(',') || [];
@@ -216,6 +226,9 @@ export async function DELETE(request: NextRequest) {
 
 // PATCH /api/admin/promo-codes - Bulk update promo codes (activate/deactivate)
 export async function PATCH(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const body = await request.json();
     const { ids, action } = body;

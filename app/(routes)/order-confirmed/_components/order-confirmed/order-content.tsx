@@ -1,4 +1,4 @@
-import { Link } from "lucide-react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { CarouselSection } from "./carousel-section";
@@ -212,10 +212,10 @@ export default function OrderContent() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 pt-20">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-lg font-medium">Loading your order details...</p>
+          <div className="mx-auto mb-4 h-16 w-16 animate-spin rounded-full border-4 border-zinc-900 border-t-transparent"></div>
+          <p className="text-lg font-medium text-zinc-900">Loading your order details...</p>
         </div>
       </div>
     );
@@ -224,8 +224,8 @@ export default function OrderContent() {
   // Error state
   if (error || !order) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto p-6 rounded-lg border border-red-200 bg-red-50">
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 pt-20">
+        <div className="mx-auto max-w-md rounded-lg border border-red-200 bg-red-50 p-6 text-center">
           <h2 className="text-2xl font-bold text-red-600 mb-4">Order Not Found</h2>
           <p className="text-gray-700 mb-6">{error || "Unable to load order details. Please check the URL or try again later."}</p>
           <Link href="/">
@@ -239,7 +239,7 @@ export default function OrderContent() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-zinc-50 pt-20">
       {/* Hero Section */}
       <HeroSection 
         orderNumber={order.id}
@@ -260,18 +260,23 @@ export default function OrderContent() {
       />
 
       {/* Action Buttons */}
-      <div className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/">
-            <Button size="lg" className="w-full sm:w-auto px-8">
-              Continue Shopping
-            </Button>
-          </Link>
-          <Link href="/account/orders">
-            <Button size="lg" variant="outline" className="w-full sm:w-auto px-8">
-              View All Orders
-            </Button>
-          </Link>
+      <div className="bg-zinc-50 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-4xl flex-col justify-center gap-4 sm:flex-row">
+          <Button
+            size="lg"
+            className="w-full cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-8 hover:bg-zinc-800 sm:w-auto"
+            asChild
+          >
+            <Link href="/">Continue Shopping</Link>
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            className="w-full cursor-pointer border-zinc-900 px-8 text-zinc-900 hover:bg-zinc-900 hover:text-white sm:w-auto"
+            asChild
+          >
+            <Link href="/my-account">View All Orders</Link>
+          </Button>
         </div>
       </div>
     </div>

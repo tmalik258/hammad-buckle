@@ -10,7 +10,6 @@ type UsersListItem = Prisma.UserGetPayload<{
     id: true;
     name: true;
     email: true;
-    avatar: true;
     role: true;
     isActive: true;
     createdAt: true;
@@ -191,7 +190,7 @@ export function useUpdateCustomer() {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Failed to update customer');
+        throw new Error(error.error || error.message || 'Failed to update customer');
       }
 
       return response.json();
@@ -469,7 +468,6 @@ interface CreateCustomerRequest {
   id?: string;
   name: string;
   email: string;
-  avatar?: string;
   role?: 'ADMIN' | 'CUSTOMER';
   password?: string;
 }
@@ -481,7 +479,6 @@ interface CreateCustomerRequest {
 interface UpdateCustomerRequest {
   name?: string;
   email?: string;
-  avatar?: string;
   role?: 'ADMIN' | 'CUSTOMER';
   isActive?: boolean;
   password?: string;

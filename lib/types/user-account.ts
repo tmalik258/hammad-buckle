@@ -14,7 +14,6 @@ export interface AddressWithUser extends Address {
 export interface UserProfileFormData {
   name: string;
   email: string;
-  avatar?: string | null;
 }
 
 export interface AddressFormData {
@@ -59,7 +58,6 @@ export interface UpdateAddressRequest {
 export interface UpdateProfileRequest {
   name?: string;
   email?: string;
-  avatar?: string | null;
 }
 
 // API response interfaces

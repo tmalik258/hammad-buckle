@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { prisma } from '@/lib/prisma';
@@ -9,7 +9,7 @@ import { ExternalLink } from 'lucide-react';
 const statusColors = {
   PENDING: 'bg-yellow-100 text-yellow-800 border-yellow-200',
   PROCESSING: 'bg-blue-100 text-blue-800 border-blue-200',
-  SHIPPED: 'bg-purple-100 text-purple-800 border-purple-200',
+  SHIPPED: 'bg-slate-100 text-slate-800 border-slate-200',
   DELIVERED: 'bg-green-100 text-green-800 border-green-200',
   CANCELLED: 'bg-red-100 text-red-800 border-red-200',
 };
@@ -26,7 +26,6 @@ export default async function RecentOrders() {
           id: true,
           name: true,
           email: true,
-          avatar: true,
         },
       },
       items: {
@@ -68,10 +67,6 @@ export default async function RecentOrders() {
             <div className="flex items-start sm:items-center space-x-3 sm:space-x-4">
               {/* User Avatar */}
               <Avatar className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0">
-                <AvatarImage 
-                  src={order.user.avatar || ''} 
-                  alt={`${order.user.name}`} 
-                />
                 <AvatarFallback>
                   {order.user.name?.[0]}
                 </AvatarFallback>

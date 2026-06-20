@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
+import { UserInitialsAvatar } from '@/components/ui/user-initials-avatar';
 import {
   Table,
   TableBody,
@@ -40,6 +40,8 @@ import {
 } from 'lucide-react';
 import { useCustomers, useDeleteCustomer } from '@/lib/hooks/useCustomers';
 import CustomerFormModal from './customer-form-modal';
+import { UserRoleSelect } from './user-role-select';
+import { useAuth } from '@/lib/hooks/useAuth';
 import { Prisma, User } from '@prisma/client';
 
 type UserListItem = Prisma.UserGetPayload<{
@@ -47,7 +49,6 @@ type UserListItem = Prisma.UserGetPayload<{
     id: true;
     name: true;
     email: true;
-    avatar: true;
     role: true;
     isActive: true;
     createdAt: true;
@@ -62,7 +63,7 @@ type UserListItem = Prisma.UserGetPayload<{
   };
 }>;
 
-type EditableUser = Pick<User, 'id' | 'name' | 'email' | 'avatar' | 'role' | 'isActive'>;
+type EditableUser = Pick<User, 'id' | 'name' | 'email' | 'role' | 'isActive'>;
 
 interface UsersTableProps {
   page: number;
@@ -141,6 +142,7 @@ export default function UsersTable({
   const [editingCustomer, setEditingCustomer] = useState<EditableUser | null>(null);
   const deleteCustomer = useDeleteCustomer();
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const { profile } = useAuth();
 
   const { data, isLoading, error } = useCustomers({
     page,
@@ -201,7 +203,7 @@ export default function UsersTable({
       <div className="flex flex-col gap-4">
         <div className="flex gap-2">
           <Input
-            placeholder="Search customers by name, or email..."
+            placeholder="Search users by name or email..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -256,7 +258,7 @@ export default function UsersTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Customer</TableHead>
+              <TableHead>User</TableHead>
               <TableHead>Contact</TableHead>
               <TableHead>Role</TableHead>
               <TableHead>Status</TableHead>
@@ -284,12 +286,10 @@ export default function UsersTable({
                 <TableRow key={user.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <Image
-                        src={user.avatar || '/images/avatar-1.png'}
-                        alt={user.name || '—'}
-                        width={40}
-                        height={40}
-                        className="rounded-full"
+                      <UserInitialsAvatar
+                        name={user.name}
+                        email={user.email}
+                        size="sm"
                       />
                       <div>
                         <div className="font-medium">{user.name || '—'}</div>
@@ -311,7 +311,13 @@ export default function UsersTable({
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>{getRoleBadge(user.role)}</TableCell>
+                  <TableCell>
+                    <UserRoleSelect
+                      userId={user.id}
+                      currentRole={user.role}
+                      currentUserId={profile?.id}
+                    />
+                  </TableCell>
                   <TableCell>{getStatusBadge((user.isActive ? 'ACTIVE' : 'INACTIVE'))}</TableCell>
                   <TableCell>
                     <div className="text-center">
@@ -344,7 +350,7 @@ export default function UsersTable({
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => { setEditingCustomer(user); setIsEditOpen(true); }}>
                           <Edit className="h-4 w-4 mr-2" />
-                          Edit Customer
+                          Edit User
                         </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={async () => {
@@ -416,7 +422,6 @@ export default function UsersTable({
       id: editingCustomer.id,
       name: editingCustomer.name,
       email: editingCustomer.email,
-      avatar: editingCustomer.avatar ?? null,
       role: editingCustomer.role,
       isActive: editingCustomer.isActive,
     } : null} />

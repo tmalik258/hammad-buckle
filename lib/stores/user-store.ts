@@ -264,7 +264,6 @@ export const useUserStore = create<UserState>()(
         return {
           name: displayProfile.name || '',
           email: displayProfile.email || '',
-          avatar: displayProfile.avatar,
         };
       },
 

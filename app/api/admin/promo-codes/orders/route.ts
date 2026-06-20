@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // GET /api/admin/promo-codes/orders - Get orders that used promo codes
 export async function GET(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -126,6 +130,9 @@ export async function GET(request: NextRequest) {
 
 // GET /api/admin/promo-codes/orders/export - Export orders with promo codes
 export async function POST(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const body = await request.json();
     const { format = 'csv', filters = {} } = body;

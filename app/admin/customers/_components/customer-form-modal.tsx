@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useCreateCustomer, useUpdateCustomer } from '@/lib/hooks/useCustomers';
-import { Customer } from '@/lib/types';
 
 interface CustomerFormModalProps {
   open: boolean;
@@ -15,7 +14,6 @@ interface CustomerFormModalProps {
     id: string;
     name?: string | null;
     email: string;
-    avatar?: string | null;
     role: 'CUSTOMER' | 'ADMIN';
     isActive?: boolean;
   } | null;
@@ -26,7 +24,6 @@ export default function CustomerFormModal({ open, onOpenChange, customer }: Cust
   const updateCustomer = useUpdateCustomer();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [avatar, setAvatar] = useState('');
   const [role, setRole] = useState<'CUSTOMER' | 'ADMIN'>('CUSTOMER');
   const [password, setPassword] = useState('');
   const [isActive, setIsActive] = useState(true);
@@ -37,19 +34,16 @@ export default function CustomerFormModal({ open, onOpenChange, customer }: Cust
     if (customer) {
       setName(customer.name || '');
       setEmail(customer.email || '');
-      setAvatar(customer.avatar || '');
       setRole(customer.role);
       setIsActive(customer.isActive ?? true);
     } else {
       reset();
     }
-   
   }, [customer, open]);
 
   const reset = () => {
     setName('');
     setEmail('');
-    setAvatar('');
     setRole('CUSTOMER');
     setPassword('');
     setIsActive(true);
@@ -64,7 +58,6 @@ export default function CustomerFormModal({ open, onOpenChange, customer }: Cust
           data: {
             name,
             email,
-            avatar: avatar || undefined,
             role,
             isActive,
             ...(password ? { password } : {}),
@@ -74,7 +67,6 @@ export default function CustomerFormModal({ open, onOpenChange, customer }: Cust
         await createCustomer.mutateAsync({
           name,
           email,
-          avatar: avatar || undefined,
           role,
           password: password || undefined,
         });
@@ -100,10 +92,6 @@ export default function CustomerFormModal({ open, onOpenChange, customer }: Cust
           <div className="space-y-2">
             <label className="text-sm font-medium">Email</label>
             <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email@example.com" disabled={createCustomer.isPending || updateCustomer.isPending} />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Avatar URL (optional)</label>
-            <Input value={avatar} onChange={(e) => setAvatar(e.target.value)} placeholder="https://..." disabled={createCustomer.isPending || updateCustomer.isPending} />
           </div>
           {!isEdit && (
             <div className="space-y-2">
@@ -156,5 +144,3 @@ export default function CustomerFormModal({ open, onOpenChange, customer }: Cust
     </Dialog>
   );
 }
-
-

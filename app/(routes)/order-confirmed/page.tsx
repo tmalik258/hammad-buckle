@@ -8,10 +8,10 @@ export default function OrderConfirmedPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center bg-zinc-50 pt-20">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-lg font-medium">Loading order details...</p>
+            <div className="mx-auto mb-4 h-16 w-16 animate-spin rounded-full border-4 border-zinc-900 border-t-transparent"></div>
+            <p className="text-lg font-medium text-zinc-900">Loading order details...</p>
           </div>
         </div>
       }

@@ -83,7 +83,7 @@ export function ProductGrid({
           </div>
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <span className="text-sm text-white sm:hidden">{productsCount} products</span>
-            <Button variant="outline" size="sm" className="bg-pink-400 text-white border-pink-400 hover:bg-pink-500 ml-auto sm:ml-0">
+            <Button variant="outline" size="sm" className="ml-auto border-zinc-900 text-zinc-900 hover:bg-zinc-900 hover:text-white sm:ml-0 cursor-pointer">
               + Sort by: Feature
             </Button>
           </div>

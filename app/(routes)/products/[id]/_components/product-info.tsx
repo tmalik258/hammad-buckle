@@ -2,13 +2,11 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Star, ShoppingCart, Heart } from "lucide-react";
+import { Star, ShoppingCart } from "lucide-react";
 import { ProductInfoSkeleton } from "../../_components/product-skeleton";
 import { Product as PrismaProduct } from "@prisma/client";
 import { useAuth } from "@/lib/hooks/useAuth";
 
-// Extended interface for product info with computed UI fields
 interface Product
   extends Pick<PrismaProduct, "id" | "name" | "description" | "rating"> {
   price: string;
@@ -32,7 +30,6 @@ export function ProductInfo({
   product,
   loading = false,
   onAddToCart,
-  onAddToWishlist,
   onBuyNow,
 }: ProductInfoProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -45,9 +42,9 @@ export function ProductInfo({
 
   if (!product) {
     return (
-      <div className="space-y-6 text-white">
-        <div className="text-center py-8">
-          <p className="text-gray-400">Product information not available</p>
+      <div className="space-y-6 text-zinc-900">
+        <div className="py-8 text-center">
+          <p className="text-zinc-600">Product information not available</p>
         </div>
       </div>
     );
@@ -65,32 +62,18 @@ export function ProductInfo({
     }
   };
 
-  const handleAddToWishlist = () => {
-    if (onAddToWishlist) {
-      onAddToWishlist(product.id);
-    }
-  };
-
   return (
-    <div className="space-y-6 text-white">
-      {/* Product Name and Description */}
+    <div className="space-y-6 text-zinc-900">
       <div>
-        <h1 className="text-3xl font-bold mb-4 z-[1000]">{product.name}</h1>
-        <p className="text-gray-300 text-lg leading-relaxed">
-          {product.description}
-        </p>
+        <h1 className="z-[1000] mb-4 text-3xl font-bold">{product.name}</h1>
+        <p className="text-lg leading-relaxed text-zinc-600">{product.description}</p>
       </div>
 
-      {/* Price and Rating */}
-      <div className="flex flex-col-reverse gap-2 justify-between">
+      <div className="flex flex-col-reverse justify-between gap-2">
         <div className="flex items-center space-x-4">
-          <span className="text-3xl font-bold text-black">
-            {product.price}
-          </span>
+          <span className="text-3xl font-bold text-zinc-900">{product.price}</span>
           {product.originalPrice && (
-            <span className="text-xl text-gray-500 line-through">
-              {product.originalPrice}
-            </span>
+            <span className="text-xl text-zinc-400 line-through">{product.originalPrice}</span>
           )}
         </div>
         <div className="flex items-center space-x-2">
@@ -100,8 +83,8 @@ export function ProductInfo({
                 key={star}
                 className={`h-5 w-5 ${
                   star <= Math.floor(product.rating)
-                    ? "fill-black text-black"
-                    : "text-gray-600"
+                    ? "fill-zinc-900 text-zinc-900"
+                    : "text-zinc-300"
                 }`}
               />
             ))}
@@ -109,34 +92,18 @@ export function ProductInfo({
         </div>
       </div>
 
-      {/* Stock Status */}
-      {/* <div className="flex items-center space-x-2">
-        <Badge 
-          variant={product.inStock ? "default" : "destructive"}
-          className={product.inStock ? "bg-green-500" : ""}
-        >
-          {product.inStock ? "In Stock" : "Out of Stock"}
-        </Badge>
-        {product.inStock && product.stockCount <= 10 && (
-          <span className="text-orange-400 text-sm">
-            Only {product.stockCount} left!
-          </span>
-        )}
-      </div> */}
-
-      {/* Size Selection */}
       {product.sizes && product.sizes.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-3">Size</h3>
+          <h3 className="mb-3 text-lg font-semibold">Size</h3>
           <div className="flex flex-wrap gap-2">
             {product.sizes.map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
-                className={`px-4 py-2 border rounded-lg font-medium transition-all ${
+                className={`cursor-pointer rounded-lg border px-4 py-2 font-medium transition-all ${
                   selectedSize === size
-                    ? "border-black bg-black text-white"
-                    : "border-gray-600 text-gray-300 hover:border-black hover:text-black"
+                    ? "border-zinc-900 bg-zinc-900 text-white"
+                    : "border-zinc-300 text-zinc-700 hover:border-zinc-900 hover:text-zinc-900"
                 }`}
               >
                 {size}
@@ -146,19 +113,18 @@ export function ProductInfo({
         </div>
       )}
 
-      {/* Color Selection */}
       {product.colors && product.colors.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-3">Color</h3>
+          <h3 className="mb-3 text-lg font-semibold">Color</h3>
           <div className="flex flex-wrap gap-3">
             {product.colors.map((color) => (
               <button
                 key={color.name}
                 onClick={() => setSelectedColor(color.name)}
-                className={`relative w-10 h-10 rounded-full border-2 transition-all ${
+                className={`relative h-10 w-10 cursor-pointer rounded-full border-2 transition-all ${
                   selectedColor === color.name
-                    ? "border-black scale-110"
-                    : "border-gray-600 hover:border-gray-400"
+                    ? "scale-110 border-zinc-900"
+                    : "border-zinc-300 hover:border-zinc-500"
                 }`}
                 style={{ backgroundColor: color.value }}
                 title={color.name}
@@ -170,23 +136,18 @@ export function ProductInfo({
             ))}
           </div>
           {selectedColor && (
-            <p className="text-sm text-gray-400 mt-2 capitalize">
-              Selected: {selectedColor}
-            </p>
+            <p className="mt-2 text-sm capitalize text-zinc-600">Selected: {selectedColor}</p>
           )}
         </div>
       )}
 
-      {/* Action Buttons */}
       {isAuthenticated && (
-        <div className="space-y-4 grid grid-cols-2 md:grid-cols-3 gap-4 items-start justify-start">
+        <div className="grid grid-cols-2 items-start justify-start gap-4 md:grid-cols-3">
           <Button
             onClick={handleAddToCart}
             size="lg"
-            className="flex-1 bg-brand-gradient text-white py-3 text-lg font-semibold cursor-pointer"
-            disabled={
-              !product.inStock || (!selectedSize && product.sizes.length > 0)
-            }
+            className="flex-1 cursor-pointer bg-zinc-900 py-3 text-lg font-semibold text-white hover:bg-zinc-800"
+            disabled={!product.inStock || (!selectedSize && product.sizes.length > 0)}
           >
             <ShoppingCart className="mr-2 h-5 w-5" />
             Add to Cart
@@ -195,25 +156,17 @@ export function ProductInfo({
             onClick={handleBuyNow}
             variant="outline"
             size="lg"
-            className="bg-brand-gradient text-white hover:bg-white  py-3 text-lg font-semibold cursor-pointer"
-            disabled={
-              !product.inStock || (!selectedSize && product.sizes.length > 0)
-            }
+            className="cursor-pointer border-zinc-900 py-3 text-lg font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white"
+            disabled={!product.inStock || (!selectedSize && product.sizes.length > 0)}
           >
             Buy Now
           </Button>
         </div>
       )}
 
-      {/* Size Guide Note */}
-      {isAuthenticated &&
-        product.sizes &&
-        product.sizes.length > 0 &&
-        !selectedSize && (
-          <p className="text-sm text-orange-400">
-            Please select a size to continue
-          </p>
-        )}
+      {isAuthenticated && product.sizes && product.sizes.length > 0 && !selectedSize && (
+        <p className="text-sm text-amber-600">Please select a size to continue</p>
+      )}
     </div>
   );
 }

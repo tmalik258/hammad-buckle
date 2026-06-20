@@ -7,6 +7,11 @@ import { UserProfile } from '@/lib/types/user-account';
 import { User } from '@supabase/supabase-js';
 import { UserRole } from '@prisma/client';
 
+function roleFromMetadata(metadata?: { role?: string }): UserRole {
+  const role = metadata?.role?.toUpperCase();
+  return role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER;
+}
+
 interface AuthState {
   user: User | null;
   profile: UserProfile | null;
@@ -36,8 +41,7 @@ export function useAuth() {
         id: user.id,
         email: user.email || '',
         name: user.user_metadata?.name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
-        avatar: user.user_metadata?.avatar_url,
-        role: (user.user_metadata?.role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER),
+        role: roleFromMetadata(user.user_metadata),
         isActive: true,
         createdAt: new Date(user.created_at),
         updatedAt: new Date(user.updated_at || user.created_at),
@@ -55,7 +59,6 @@ export function useAuth() {
           id: user.id,
           email: user.email,
           name: user.user_metadata?.name || user.user_metadata?.full_name || null,
-          avatar: user.user_metadata?.avatar_url || null,
           role: 'CUSTOMER', // Use valid UserRole enum value
         }),
       });
@@ -99,8 +102,7 @@ export function useAuth() {
         id: user.id,
         email: user.email || '',
         name: user.user_metadata?.name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
-        avatar: user.user_metadata?.avatar_url || null,
-        role: (user.user_metadata?.role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER),
+        role: roleFromMetadata(user.user_metadata),
         isActive: true,
         createdAt: new Date(user.created_at),
         updatedAt: new Date(user.updated_at || user.created_at),
@@ -246,8 +248,7 @@ export function useAuth() {
             id: session.user.id,
             email: session.user.email || '',
             name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
-            avatar: session.user.user_metadata?.avatar_url || null,
-            role: (session.user.user_metadata?.role === 'ADMIN' ? UserRole.ADMIN : UserRole.CUSTOMER),
+            role: roleFromMetadata(session.user.user_metadata),
             isActive: true,
             createdAt: new Date(session.user.created_at),
             updatedAt: new Date(session.user.updated_at || session.user.created_at),

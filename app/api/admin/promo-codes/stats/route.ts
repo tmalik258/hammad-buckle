@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { DiscountType } from '@prisma/client';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // GET /api/admin/promo-codes/stats - Get promo codes analytics and statistics
 export async function GET(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const now = new Date();
     const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);

@@ -28,6 +28,7 @@ import {
   updateHomeProductPick,
   updateHomePromoBanner,
 } from "@/lib/actions/storefront";
+import { StorefrontImageField } from "./storefront-image-field";
 
 type SpotlightRow = HomeCategorySpotlight & { category: Category };
 type PickRow = HomeProductPick & { product: Pick<Product, "id" | "name"> };
@@ -210,13 +211,12 @@ function SpotlightSection({
               onChange={(e) => setForm((f) => ({ ...f, titleOverride: e.target.value }))}
             />
           </div>
-          <div className="space-y-2 sm:col-span-2">
-            <Label>Image override URL (optional)</Label>
-            <Input
-              value={form.imageOverride}
-              onChange={(e) => setForm((f) => ({ ...f, imageOverride: e.target.value }))}
-            />
-          </div>
+          <StorefrontImageField
+            label="Image override (optional)"
+            value={form.imageOverride}
+            onChange={(imageOverride) => setForm((f) => ({ ...f, imageOverride }))}
+            optional
+          />
           <div className="flex items-center justify-between rounded-md border px-3 py-2 sm:col-span-2">
             <Label>Active</Label>
             <Switch checked={form.isActive} onCheckedChange={(v) => setForm((f) => ({ ...f, isActive: v }))} />
@@ -539,10 +539,11 @@ function PromoSection({
           <Label>Body</Label>
           <Input value={form.body} onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))} />
         </div>
-        <div className="space-y-2 sm:col-span-2">
-          <Label>Image URL</Label>
-          <Input value={form.imageUrl} onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))} />
-        </div>
+        <StorefrontImageField
+          label="Promo image"
+          value={form.imageUrl}
+          onChange={(imageUrl) => setForm((f) => ({ ...f, imageUrl }))}
+        />
         <div className="space-y-2">
           <Label>Link href</Label>
           <Input value={form.href} onChange={(e) => setForm((f) => ({ ...f, href: e.target.value }))} />

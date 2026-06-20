@@ -44,7 +44,6 @@ export type OrderListItem = Prisma.OrderGetPayload<{
         id: true;
         name: true;
         email: true;
-        avatar: true;
       };
     };
     items: {

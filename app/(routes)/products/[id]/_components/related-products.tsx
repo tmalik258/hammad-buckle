@@ -20,7 +20,7 @@ export function RelatedProducts({
   if (loading) {
     return (
       <div>
-        <h2 className="text-2xl font-bold mb-8">{title}</h2>
+        <h2 className="mb-8 text-2xl font-bold text-zinc-900">{title}</h2>
         <RelatedProductsSkeleton />
       </div>
     );
@@ -29,7 +29,7 @@ export function RelatedProducts({
   if (!products || products.length === 0) {
     return (
       <div>
-        <h2 className="text-2xl font-bold mb-8">{title}</h2>
+        <h2 className="mb-8 text-2xl font-bold text-zinc-900">{title}</h2>
         <div className="text-center py-12">
           <div className="text-gray-400">
             <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,7 +44,7 @@ export function RelatedProducts({
 
   return (
     <div className="rounded-2xl mt-5">
-      <h2 className="text-2xl font-bold mb-8">{title}</h2>
+      <h2 className="mb-8 text-2xl font-bold text-zinc-900">{title}</h2>
       <div className="relative">
         <Carousel className="w-full" opts={{ align: "start", loop: true }}>
           <CarouselContent className="-ml-2 md:-ml-4 py-3">
@@ -54,8 +54,8 @@ export function RelatedProducts({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-0 md:-left-4 bg-black/50 hover:bg-black/80 border border-black/30" />
-          <CarouselNext className="right-0 md:-right-4 bg-black/50 hover:bg-black/80 border border-black/30" />
+          <CarouselPrevious className="left-0 border border-zinc-200 bg-white shadow-sm hover:bg-zinc-50 md:-left-4" />
+          <CarouselNext className="right-0 border border-zinc-200 bg-white shadow-sm hover:bg-zinc-50 md:-right-4" />
         </Carousel>
       </div>
     </div>

@@ -53,7 +53,6 @@ export interface SupportResponse {
   author: {
     name: string;
     role: 'customer' | 'support';
-    avatar?: string;
   };
   createdAt: Date;
   attachments?: string[];

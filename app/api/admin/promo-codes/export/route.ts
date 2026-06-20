@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Prisma, DiscountType } from '@prisma/client';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // GET /api/admin/promo-codes/export - Export promo codes as CSV
 export async function GET(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { searchParams } = new URL(request.url);
 

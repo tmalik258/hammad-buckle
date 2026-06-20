@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
@@ -31,73 +32,70 @@ export function ContentSection({
   orderItems,
   shippingAddress,
   paymentMethod,
-  estimatedDelivery
+  estimatedDelivery,
 }: ContentSectionProps) {
   return (
-    <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white/30 backdrop-blur-sm min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        {/* Order Items */}
-        <div className="space-y-4 mb-8">
+    <section className="min-h-screen bg-zinc-50 px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-8 space-y-4">
           {orderItems.map((item) => (
-            <div key={item.id} className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 border border-purple-500/30">
+            <div
+              key={item.id}
+              className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm"
+            >
               <div className="flex items-center gap-4">
-                <div className="relative w-16 h-16 bg-gray-800 rounded-xl overflow-hidden border border-purple-500/20">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover"
-                  />
+                <div className="relative h-16 w-16 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100">
+                  <Image src={item.image} alt={item.name} fill className="object-cover" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white text-lg">&quot;{item.name}&quot;</h3>
-                  <div className="flex items-center gap-4 text-sm text-gray-300 mt-1">
+                  <h3 className="text-lg font-semibold text-zinc-900">&quot;{item.name}&quot;</h3>
+                  <div className="mt-1 flex items-center gap-4 text-sm text-zinc-600">
                     {item.color && <span>Color: {item.color}</span>}
                     {item.quantity && <span>Qty: {item.quantity}</span>}
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="font-bold text-purple-400 text-lg">KWD {item.price.toFixed(2)}</span>
+                  <span className="text-lg font-bold text-zinc-900">
+                    KWD {item.price.toFixed(2)}
+                  </span>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Information Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {/* Payment Method */}
-          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30">
-            <h3 className="text-white font-semibold mb-3">Payment Method</h3>
-            <p className="text-gray-300">{paymentMethod} ..........</p>
+        <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <h3 className="mb-3 font-semibold text-zinc-900">Payment Method</h3>
+            <p className="text-zinc-600">{paymentMethod} ..........</p>
           </div>
 
-          {/* Shipping Address */}
-          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30">
-            <h3 className="text-white font-semibold mb-3">Shipping Address</h3>
-            <p className="text-gray-300">{shippingAddress.street}</p>
+          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <h3 className="mb-3 font-semibold text-zinc-900">Shipping Address</h3>
+            <p className="text-zinc-600">{shippingAddress.street}</p>
           </div>
 
-          {/* Contact Email */}
-          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30">
-            <h3 className="text-white font-semibold mb-3">Contact Email</h3>
-            <p className="text-gray-300">Sarah@example.com</p>
+          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <h3 className="mb-3 font-semibold text-zinc-900">Contact Email</h3>
+            <p className="text-zinc-600">Sarah@example.com</p>
           </div>
 
-          {/* Estimated Delivery */}
-          <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/30">
-            <h3 className="text-white font-semibold mb-3">Estimated Delivery</h3>
-            <p className="text-gray-300">{estimatedDelivery}</p>
+          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <h3 className="mb-3 font-semibold text-zinc-900">Estimated Delivery</h3>
+            <p className="text-zinc-600">{estimatedDelivery}</p>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-4 justify-center">
-          <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-semibold cursor-pointer">
+        <div className="flex justify-center gap-4">
+          <Button className="cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-8 py-3 font-semibold text-white hover:bg-zinc-800">
             Track My Order
           </Button>
-          <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-semibold cursor-pointer">
-            Continue Shopping
+          <Button
+            variant="outline"
+            className="cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl border-zinc-900 px-8 py-3 font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white"
+            asChild
+          >
+            <Link href="/products">Continue Shopping</Link>
           </Button>
         </div>
       </div>

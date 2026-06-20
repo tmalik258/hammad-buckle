@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 // Product Card Skeleton for grid view
 export function ProductCardSkeleton() {
   return (
-    <Card className="bg-gray-900/50 border border-pink-400/30 rounded-lg overflow-hidden">
+    <Card className="overflow-hidden rounded-lg border border-zinc-200 bg-white">
       <CardContent className="p-0">
         <div className="relative">
           <Skeleton className="w-full h-40 sm:h-44 lg:h-48" />
@@ -189,7 +189,7 @@ export function RelatedProductsSkeleton() {
                 key={i}
                 className="pl-2 md:pl-4 xs:basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 shrink-0"
               >
-                <Card className="group bg-black/30 backdrop-blur-sm border border-pink-400/30 rounded-xl overflow-hidden">
+                <Card className="group overflow-hidden rounded-xl border border-zinc-200 bg-white">
                   <CardContent className="p-0">
                     {/* Product image skeleton */}
                     <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-50 rounded-t-xl overflow-hidden">
@@ -280,7 +280,7 @@ export function ProductError({
       {onRetry && (
         <button
           onClick={onRetry}
-          className="px-4 py-2 bg-pink-500 hover:bg-pink-600 text-white rounded-lg transition-colors"
+          className="rounded-lg bg-zinc-900 px-4 py-2 text-white transition-colors hover:bg-zinc-800"
         >
           Try Again
         </button>

@@ -38,7 +38,6 @@ export async function GET(
           select: {
             id: true,
             name: true,
-            avatar: true,
             email: true,
           },
         },
@@ -111,7 +110,6 @@ export async function PUT(
             select: {
               id: true,
               name: true,
-              avatar: true,
             },
           },
           product: {

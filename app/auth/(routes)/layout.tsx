@@ -7,9 +7,9 @@ interface AuthLayoutProps {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center overflow-hidden relative">
+    <div className="min-h-screen bg-zinc-50">
       <Header />
-      <div className="min-h-[calc(100vh-6rem)] flex items-center justify-center w-full pt-10">
+      <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 pb-12 pt-20">
         {children}
       </div>
     </div>

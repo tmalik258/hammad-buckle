@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { CheckCircle } from "lucide-react";
 
 interface HeroSectionProps {
@@ -8,53 +7,38 @@ interface HeroSectionProps {
 
 export function HeroSection({ orderNumber, customerEmail }: HeroSectionProps) {
   return (
-    <section className="relative bg-white/30 backdrop-blur-sm py-16 px-4 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div className="relative max-w-4xl mx-auto text-center">
-        {/* Success Icon */}
-        <div className="flex justify-center mb-8">
-          <div className="relative">
-            <Image
-              src="/images/purple-tic.png"
-              alt="Order Confirmed"
-              width={120}
-              height={120}
-              className="drop-shadow-2xl"
-            />
+    <section className="relative bg-zinc-50 px-4 py-16 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-4xl text-center">
+        <div className="mb-8 flex justify-center">
+          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-zinc-100">
+            <CheckCircle className="h-14 w-14 text-zinc-900" strokeWidth={1.5} />
           </div>
         </div>
 
-        {/* Main Heading */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
+        <h1 className="mb-6 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl">
           Thank You! Order Has Been Placed
         </h1>
 
-        {/* Subheading */}
-        <p className="text-xl sm:text-2xl text-purple-100 mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p className="mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-zinc-600 sm:text-2xl">
           We&apos;ve sent your order details to your email.
         </p>
 
-        {/* Order Details */}
         {orderNumber && (
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-md mx-auto border border-white/20">
+          <div className="mx-auto max-w-md rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-purple-200">Order Number:</span>
-                <span className="font-semibold text-white">#{orderNumber}</span>
+                <span className="text-zinc-600">Order Number:</span>
+                <span className="font-semibold text-zinc-900">#{orderNumber}</span>
               </div>
               {customerEmail && (
                 <div className="flex items-center justify-between">
-                  <span className="text-purple-200">Email:</span>
-                  <span className="font-medium text-white truncate ml-2">{customerEmail}</span>
+                  <span className="text-zinc-600">Email:</span>
+                  <span className="ml-2 truncate font-medium text-zinc-900">{customerEmail}</span>
                 </div>
               )}
             </div>
           </div>
         )}
-
-        {/* Decorative Elements */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-white/5 rounded-full blur-xl"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-400/10 rounded-full blur-2xl"></div>
       </div>
     </section>
   );

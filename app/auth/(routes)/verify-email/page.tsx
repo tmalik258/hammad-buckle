@@ -65,8 +65,8 @@ function VerifyEmailContent() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-            <Mail className="h-8 w-8 text-blue-600" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100">
+            <Mail className="h-8 w-8 text-zinc-900" />
           </div>
           <CardTitle className="text-2xl font-bold text-gray-900">
             Check Your Email
@@ -124,7 +124,7 @@ function VerifyEmailContent() {
               <p>Need help? Contact support at</p>
               <a 
                 href="mailto:support@hammadbuckle.com" 
-                className="text-blue-600 hover:text-blue-800 underline"
+                className="text-zinc-900 hover:underline"
               >
                 support@hammadbuckle.com
               </a>
@@ -142,7 +142,7 @@ export default function VerifyEmailPage() {
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
           <div className="w-full max-w-md text-center">
-            <Loader2 className="h-8 w-8 mx-auto animate-spin text-blue-600" />
+            <Loader2 className="h-8 w-8 mx-auto animate-spin text-zinc-900" />
             <p className="mt-2 text-gray-600">Loading...</p>
           </div>
         </div>

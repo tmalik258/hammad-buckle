@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Product, Order, User, Category, PromoCode, Review } from '@prisma/client';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // GET /api/admin/search - Global search across all entities
 export async function GET(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q')?.trim();

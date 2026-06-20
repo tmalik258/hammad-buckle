@@ -9,13 +9,13 @@ import {
   Home,
   Grid3X3,
   Package,
-  LogIn,
   UserPlus,
   Settings,
   LogOut,
   Info,
   X,
-  Search
+  Search,
+  LayoutDashboard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -35,7 +35,8 @@ import { createClient } from "@/lib/utils/supabase/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { EnhancedImage } from "@/components/ui/enhanced-image";
+import { UserInitialsAvatar } from "@/components/ui/user-initials-avatar";
+import { UserRole } from "@prisma/client";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -110,19 +111,16 @@ export function Header() {
                         {isLoading ? (
                           <div className="w-full h-full bg-muted animate-pulse rounded-full" />
                         ) : (
-                          <EnhancedImage
-                            src={profile?.avatar || user?.user_metadata?.avatar_url}
-                            alt="Profile"
-                            width={40}
-                            height={40}
-                            className="w-full h-full"
-                            fallbackInitial={profile?.name?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U'}
+                          <UserInitialsAvatar
+                            name={profile?.name || user?.user_metadata?.name}
+                            email={profile?.email || user?.email}
+                            size="md"
                           />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         {isLoading ? (
-                          <div className="h-4 w-24 bg-black/20 animate-pulse rounded" />
+                          <div className="h-4 w-24 bg-zinc-200 animate-pulse rounded" />
                         ) : (
                           <p className="text-sm font-medium text-foreground truncate">
                             {profile?.name || user?.email || "User"}
@@ -190,14 +188,26 @@ export function Header() {
                   {isAuthenticated ? (
                     <>
                       <Link
-                        href="/profile"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-black/20 hover:border-black/30 border border-transparent transition-all duration-300 group cursor-pointer"
+                        href="/my-account"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-zinc-100 border border-transparent transition-all duration-300 group cursor-pointer"
                       >
-                        <Settings className="h-5 w-5 text-black group-hover:text-black transition-colors" />
-                        <span className="font-medium group-hover:text-black transition-colors">
+                        <Settings className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
+                        <span className="font-medium group-hover:text-zinc-900 transition-colors">
                           Profile Settings
                         </span>
                       </Link>
+
+                      {profile?.role === UserRole.ADMIN ? (
+                        <Link
+                          href="/admin"
+                          className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-zinc-100 border border-transparent transition-all duration-300 group cursor-pointer"
+                        >
+                          <LayoutDashboard className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
+                          <span className="font-medium group-hover:text-zinc-900 transition-colors">
+                            Admin
+                          </span>
+                        </Link>
+                      ) : null}
 
                       <button
                         onClick={handleLogout}
@@ -215,19 +225,19 @@ export function Header() {
                         href="/auth/login"
                         className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer"
                       >
-                        <LogIn className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                        <User className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                         <span className="font-medium group-hover:text-foreground transition-colors">
-                          Sign In
+                          Account
                         </span>
                       </Link>
 
                       <Link
-                        href="/auth/register"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 group cursor-pointer"
+                        href="/auth/signup"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group cursor-pointer"
                       >
-                        <UserPlus className="h-5 w-5 text-primary-foreground transition-colors" />
+                        <UserPlus className="h-5 w-5 transition-colors" />
                         <span className="font-medium transition-colors">
-                          Create Account
+                          Join
                         </span>
                       </Link>
                     </>
@@ -306,19 +316,36 @@ export function Header() {
                       <span className="sr-only">Account</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>
+                  <DropdownMenuContent
+                    align="end"
+                    className="min-w-48 rounded-xl border-zinc-200 bg-white p-1 text-zinc-900 shadow-md"
+                  >
+                    <DropdownMenuLabel className="font-medium text-zinc-900">
                       {profile?.name || user?.email || "User"}
                     </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuSeparator className="bg-zinc-200" />
+                    <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
                       <Link href="/my-account">Profile</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
                       <Link href="/wishlist">Wishlist</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                    {profile?.role === UserRole.ADMIN ? (
+                      <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
+                        <Link href="/admin">
+                          <LayoutDashboard className="mr-2 inline h-4 w-4" />
+                          Admin
+                        </Link>
+                      </DropdownMenuItem>
+                    ) : null}
+                    <DropdownMenuSeparator className="bg-zinc-200" />
+                    <DropdownMenuItem
+                      variant="destructive"
+                      onClick={handleLogout}
+                      className="cursor-pointer"
+                    >
+                      Logout
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
 
@@ -341,16 +368,25 @@ export function Header() {
                 </Button>
               </>
             ) : isInitialized ? (
-              /* Unauthenticated User - Get Started Link with border */
-              <Link
-                href="/auth/login"
-                className="inline-flex items-center justify-center h-9 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-none rounded-tr-2xl rounded-bl-2xl cursor-pointer border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                Get Started
-              </Link>
+              <div className="flex items-center gap-3">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="rounded-none rounded-tr-2xl rounded-bl-2xl cursor-pointer border-zinc-900 bg-transparent px-4 text-zinc-900 shadow-none hover:bg-zinc-900 hover:text-white"
+                >
+                  <Link href="/auth/login">Account</Link>
+                </Button>
+                <Link
+                  href="/auth/signup"
+                  className="text-sm font-medium text-zinc-600 underline-offset-4 transition-colors hover:text-zinc-900 hover:underline cursor-pointer"
+                >
+                  Join
+                </Link>
+              </div>
             ) : (
               /* Loading state - show nothing to prevent flickering */
-              <div className="w-32 h-12" />
+              <div className="h-8 w-36" />
             )}
           </div>
         </div>

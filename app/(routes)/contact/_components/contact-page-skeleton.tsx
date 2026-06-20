@@ -3,14 +3,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function ContactPageSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+    <div className="min-h-screen bg-zinc-50 pt-20">
       {/* Removed HeroSection */}
       
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Information Skeleton */}
           <div className="lg:col-span-1">
-            <Card className="h-fit">
+            <Card className="h-fit rounded-2xl border-zinc-200 bg-white shadow-sm">
               <CardHeader>
                 <Skeleton className="h-6 w-32" />
               </CardHeader>
@@ -31,7 +31,7 @@ export function ContactPageSkeleton() {
 
           {/* Contact Form Skeleton */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="rounded-2xl border-zinc-200 bg-white shadow-sm">
               <CardHeader>
                 <Skeleton className="h-6 w-40" />
                 <Skeleton className="h-4 w-64" />

@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { updateCategorySchema } from '@/lib/validations/category-schema';
 import { apiCache } from '@/lib/cache';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 interface RouteParams {
   params: Promise<{
@@ -80,6 +81,9 @@ export async function PUT(
   request: NextRequest,
   { params }: RouteParams
 ) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { id } = await params;
 
@@ -175,6 +179,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: RouteParams
 ) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { id } = await params;
 

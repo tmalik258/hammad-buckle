@@ -3,13 +3,14 @@ import { prisma } from '@/lib/prisma';
 import { UserRole } from '@prisma/client';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/utils/supabase/admin';
+import { assertAdminApi, assertAdminOrSelfCreateApi } from '@/lib/utils/auth';
+import { syncUserRoleToSupabase } from '@/lib/utils/user-role';
 
 // Validation schema for user creation/update
 const userSchema = z.object({
   id: z.string().optional(), // Allow optional id for user creation
   name: z.string().min(1, 'Name is required').max(100, 'Name too long'),
   email: z.email('Invalid email address'),
-  avatar: z.url('Invalid avatar URL').optional(),
   role: z.nativeEnum(UserRole).optional().default(UserRole.CUSTOMER),
   password: z.string().min(6, 'Password must be at least 6 characters').optional(),
 });
@@ -19,6 +20,9 @@ const updateUserSchema = userSchema.partial();
 // GET /api/users - Get users with optional filtering (Admin only)
 export async function GET(request: NextRequest) {
   try {
+    const adminCheck = await assertAdminApi();
+    if (adminCheck instanceof NextResponse) return adminCheck;
+
     const { searchParams } = new URL(request.url);
     const role = searchParams.get('role');
     const search = searchParams.get('search');
@@ -71,7 +75,6 @@ export async function GET(request: NextRequest) {
           id: true,
           name: true,
           email: true,
-          avatar: true,
           role: true,
           isActive: true,
           createdAt: true,
@@ -115,6 +118,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = userSchema.parse(body);
 
+    const access = await assertAdminOrSelfCreateApi({
+      userId: validatedData.id,
+      role: validatedData.role,
+    });
+    if (access instanceof NextResponse) return access;
+
+    const role = access.isAdmin
+      ? validatedData.role
+      : UserRole.CUSTOMER;
+
     // Check if user with email already exists
     const existingUser = await prisma.user.findUnique({
       where: { email: validatedData.email },
@@ -147,7 +160,7 @@ export async function POST(request: NextRequest) {
         email_confirm: true,
         user_metadata: {
           name: validatedData.name,
-          avatar_url: validatedData.avatar,
+          role,
         },
       });
 
@@ -166,20 +179,22 @@ export async function POST(request: NextRequest) {
         id: userId, // Use id from auth if available
         name: validatedData.name,
         email: validatedData.email,
-        avatar: validatedData.avatar,
-        role: validatedData.role,
+        role,
       },
       select: {
         id: true,
         name: true,
         email: true,
-        avatar: true,
         role: true,
         isActive: true,
         createdAt: true,
         updatedAt: true,
       },
     });
+
+    if (userId) {
+      await syncUserRoleToSupabase(userId, role);
+    }
 
     return NextResponse.json(user, { status: 201 });
   } catch (error) {

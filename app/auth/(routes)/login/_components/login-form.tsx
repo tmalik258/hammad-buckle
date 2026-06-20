@@ -19,9 +19,14 @@ import Link from "next/link";
 import { login } from "@/lib/actions/auth";
 import { toast } from "sonner";
 import { DashedSpinner } from "@/components/dashed-spinner";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import {
+  AuthFormShell,
+  authInputClassName,
+  authLinkClassName,
+  authMutedTextClassName,
+} from "../../_components/auth-form-shell";
 
-// Define the form schema using Zod
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
@@ -31,11 +36,9 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = React.useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get("next") || "/";
 
-  // Initialize react-hook-form with Zod validation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,123 +51,102 @@ export function LoginForm() {
     const formData = new FormData();
     formData.append("email", data.email);
     formData.append("password", data.password);
-
     formData.append("next", next);
-    
+
     const result = await login(formData);
     if (result?.error) {
       console.log("Login submission error:", result.error);
       toast.error(result.error);
-      return;
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="bg-white/20 backdrop-blur-sm border rounded-2xl p-8 shadow-2xl">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold mb-2">
-            Log In
-          </h1>
-        </div>
+    <AuthFormShell title="Log In">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-zinc-900">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    {...field}
+                    className={authInputClassName}
+                    disabled={form.formState.isSubmitting}
+                  />
+                </FormControl>
+                <FormMessage className="text-destructive text-xs" />
+              </FormItem>
+            )}
+          />
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Email Field */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">Email</FormLabel>
-                  <FormControl>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-zinc-900">Password</FormLabel>
+                <FormControl>
+                  <div className="relative">
                     <Input
-                      id="email"
-                      type="email"
-                      placeholder="Enter Email ID"
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
                       {...field}
-                      className="w-full bg-transparent rounded-none rounded-tr-2xl rounded-bl-2xl px-4 py-3"
+                      className={`${authInputClassName} pr-12`}
                       disabled={form.formState.isSubmitting}
                     />
-                  </FormControl>
-                  <FormMessage className="text-red-400" />
-                </FormItem>
-              )}
-            />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-700 cursor-pointer transition-colors"
+                    >
+                      {showPassword ? (
+                        <Eye className="w-5 h-5" />
+                      ) : (
+                        <EyeOff className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+                </FormControl>
+                <FormMessage className="text-destructive text-xs" />
+              </FormItem>
+            )}
+          />
 
-            {/* Password Field */}
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">Password</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Choose a password"
-                        {...field}
-                        className="w-full bg-transparent rounded-none rounded-tr-2xl rounded-bl-2xl px-4 py-3"
-                        disabled={form.formState.isSubmitting}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:cursor-pointer transition-colors"
-                      >
-                        {showPassword ? (
-                          <Eye className="w-5 h-5" />
-                        ) : (
-                          <EyeOff className="w-5 h-5" />
-                        )}
-                      </button>
-                    </div>
-                  </FormControl>
-                  <FormMessage className="text-red-400" />
-                </FormItem>
-              )}
-            />
+          <div className="flex items-center justify-end">
+            <Link href="/auth/forgot-password" className={authLinkClassName}>
+              Forgot password?
+            </Link>
+          </div>
 
-            {/* Remember me checkbox */}
-            <div className="flex items-center justify-end">
-              <Link
-                href="/auth/forgot-password"
-                className="text-sm hover:text-purple-300 transition-colors"
-              >
-                Forgot password?
-              </Link>
-            </div>
+          <Button
+            type="submit"
+            className="w-full cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? (
+              <>
+                <DashedSpinner invert={true} /> Logging in...
+              </>
+            ) : (
+              "Log In"
+            )}
+          </Button>
 
-            {/* Login Button */}
-            <Button
-              type="submit"
-              className="w-full cursor-pointer"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? (
-                <>
-                  <DashedSpinner invert={true} /> Logging in...
-                </>
-              ) : (
-                "Log In"
-              )}
-            </Button>
-
-            {/* Sign up link */}
-            <div className="text-center text-sm">
-              <span className="text-gray-300">Don&apos;t have an account? </span>
-              <Link
-                href="/auth/signup"
-                className="font-medium hover:text-purple-300 transition-colors"
-              >
-                Sign up
-              </Link>
-            </div>
-          </form>
-        </Form>
-      </div>
-    </div>
+          <div className={`text-center ${authMutedTextClassName}`}>
+            <span>Don&apos;t have an account? </span>
+            <Link href="/auth/signup" className={authLinkClassName}>
+              Sign up
+            </Link>
+          </div>
+        </form>
+      </Form>
+    </AuthFormShell>
   );
 }

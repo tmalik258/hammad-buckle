@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { productFormSchema } from '@/lib/validations/product-schema';
 import { z } from 'zod';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // CSV row validation schema (rating fields removed from CSV processing)
 const csvRowSchema = z.object({
@@ -242,6 +243,9 @@ async function checkSkuExists(sku: string | undefined): Promise<boolean> {
 }
 
 export async function POST(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const startedAt = Date.now();
     const formData = await request.formData();

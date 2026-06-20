@@ -28,7 +28,7 @@ export function LoadingSpinner({
 
   const variantClasses = {
     default: "text-gray-500",
-    primary: "text-pink-500",
+    primary: "text-zinc-900",
     secondary: "text-blue-500",
     success: "text-green-500",
     warning: "text-yellow-500",
@@ -97,11 +97,11 @@ export function FormFieldSkeleton({
     <div className={cn("space-y-2", className)}>
       {label && (
         <div className="flex items-center space-x-1">
-          <Skeleton className="h-4 w-20 bg-gray-800" />
-          {required && <Skeleton className="h-3 w-2 bg-red-800" />}
+          <Skeleton className="h-4 w-20" />
+          {required && <Skeleton className="h-3 w-2" />}
         </div>
       )}
-      <Skeleton className="h-10 w-full bg-gray-800" />
+      <Skeleton className="h-10 w-full" />
     </div>
   );
 }
@@ -112,11 +112,11 @@ export function ProfileCardSkeleton() {
     <div className="space-y-4">
       {/* Profile header */}
       <div className="flex items-center space-x-4">
-        <Skeleton className="w-20 h-20 rounded-full bg-gray-800" />
+        <Skeleton className="h-20 w-20 rounded-full" />
         <div className="space-y-2">
-          <Skeleton className="h-6 w-48 bg-gray-800" />
-          <Skeleton className="h-4 w-32 bg-gray-800" />
-          <Skeleton className="h-4 w-24 bg-gray-800" />
+          <Skeleton className="h-6 w-48" />
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-4 w-24" />
         </div>
       </div>
 
@@ -124,16 +124,16 @@ export function ProfileCardSkeleton() {
       <div className="space-y-3">
         {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className="flex justify-between items-center">
-            <Skeleton className="h-4 w-24 bg-gray-800" />
-            <Skeleton className="h-4 w-32 bg-gray-800" />
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-32" />
           </div>
         ))}
       </div>
 
       {/* Action buttons */}
       <div className="flex space-x-2 pt-4">
-        <Skeleton className="h-10 flex-1 bg-gray-800" />
-        <Skeleton className="h-10 flex-1 bg-gray-800" />
+        <Skeleton className="h-10 flex-1" />
+        <Skeleton className="h-10 flex-1" />
       </div>
     </div>
   );
@@ -152,8 +152,8 @@ export function ProfileFormSkeleton() {
       </div>
       
       <div className="flex space-x-4 pt-4">
-        <Skeleton className="h-10 w-24 bg-gray-800" />
-        <Skeleton className="h-10 w-32 bg-gray-800" />
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-10 w-32" />
       </div>
     </div>
   );
@@ -177,8 +177,8 @@ export function LoadingOverlay({
     <div className={cn("relative", className)}>
       {children}
       {isLoading && (
-        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center rounded-lg">
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
+        <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/20 backdrop-blur-sm">
+          <div className="rounded-lg border border-zinc-200 bg-white p-4 shadow-sm">
             <LoadingSpinner variant="primary" text={text} />
           </div>
         </div>
@@ -205,15 +205,15 @@ export function ProgressIndicator({
 
   return (
     <div className={cn("space-y-2", className)}>
-      <div className="flex justify-between text-sm text-gray-400">
+      <div className="flex justify-between text-sm text-zinc-600">
         <span>
           {steps && current <= steps.length ? steps[current - 1] : `Step ${current}`}
         </span>
         <span>{percentage}%</span>
       </div>
-      <div className="w-full bg-gray-700 rounded-full h-2">
+      <div className="h-2 w-full rounded-full bg-zinc-200">
         <div 
-          className="bg-gradient-to-r from-pink-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+          className="h-2 rounded-full bg-zinc-900 transition-all duration-300"
           style={{ width: `${percentage}%` }}
         />
       </div>

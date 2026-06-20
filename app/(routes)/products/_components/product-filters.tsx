@@ -258,17 +258,17 @@ const ProductFilters = ({
       {/* Filter Sections */}
       {isLoading ? (
         <div className="space-y-4">
-          <div className="h-4 bg-gray-700 rounded animate-pulse"></div>
+          <div className="h-4 animate-pulse rounded bg-zinc-200"></div>
           <div className="space-y-2">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-3 bg-gray-700 rounded animate-pulse"></div>
+              <div key={i} className="h-3 animate-pulse rounded bg-zinc-200"></div>
             ))}
           </div>
         </div>
       ) : (
         filterSections.map((section) => (
           <div key={section.id} className="content-rounded-2xl">
-            <div className="p-4 space-y-2 lg:space-y-3 bg-black/10 rounded-2xl">
+            <div className="rounded-2xl bg-zinc-100 p-4 space-y-2 lg:space-y-3">
               <h3 className="text-sm font-semibold">{section.name}</h3>
               <RadioGroup
                 value={selectedFilters[section.id] || ""}
@@ -302,7 +302,7 @@ const ProductFilters = ({
 
       {/* Price Range Filter */}
       <div className="content-rounded-2xl">
-        <div className="rounded-2xl bg-black/10 p-4 space-y-2 lg:space-y-3">
+        <div className="rounded-2xl bg-zinc-100 p-4 space-y-2 lg:space-y-3">
           <h3 className="text-xs lg:text-sm font-semibold">
             Price Range: {priceStats && !priceStatsLoading 
               ? `${priceStats.min} KWD → ${priceStats.max}+ KWD`
@@ -313,7 +313,7 @@ const ProductFilters = ({
             <div className="relative">
               <div className="h-2 bg-gray-700 rounded-full">
                 <div
-                  className="h-2 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full"
+                  className="h-2 bg-zinc-900 rounded-full"
                   style={{width: '60%'}}
                 />
               </div>
@@ -330,7 +330,7 @@ const ProductFilters = ({
                 variant="outline"
                 size="sm"
                 onClick={() => handlePriceRangeChange(range.value)}
-                className={`text-xs lg:text-xs border-black hover:bg-black/10 px-2 py-1 ${
+                className={`text-xs lg:text-xs border-zinc-900 hover:bg-zinc-100 px-2 py-1 ${
                   selectedPriceRange === range.value
                     ? "bg-black/20 text-black"
                     : "text-black"
@@ -354,7 +354,7 @@ const ProductFilters = ({
               <Button
                 variant="outline"
                 size="sm"
-                className="text-black hover:bg-black/10 mb-4"
+                className="mb-4 cursor-pointer text-zinc-900 hover:bg-zinc-100"
               >
                 <Filter className="w-4 h-4 mr-2" />
                 Filters

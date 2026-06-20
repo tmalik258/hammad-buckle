@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 interface RouteParams {
   params: Promise<{
@@ -12,6 +13,9 @@ export async function GET(
   request: NextRequest,
   { params }: RouteParams
 ) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { id } = await params;
 
@@ -78,6 +82,9 @@ export async function PUT(
   request: NextRequest,
   { params }: RouteParams
 ) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { id } = await params;
     const body = await request.json();
@@ -148,6 +155,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: RouteParams
 ) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const { id } = await params;
 

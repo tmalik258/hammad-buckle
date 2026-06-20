@@ -60,7 +60,7 @@ export function EnhancedImage({
   if (!src || imageError) {
     return (
       <div 
-        className={`rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-medium ${className}`}
+        className={`rounded-full bg-zinc-900 flex items-center justify-center text-white font-medium ${className}`}
         style={{ width, height }}
       >
         {fallbackInitial || 'U'}
@@ -72,7 +72,7 @@ export function EnhancedImage({
   if (!imageLoaded && !priority) {
     return (
       <div 
-        className={`rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-medium ${className}`}
+        className={`rounded-full bg-zinc-900 flex items-center justify-center text-white font-medium ${className}`}
         style={{ width, height }}
       >
         {fallbackInitial || 'U'}

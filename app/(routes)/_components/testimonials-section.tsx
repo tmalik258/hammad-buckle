@@ -1,7 +1,7 @@
 "use client"
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
+import { UserInitialsAvatar } from "@/components/ui/user-initials-avatar";
 
 interface TestimonialsSectionProps {
   className?: string;
@@ -13,7 +13,6 @@ interface TestimonialsSectionProps {
     user: {
       id: string;
       name: string;
-      avatar: string | null;
     };
     product: {
       id: string;
@@ -29,7 +28,6 @@ interface Testimonial {
   company?: string;
   rating: number;
   text: string;
-  image: string;
   verified: boolean;
 }
 
@@ -62,14 +60,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; 
       }}
     >
       <div className="flex items-start space-x-4 mb-6">
-        <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-          <Image
-            src={testimonial.image}
-            alt={testimonial.name}
-            fill
-            className="object-cover"
-          />
-        </div>
+        <UserInitialsAvatar name={testimonial.name} size="lg" />
         <div className="flex-1">
           <h3 className="font-bold text-lg text-black">{testimonial.name}</h3>
           <p className="text-black/70 text-sm mb-2">{testimonial.role}</p>
@@ -79,11 +70,11 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; 
           <StarRating rating={testimonial.rating} />
         </div>
       </div>
-      
+
       <blockquote className="text-black/80 leading-relaxed mb-4">
         &quot;{testimonial.text}&quot;
       </blockquote>
-      
+
       {testimonial.verified && (
         <div className="flex items-center space-x-2 text-green-600 text-sm">
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -96,11 +87,10 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; 
   );
 }
 
-// Map reviews to testimonials format
 function mapReviewsToTestimonials(reviews: TestimonialsSectionProps['reviews']): Testimonial[] {
   const defaultRoles = ['Customer', 'Verified Buyer', 'Satisfied Customer', 'Happy Customer'];
   const defaultCompanies = ['Premium Member', 'Valued Customer', 'Loyal Customer', 'Trusted Buyer'];
-  
+
   return reviews.map((review, index) => ({
     id: review.id,
     name: review.user.name || 'Anonymous',
@@ -108,7 +98,6 @@ function mapReviewsToTestimonials(reviews: TestimonialsSectionProps['reviews']):
     company: defaultCompanies[index % defaultCompanies.length],
     rating: review.rating,
     text: review.comment,
-    image: review.user.avatar || '/pfp-placeholder.jpg',
     verified: review.verified,
   }));
 }
@@ -117,7 +106,6 @@ export default function TestimonialsSection({ className = "", reviews }: Testimo
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Map reviews to testimonials format
   const testimonials = mapReviewsToTestimonials(reviews || []);
 
   const nextSlide = () => {
@@ -144,7 +132,6 @@ export default function TestimonialsSection({ className = "", reviews }: Testimo
     }
   }, [isPaused, testimonials.length]);
 
-  // Handle empty state
   if (!reviews || reviews.length === 0) {
     return (
       <section
@@ -185,7 +172,6 @@ export default function TestimonialsSection({ className = "", reviews }: Testimo
         </div>
 
         <div className="relative max-w-4xl mx-auto">
-          {/* Testimonial Carousel */}
           <div className="overflow-hidden">
             <div
               className="flex transition-transform duration-300 ease-in-out"
@@ -202,7 +188,6 @@ export default function TestimonialsSection({ className = "", reviews }: Testimo
             </div>
           </div>
 
-          {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-black"
@@ -223,54 +208,20 @@ export default function TestimonialsSection({ className = "", reviews }: Testimo
             </svg>
           </button>
 
-          {/* Dots Indicator */}
-          <div className="flex justify-center space-x-2 mt-8">
+          <div className="flex justify-center mt-8 space-x-2">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black ${
-                  index === currentSlide ? "bg-black" : "bg-black/30"
+                className={`w-3 h-3 rounded-full transition-colors duration-200 ${
+                  index === currentSlide ? "bg-black" : "bg-gray-300"
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
           </div>
         </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 text-center">
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="text-3xl font-bold text-black mb-2">10,000+</div>
-            <div className="text-black/70 text-sm">Happy Customers</div>
-          </div>
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="text-3xl font-bold text-black mb-2">4.9/5</div>
-            <div className="text-black/70 text-sm">Average Rating</div>
-          </div>
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="text-3xl font-bold text-black mb-2">25+</div>
-            <div className="text-black/70 text-sm">Years Experience</div>
-          </div>
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="text-3xl font-bold text-black mb-2">100%</div>
-            <div className="text-black/70 text-sm">Satisfaction</div>
-          </div>
-        </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 }

@@ -36,12 +36,12 @@ export const OrderSummary = ({
   applyPromoCode = () => {},
   appliedPromoCode = null,
   removePromoCode = () => {},
-  isApplyingPromoCode = false
+  isApplyingPromoCode = false,
 }: OrderSummaryProps) => {
   return (
-    <Card className="sticky top-4 bg-white/40 backdrop-blur-sm">
+    <Card className="sticky top-4 rounded-2xl border-zinc-200 bg-white shadow-sm">
       <CardHeader>
-        <CardTitle className="text-white">Order Summary</CardTitle>
+        <CardTitle className="text-zinc-900">Order Summary</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Order Items */}
@@ -49,26 +49,26 @@ export const OrderSummary = ({
           {cartItems.map((item) => (
             <div key={item.id} className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="relative w-12 h-12 flex-shrink-0 bg-purple-500/20 rounded-lg p-2">
+                <div className="relative h-12 w-12 flex-shrink-0 rounded-lg bg-zinc-100 p-2">
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
-                    className="object-cover rounded-md"
+                    className="rounded-md object-cover"
                   />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-sm text-white">
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-sm font-medium text-zinc-900">
                     &quot;{item.name}&quot;
                   </h4>
-                  <p className="text-xs text-purple-300">
+                  <p className="text-xs text-zinc-600">
                     {item.size && `Size: ${item.size}`}
                     {item.color && `, Color: ${item.color}`}
                   </p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-semibold text-sm text-white">
+                <p className="text-sm font-semibold text-zinc-900">
                   KWD {item.price.toFixed(2)}
                 </p>
               </div>
@@ -76,50 +76,50 @@ export const OrderSummary = ({
           ))}
         </div>
 
-        <Separator className="bg-purple-500/30" />
+        <Separator className="bg-zinc-200" />
 
         {/* Price Breakdown */}
         <div className="space-y-2">
-          <div className="flex justify-between text-sm text-purple-200">
+          <div className="flex justify-between text-sm text-zinc-600">
             <span>Subtotal</span>
             <span>KWD {subtotal.toFixed(3)}</span>
           </div>
-          <div className="flex justify-between text-sm text-purple-200">
+          <div className="flex justify-between text-sm text-zinc-600">
             <span>Shipping</span>
             <span>KWD {shipping.toFixed(4)}</span>
           </div>
-          <div className="flex justify-between text-sm text-purple-200">
+          <div className="flex justify-between text-sm text-zinc-600">
             <span>Tax (5%)</span>
             <span>KWD {tax.toFixed(3)}</span>
           </div>
           {discount > 0 && (
-            <div className="flex justify-between text-sm text-green-400">
+            <div className="flex justify-between text-sm text-green-600">
               <span>Discount</span>
               <span>-KWD {discount.toFixed(3)}</span>
             </div>
           )}
-          <div className="flex justify-between font-bold text-lg text-white pt-2">
+          <div className="flex justify-between pt-2 text-lg font-bold text-zinc-900">
             <span>Total</span>
-            <span className="text-purple-300">KWD {total.toFixed(3)}</span>
+            <span>KWD {total.toFixed(3)}</span>
           </div>
         </div>
 
         {/* Promo Code Section */}
         <div className="space-y-3">
-          <h3 className="font-semibold text-white">Promo Code</h3>
+          <h3 className="font-semibold text-zinc-900">Promo Code</h3>
           {appliedPromoCode ? (
-            <div className="flex items-center justify-between p-3 bg-green-800/20 border border-green-600 rounded-lg">
+            <div className="flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-3">
               <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="bg-green-700 text-green-100">
+                <Badge variant="secondary" className="bg-green-100 text-green-800">
                   {appliedPromoCode}
                 </Badge>
-                <span className="text-sm text-green-400">Applied</span>
+                <span className="text-sm text-green-600">Applied</span>
               </div>
               <Button
                 onClick={removePromoCode}
                 variant="ghost"
                 size="sm"
-                className="text-green-400 hover:text-green-300 hover:bg-green-800/30 p-1 h-auto"
+                className="h-auto p-1 text-green-600 hover:bg-green-100 hover:text-green-700"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -130,13 +130,13 @@ export const OrderSummary = ({
                 placeholder="Enter promo code"
                 value={promoCode}
                 onChange={(e) => setPromoCode(e.target.value)}
-                className="bg-purple-800/30 border-purple-600 text-white placeholder:text-purple-300"
+                className="border-zinc-200 bg-white text-zinc-900 placeholder:text-zinc-400"
                 disabled={isApplyingPromoCode}
               />
               <Button
                 onClick={applyPromoCode}
                 variant="outline"
-                className="border-purple-600 text-purple-300 hover:bg-purple-700 hover:text-white"
+                className="cursor-pointer border-zinc-900 text-zinc-900 hover:bg-zinc-900 hover:text-white"
                 disabled={isApplyingPromoCode || !promoCode.trim()}
               >
                 {isApplyingPromoCode ? (
@@ -150,12 +150,12 @@ export const OrderSummary = ({
         </div>
 
         {/* Order Total Summary */}
-        <div className="p-4 bg-purple-900/20 rounded-lg border border-purple-500/30">
-          <div className="flex justify-between font-bold text-lg text-white">
+        <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+          <div className="flex justify-between text-lg font-bold text-zinc-900">
             <span>Total Amount:</span>
-            <span className="text-purple-300">KWD {total.toFixed(3)}</span>
+            <span>KWD {total.toFixed(3)}</span>
           </div>
-          <p className="text-xs text-purple-200 mt-2">
+          <p className="mt-2 text-xs text-zinc-600">
             Complete all steps to place your order
           </p>
         </div>

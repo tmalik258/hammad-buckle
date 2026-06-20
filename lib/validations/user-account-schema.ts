@@ -13,12 +13,6 @@ export const profileUpdateSchema = z.object({
     .string()
     .email('Invalid email address')
     .min(1, 'Email is required'),
-  
-  avatar: z
-    .string()
-    .url('Invalid avatar URL')
-    .optional()
-    .nullable(),
 });
 
 // Address validation schema - matches Prisma Address model
@@ -86,11 +80,6 @@ export const userAccountFormSchema = z.object({
   email: z
     .email('Invalid email address')
     .min(1, 'Email is required'),
-  
-  avatar: z
-    .url('Invalid avatar URL')
-    .optional()
-    .nullable(),
 });
 
 // Address form schema for frontend forms (combines name fields)
@@ -156,7 +145,6 @@ export type AddressFormData = z.infer<typeof addressFormSchema>;
 export const defaultUserAccountFormValues: UserAccountFormData = {
   name: '',
   email: '',
-  avatar: null,
 };
 
 export const defaultAddressFormValues: AddressFormData = {

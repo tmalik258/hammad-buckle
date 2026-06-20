@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { categoryFormSchema, getCategoriesQuerySchema } from '@/lib/validations/category-schema';
 import { apiCache, generateCacheKey } from '@/lib/cache';
 import { clearProductsCache } from '@/lib/utils/cache';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // GET /api/categories - Get paginated categories with filtering and sorting
 export async function GET(request: NextRequest) {
@@ -120,6 +121,9 @@ export async function GET(request: NextRequest) {
 
 // POST /api/categories - Create a new category
 export async function POST(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const body = await request.json();
     

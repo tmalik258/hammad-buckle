@@ -450,7 +450,7 @@ export default function CheckoutPage() {
   ];
 
   return (
-    <div className="min-h-screen md:pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-20">
       {/* Removed HeroSection */}
 
       <div className="container mx-auto px-4 pb-16">

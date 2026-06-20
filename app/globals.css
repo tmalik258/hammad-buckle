@@ -65,20 +65,21 @@
   --foreground: #000000; /* pure black text */
   --card: rgb(250, 237, 229);
   --card-foreground: #000000;
-  --popover: rgb(250, 237, 229);
-  --popover-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.2 0 0); /* darker muted-foreground for readability on cream */
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+  --brand-accent: #FFF8E7;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -92,6 +93,36 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* Admin dashboard — neutral zinc palette (matches storefront account/checkout pages) */
+.admin-theme {
+  --background: #fafafa;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #a1a1aa;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #18181b;
+  --sidebar-primary: #18181b;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #a1a1aa;
 }
 
 .dark {
@@ -139,6 +170,32 @@
     @apply bg-background text-foreground;
     overflow-x: hidden;
   }
+}
+
+/* Sonner toasts — light zinc theme (matches auth/storefront pages) */
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast][data-styled="true"] {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast][data-type="default"] {
+  background: #ffffff;
+  border-color: #e4e4e7;
+  color: #18181b;
+}
+
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast] [data-description] {
+  color: #52525b;
+}
+
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast] [data-close-button] {
+  background: #ffffff;
+  border-color: #e4e4e7;
+  color: #71717a;
+}
+
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast] [data-close-button]:hover {
+  background: #fafafa;
+  color: #18181b;
 }
 
 /* Global Custom Scrollbar Styles */

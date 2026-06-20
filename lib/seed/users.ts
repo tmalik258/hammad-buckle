@@ -6,21 +6,18 @@ const users = [
     id: 'user-admin-1',
     email: 'admin@hammadbuckle.com',
     name: 'Admin User',
-    avatar: 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20business%20person%20avatar%20friendly%20smile%20modern%20style&image_size=square',
     role: UserRole.ADMIN,
   },
   {
     id: 'user-customer-1',
     email: 'john.doe@example.com',
     name: 'John Doe',
-    avatar: 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=casual%20male%20avatar%20friendly%20approachable%20modern%20style&image_size=square',
     role: UserRole.CUSTOMER,
   },
   {
     id: 'user-customer-2',
     email: 'jane.smith@example.com',
     name: 'Jane Smith',
-    avatar: 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20female%20avatar%20confident%20smile%20modern%20style&image_size=square',
     role: UserRole.CUSTOMER,
   }
 ];
@@ -63,7 +60,6 @@ const addresses = [
 
 export async function seedUsers() {
   try {
-    // Create users
     for (const user of users) {
       await prisma.user.create({
         data: user,
@@ -71,7 +67,6 @@ export async function seedUsers() {
       console.log(`✅ Created user: ${user.name} (${user.role})`);
     }
 
-    // Create addresses
     for (const address of addresses) {
       await prisma.address.create({
         data: address,

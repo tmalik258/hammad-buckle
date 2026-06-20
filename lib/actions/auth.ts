@@ -2,20 +2,21 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { UserRole } from "@prisma/client";
 import { createClient } from "@/lib/utils/supabase/server";
-import { syncUserFromAuth } from "@/lib/services/user-service";
+import { syncUserFromAuth, getUserById } from "@/lib/services/user-service";
+import { getSiteUrl } from "@/lib/utils/site-url";
+import { syncUserRoleToSupabase } from "@/lib/utils/user-role";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
 
-  const next = formData.get("next") as string || "/";
+  const next = (formData.get("next") as string) || "/";
 
   const { data: signInData, error } = await supabase.auth.signInWithPassword(
     data
@@ -28,19 +29,25 @@ export async function login(formData: FormData) {
     return { error: error.message };
   }
 
-  // Sync user data to Prisma database after successful login
+  let redirectTo = next;
+
   if (signInData.user) {
     try {
       await syncUserFromAuth(signInData.user);
       console.log("User synced to database:", signInData.user.email);
+
+      const dbUser = await getUserById(signInData.user.id);
+      if (dbUser?.role === UserRole.ADMIN && dbUser.isActive) {
+        await syncUserRoleToSupabase(signInData.user.id, UserRole.ADMIN);
+        redirectTo = next.startsWith("/admin") ? next : "/admin";
+      }
     } catch (syncError) {
       console.log("Error syncing user to database:", syncError);
-      // Don't fail the login if sync fails, just log the error
     }
   }
 
   revalidatePath("/", "layout");
-  redirect(next);
+  redirect(redirectTo);
 }
 
 export async function signup(formData: FormData) {
@@ -91,10 +98,11 @@ export async function forgotPassword(formData: FormData) {
 
   const email = formData.get("email") as string;
 
-  // Validate environment variable
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const siteUrl = await getSiteUrl();
   if (!siteUrl) {
-    console.log("Forgot password error: NEXT_PUBLIC_SITE_URL is not set");
+    console.log(
+      "Forgot password error: unable to resolve site URL (set NEXT_PUBLIC_SITE_URL or ensure request host headers are available)"
+    );
     return { error: "Server configuration error. Please contact support." };
   }
 

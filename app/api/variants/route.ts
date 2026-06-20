@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // Validation schema for product variant
 const variantSchema = z.object({
@@ -72,6 +73,9 @@ export async function GET(request: NextRequest) {
 
 // POST /api/variants - Create new variant
 export async function POST(request: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const body = await request.json();
     const validatedData = variantSchema.parse(body);

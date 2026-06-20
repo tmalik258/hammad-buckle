@@ -61,7 +61,6 @@ export async function GET(request: NextRequest) {
         id: user.id,
         name: user.name,
         email: user.email,
-        avatar: user.avatar,
         role: user.role,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
@@ -219,7 +218,6 @@ export async function PUT(request: NextRequest) {
         data: {
           ...(validatedData.name && { name: validatedData.name }),
           ...(validatedData.email && { email: validatedData.email }),
-          ...(validatedData.avatar !== undefined && { avatar: validatedData.avatar }),
         },
         include: {
           addresses: {
@@ -282,7 +280,6 @@ export async function PUT(request: NextRequest) {
         id: updatedUser.id,
         name: updatedUser.name,
         email: updatedUser.email,
-        avatar: updatedUser.avatar,
         role: updatedUser.role,
         createdAt: updatedUser.createdAt,
         updatedAt: updatedUser.updatedAt,

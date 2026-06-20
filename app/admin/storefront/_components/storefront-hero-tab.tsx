@@ -14,6 +14,7 @@ import {
   deleteHeroSlide,
   updateHeroSlide,
 } from "@/lib/actions/storefront";
+import { StorefrontImageField } from "./storefront-image-field";
 
 type Props = {
   slides: HeroSlide[];
@@ -148,8 +149,7 @@ export function StorefrontHeroTab({ slides }: Props) {
       <div className="space-y-4 rounded-lg border p-4">
         <h3 className="font-semibold">{editingId ? "Edit slide" : "Add slide"}</h3>
         <p className="text-xs text-muted-foreground">
-          Image URLs must be https links or paths starting with /. Allowed hosts include
-          images.unsplash.com, Supabase storage, and picsum.photos.
+          Upload an image or paste a URL (https link or path starting with /).
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-2">
@@ -191,20 +191,17 @@ export function StorefrontHeroTab({ slides }: Props) {
               onChange={(e) => setDraft((d) => ({ ...d, badgeText: e.target.value }))}
             />
           </div>
-          <div className="space-y-2 sm:col-span-2">
-            <Label>Desktop image URL</Label>
-            <Input
-              value={draft.imageDesktop}
-              onChange={(e) => setDraft((d) => ({ ...d, imageDesktop: e.target.value }))}
-            />
-          </div>
-          <div className="space-y-2 sm:col-span-2">
-            <Label>Mobile image URL (optional)</Label>
-            <Input
-              value={draft.imageMobile}
-              onChange={(e) => setDraft((d) => ({ ...d, imageMobile: e.target.value }))}
-            />
-          </div>
+          <StorefrontImageField
+            label="Desktop image"
+            value={draft.imageDesktop}
+            onChange={(imageDesktop) => setDraft((d) => ({ ...d, imageDesktop }))}
+          />
+          <StorefrontImageField
+            label="Mobile image (optional)"
+            value={draft.imageMobile}
+            onChange={(imageMobile) => setDraft((d) => ({ ...d, imageMobile }))}
+            optional
+          />
           <div className="space-y-2">
             <Label>Primary CTA label</Label>
             <Input

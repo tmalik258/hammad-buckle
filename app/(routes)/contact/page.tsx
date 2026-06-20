@@ -288,11 +288,12 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-50 pt-20">
+      <div className="container mx-auto px-4 py-8">
       {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-serif mb-4">Contact Us</h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+      <div className="mb-12 text-center">
+        <h1 className="mb-4 font-serif text-4xl font-bold text-zinc-900">Contact Us</h1>
+        <p className="mx-auto max-w-2xl text-xl text-zinc-600">
           We&apos;re here to help! Get in touch with our customer support team for any questions or concerns.
         </p>
       </div>
@@ -438,7 +439,7 @@ export default function ContactPage() {
                       <Label htmlFor="category">Category *</Label>
                       <Select value={formData.category} onValueChange={(value) => handleSelectChange('category', value)}>
                         <SelectTrigger className={`w-full ${
-                          formErrors.category ? 'border-red-500 focus:ring-red-500' : 'focus:border-purple-400'
+                          formErrors.category ? 'border-red-500 focus:ring-red-500' : 'focus:border-zinc-900'
                         }`}>
                           <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
@@ -633,6 +634,7 @@ export default function ContactPage() {
           </Card>
         </div>
       </div>
+    </div>
     </div>
   );
 }

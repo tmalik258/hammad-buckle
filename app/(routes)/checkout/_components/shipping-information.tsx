@@ -29,6 +29,9 @@ interface ShippingInformationProps {
   onMethodChange: (method: string) => void;
 }
 
+const inputClassName =
+  "border-zinc-200 bg-white text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900";
+
 export const ShippingInformation = ({
   formData,
   formErrors,
@@ -37,10 +40,10 @@ export const ShippingInformation = ({
   onMethodChange,
 }: ShippingInformationProps) => {
   return (
-    <Card className="bg-white/40 backdrop-blur-sm">
+    <Card className="rounded-2xl border-zinc-200 bg-white shadow-sm">
       <CardHeader>
-        <CardTitle className="flex items-center text-white">
-          <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3">
+        <CardTitle className="flex items-center text-zinc-900">
+          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-900 text-sm font-semibold text-white">
             1
           </div>
           Shipping Information
@@ -49,67 +52,67 @@ export const ShippingInformation = ({
       <CardContent className="space-y-6">
         {/* Personal Information Section */}
         <div className="space-y-4">
-          <h3 className="text-purple-200 text-lg font-semibold">Personal Information</h3>
-          
+          <h3 className="text-lg font-semibold text-zinc-900">Personal Information</h3>
+
           {/* Full Name */}
           <div>
-            <Label htmlFor="name" className="text-purple-200">
-              Full Name <span className="text-red-400">*</span>
+            <Label htmlFor="name" className="text-zinc-700">
+              Full Name <span className="text-red-500">*</span>
             </Label>
             <Input
               id="name"
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
-              className={`bg-black/50 border-purple-400/50 text-white placeholder:text-gray-400 focus:border-purple-400 ${
+              className={`${inputClassName} ${
                 formErrors.name ? "border-red-500 focus:border-red-500" : ""
               }`}
               placeholder="John Doe"
               required
             />
             {formErrors.name && (
-              <p className="text-red-400 text-xs mt-1">{formErrors.name}</p>
+              <p className="mt-1 text-xs text-red-500">{formErrors.name}</p>
             )}
           </div>
 
           {/* Phone and Email Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <Label htmlFor="phone" className="text-purple-200">
-                Phone Number <span className="text-red-400">*</span>
+              <Label htmlFor="phone" className="text-zinc-700">
+                Phone Number <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="phone"
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
-                className={`bg-black/50 border-purple-400/50 text-white placeholder:text-gray-400 focus:border-purple-400 ${
+                className={`${inputClassName} ${
                   formErrors.phone ? "border-red-500 focus:border-red-500" : ""
                 }`}
                 placeholder="(123) 456-7890"
                 required
               />
               {formErrors.phone && (
-                <p className="text-red-400 text-xs mt-1">{formErrors.phone}</p>
+                <p className="mt-1 text-xs text-red-500">{formErrors.phone}</p>
               )}
             </div>
             <div>
-              <Label htmlFor="email" className="text-purple-200">
-                Email Address <span className="text-red-400">*</span>
+              <Label htmlFor="email" className="text-zinc-700">
+                Email Address <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
-                className={`bg-black/50 border-purple-400/50 text-white placeholder:text-gray-400 focus:border-purple-400 ${
+                className={`${inputClassName} ${
                   formErrors.email ? "border-red-500 focus:border-red-500" : ""
                 }`}
                 placeholder="your@email.com"
                 required
               />
               {formErrors.email && (
-                <p className="text-red-400 text-xs mt-1">{formErrors.email}</p>
+                <p className="mt-1 text-xs text-red-500">{formErrors.email}</p>
               )}
             </div>
           </div>
@@ -117,91 +120,88 @@ export const ShippingInformation = ({
 
         {/* Shipping Address Section */}
         <div className="space-y-4">
-          <h3 className="text-purple-200 text-lg font-semibold">Shipping Address</h3>
-          
+          <h3 className="text-lg font-semibold text-zinc-900">Shipping Address</h3>
+
           {/* Street Address */}
           <div className="space-y-2">
-            <Label htmlFor="street" className="text-purple-200 text-sm font-medium">
-              Street Address <span className="text-red-400">*</span>
+            <Label htmlFor="street" className="text-sm font-medium text-zinc-700">
+              Street Address <span className="text-red-500">*</span>
             </Label>
             <Input
               id="street"
               type="text"
               value={formData.street}
               onChange={(e) => handleInputChange("street", e.target.value)}
-              className={`bg-black/50 border-purple-400/50 text-white placeholder:text-gray-400 focus:border-purple-400 ${
+              className={`${inputClassName} ${
                 formErrors.street ? "border-red-500 focus:border-red-500" : ""
               }`}
               placeholder="123 Main Street"
               required
             />
             {formErrors.street && (
-              <p className="text-red-400 text-xs mt-1">{formErrors.street}</p>
+              <p className="mt-1 text-xs text-red-500">{formErrors.street}</p>
             )}
           </div>
 
           {/* City, Area, Postal Code */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* City */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <Label htmlFor="city" className="text-purple-200 text-sm font-medium">
-                City <span className="text-red-400">*</span>
+              <Label htmlFor="city" className="text-sm font-medium text-zinc-700">
+                City <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="city"
                 type="text"
                 value={formData.city}
                 onChange={(e) => handleInputChange("city", e.target.value)}
-                className={`bg-black/50 border-purple-400/50 text-white placeholder:text-gray-400 focus:border-purple-400 ${
+                className={`${inputClassName} ${
                   formErrors.city ? "border-red-500 focus:border-red-500" : ""
                 }`}
                 placeholder="Kuwait City"
                 required
               />
               {formErrors.city && (
-                <p className="text-red-400 text-xs mt-1">{formErrors.city}</p>
+                <p className="mt-1 text-xs text-red-500">{formErrors.city}</p>
               )}
             </div>
 
-            {/* Area */}
             <div className="space-y-2">
-              <Label htmlFor="area" className="text-purple-200 text-sm font-medium">
-                Area <span className="text-red-400">*</span>
+              <Label htmlFor="area" className="text-sm font-medium text-zinc-700">
+                Area <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="area"
                 type="text"
                 value={formData.area}
                 onChange={(e) => handleInputChange("area", e.target.value)}
-                className={`bg-black/50 border-purple-400/50 text-white placeholder:text-gray-400 focus:border-purple-400 ${
+                className={`${inputClassName} ${
                   formErrors.area ? "border-red-500 focus:border-red-500" : ""
                 }`}
                 placeholder="Salmiya"
                 required
               />
               {formErrors.area && (
-                <p className="text-red-400 text-xs mt-1">{formErrors.area}</p>
+                <p className="mt-1 text-xs text-red-500">{formErrors.area}</p>
               )}
             </div>
 
-            {/* Postal Code */}
             <div className="space-y-2">
-              <Label htmlFor="postalCode" className="text-purple-200 text-sm font-medium">
-                Postal Code <span className="text-red-400">*</span>
+              <Label htmlFor="postalCode" className="text-sm font-medium text-zinc-700">
+                Postal Code <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="postalCode"
                 type="text"
                 value={formData.postalCode}
                 onChange={(e) => handleInputChange("postalCode", e.target.value)}
-                className={`bg-black/50 border-purple-400/50 text-white placeholder:text-gray-400 focus:border-purple-400 ${
+                className={`${inputClassName} ${
                   formErrors.postalCode ? "border-red-500 focus:border-red-500" : ""
                 }`}
                 placeholder="12345"
                 required
               />
               {formErrors.postalCode && (
-                <p className="text-red-400 text-xs mt-1">{formErrors.postalCode}</p>
+                <p className="mt-1 text-xs text-red-500">{formErrors.postalCode}</p>
               )}
             </div>
           </div>
@@ -209,56 +209,50 @@ export const ShippingInformation = ({
 
         {/* Shipping Method Section */}
         <div className="space-y-4">
-          <h3 className="text-purple-200 text-lg font-semibold">Shipping Method</h3>
-          
-          {/* Standard Shipping Option */}
-          <div 
-            className={`bg-black/50 border border-purple-400/50 rounded-lg p-4 flex items-center justify-between cursor-pointer transition-all hover:border-purple-400 ${
-              selectedMethod === 'standard' ? 'ring-2 ring-purple-500 border-purple-500' : ''
+          <h3 className="text-lg font-semibold text-zinc-900">Shipping Method</h3>
+
+          <div
+            className={`flex cursor-pointer items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 transition-all hover:border-zinc-900 ${
+              selectedMethod === "standard" ? "border-zinc-900 ring-2 ring-zinc-900" : ""
             }`}
-            onClick={() => onMethodChange('standard')}
+            onClick={() => onMethodChange("standard")}
           >
             <div className="flex items-center space-x-3">
-              <div className="w-5 h-5 rounded-full border-2 border-purple-400 flex items-center justify-center">
-                {selectedMethod === 'standard' && (
-                  <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-zinc-400">
+                {selectedMethod === "standard" && (
+                  <div className="h-3 w-3 rounded-full bg-zinc-900" />
                 )}
               </div>
               <div className="flex items-center space-x-2">
-                <Truck className="w-5 h-5 text-purple-400" />
-                <span className="text-white text-base font-medium">
+                <Truck className="h-5 w-5 text-zinc-600" />
+                <span className="text-base font-medium text-zinc-900">
                   Standard Shipping (2-3 days)
                 </span>
               </div>
             </div>
-            <span className="text-purple-200 text-sm font-medium">
-              KWD 3.00
-            </span>
+            <span className="text-sm font-medium text-zinc-600">KWD 3.00</span>
           </div>
-          
-          {/* Express Shipping Option */}
-          <div 
-            className={`bg-black/50 border border-purple-400/50 rounded-lg p-4 flex items-center justify-between cursor-pointer transition-all hover:border-purple-400 ${
-              selectedMethod === 'express' ? 'ring-2 ring-purple-500 border-purple-500' : ''
+
+          <div
+            className={`flex cursor-pointer items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 transition-all hover:border-zinc-900 ${
+              selectedMethod === "express" ? "border-zinc-900 ring-2 ring-zinc-900" : ""
             }`}
-            onClick={() => onMethodChange('express')}
+            onClick={() => onMethodChange("express")}
           >
             <div className="flex items-center space-x-3">
-              <div className="w-5 h-5 rounded-full border-2 border-purple-400 flex items-center justify-center">
-                {selectedMethod === 'express' && (
-                  <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-zinc-400">
+                {selectedMethod === "express" && (
+                  <div className="h-3 w-3 rounded-full bg-zinc-900" />
                 )}
               </div>
               <div className="flex items-center space-x-2">
-                <Zap className="w-5 h-5 text-purple-400" />
-                <span className="text-white text-base font-medium">
+                <Zap className="h-5 w-5 text-zinc-600" />
+                <span className="text-base font-medium text-zinc-900">
                   Express Shipping (Same day in Kuwait City)
                 </span>
               </div>
             </div>
-            <span className="text-purple-200 text-sm font-medium">
-              KWD 5.00
-            </span>
+            <span className="text-sm font-medium text-zinc-600">KWD 5.00</span>
           </div>
         </div>
       </CardContent>

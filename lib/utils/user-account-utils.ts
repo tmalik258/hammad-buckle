@@ -40,25 +40,20 @@ export function splitName(fullName: string): { firstName: string; lastName: stri
  * Converts user profile form data to API request format
  */
 export function userProfileFormToApi(formData: UserProfileFormData): UpdateProfileRequest {
-  const { name, email, avatar } = formData;
-  
+  const { name, email } = formData;
+
   return {
     name,
     email,
-    avatar: avatar || null,
   };
 }
 
-/**
- * Converts API user data to form format
- */
-export function userProfileApiToForm(apiData: { name: string; email: string; avatar?: string | null }): UserProfileFormData {
-  const { name, email, avatar } = apiData;
-  
+export function userProfileApiToForm(apiData: { name: string; email: string }): UserProfileFormData {
+  const { name, email } = apiData;
+
   return {
     name,
     email,
-    avatar: avatar || undefined,
   };
 }
 

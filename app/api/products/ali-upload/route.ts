@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 // Accepts AliExpress-format CSV with headers: Product Title, Ali Link, Orders, Rating, Category
 // Enriches each row by scraping the Ali Link for price, images, description.
@@ -99,6 +100,9 @@ async function scrapeAliExpress(_url: string): Promise<{ name?: string; price?: 
 }
 
 export async function POST(req: NextRequest) {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     const formData = await req.formData();
     const file = formData.get('file') as File | null;

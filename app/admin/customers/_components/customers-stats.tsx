@@ -79,7 +79,7 @@ export default async function UsersStats() {
 
   const stats = [
     {
-      title: 'Total Customers',
+      title: 'Total Users',
       value: totalUsers.toLocaleString(),
       description: `${newUsersThisMonth} new this month`,
       icon: Users,
@@ -88,7 +88,7 @@ export default async function UsersStats() {
       bgColor: 'bg-blue-100',
     },
     {
-      title: 'Active Customers',
+      title: 'Active Users',
       value: activeUsers.toLocaleString(),
       description: `${activityRate.toFixed(1)}% activity rate`,
       icon: UserCheck,
@@ -106,13 +106,13 @@ export default async function UsersStats() {
       bgColor: growthRate > 0 ? 'bg-green-100' : 'bg-red-100',
     },
     {
-      title: 'Admin Customers',
+      title: 'Admins',
       value: adminUsers.toLocaleString(),
-      description: `${((adminUsers / totalUsers) * 100).toFixed(1)}% of total customers`,
+      description: `${totalUsers > 0 ? ((adminUsers / totalUsers) * 100).toFixed(1) : '0'}% of all users`,
       icon: Crown,
       trend: 'up',
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100',
+      color: 'text-foreground',
+      bgColor: 'bg-accent',
     },
   ];
 

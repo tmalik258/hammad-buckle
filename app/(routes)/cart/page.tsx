@@ -4,13 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ErrorComponent } from "@/components/ui/error-component";
 import { CartSkeleton } from "@/components/ui/route-skeletons";
- 
+
 import { Trash2, Plus, Minus, Heart, ShoppingBag } from "lucide-react";
-import { useState, useEffect } from "react";
 import { useCartStore } from "@/lib/stores";
 import { toast } from "sonner";
 
@@ -24,12 +22,12 @@ export default function CartPage() {
     subtotal,
     itemCount,
   } = useCartStore();
-  
+
   const handleUpdateQuantity = async (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
     try {
       await updateQuantity(id, newQuantity);
-    } catch (error) {
+    } catch {
       toast.error("Failed to update quantity");
     }
   };
@@ -38,23 +36,21 @@ export default function CartPage() {
     try {
       await removeItem(id);
       toast.success("Item removed from cart");
-    } catch (error) {
+    } catch {
       toast.error("Failed to remove item");
     }
   };
 
-  const taxVat = Math.round(subtotal * 0.15); // 15% tax
+  const taxVat = Math.round(subtotal * 0.15);
   const finalTotal = subtotal + taxVat;
 
-  // Loading state
   if (loading) {
     return <CartSkeleton />;
   }
 
-  // Error state
   if (error) {
     return (
-      <div className="min-h-screen pt-20">
+      <div className="min-h-screen bg-zinc-50 pt-20">
         <div className="container mx-auto px-4 py-16">
           <ErrorComponent
             title="Cart Error"
@@ -68,35 +64,24 @@ export default function CartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen md:pt-20">
+      <div className="min-h-screen bg-zinc-50 pt-20">
         <div className="container mx-auto px-4 py-16">
-          <div className="text-center max-w-md mx-auto">
-            {/* Background decorative elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] rounded-full"
-                style={{
-                  background: "#000000",
-                  opacity: 0.05,
-                  boxShadow: `
-                    0 0 200px 100px rgba(0, 0, 0, 0.3),
-                    0 0 400px 200px rgba(0, 0, 0, 0.2),
-                    0 0 800px 400px rgba(0, 0, 0, 0.1)
-                  `,
-                  filter: "blur(400px)",
-                }}
-              />
-            </div>
-            
+          <div className="mx-auto max-w-md text-center">
             <div className="relative z-10">
-              <div className="bg-black/40 border border-purple-500/30 backdrop-blur-sm rounded-2xl p-8 mb-8">
-                <ShoppingBag className="h-24 w-24 text-black mx-auto mb-6" />
-                <h1 className="text-3xl font-bold text-white mb-4">Your cart is empty</h1>
-                <p className="text-gray-300 mb-8 leading-relaxed">Looks like you haven&apos;t added anything to your cart yet. Start exploring our amazing products!</p>
+              <div className="mb-8 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm">
+                <ShoppingBag className="mx-auto mb-6 h-24 w-24 text-zinc-400" />
+                <h1 className="mb-4 text-3xl font-bold text-zinc-900">Your cart is empty</h1>
+                <p className="mb-8 leading-relaxed text-zinc-600">
+                  Looks like you haven&apos;t added anything to your cart yet. Start exploring our
+                  amazing products!
+                </p>
               </div>
-              
+
               <Link href="/products">
-                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-black hover:from-purple-700 hover:to-black text-white cursor-pointer px-8 py-3 text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105">
+                <Button
+                  size="lg"
+                  className="cursor-pointer rounded-xl bg-zinc-900 px-8 py-3 text-lg font-semibold text-white hover:bg-zinc-800"
+                >
                   Continue Shopping
                 </Button>
               </Link>
@@ -107,61 +92,44 @@ export default function CartPage() {
     );
   }
 
-  const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Cart", isActive: true }
-  ];
-
   return (
-    <div className="min-h-screen bg-black md:pt-20">
-      {/* Removed HeroSection */}
-
-      {/* Discount Badge */}
-      {/* <div className="container mx-auto px-4 mb-8">
-        <div className="flex justify-start">
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-full p-4 flex items-center space-x-3">
-            <div className="bg-white rounded-full p-2">
-              <span className="text-purple-600 font-bold text-lg">%</span>
-            </div>
-            <div className="text-white">
-              <p className="font-semibold">Get 50% off with code WIZZAFY</p>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* Main Content */}
+    <div className="min-h-screen bg-zinc-50 pt-20">
       <div className="container mx-auto px-4 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Cart Items */}
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-bold text-white mb-6">Your Cart</h2>
+            <h2 className="mb-6 text-2xl font-bold text-zinc-900">Your Cart</h2>
             <div className="space-y-4">
               {cartItems.map((item) => (
-                <Card key={item.id} className="bg-black/40 border-purple-500/30 backdrop-blur-sm">
+                <Card
+                  key={item.id}
+                  className="rounded-2xl border-zinc-200 bg-white shadow-sm"
+                >
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
-                      <div className="relative w-20 h-20 flex-shrink-0 bg-white rounded-lg p-2">
+                      <div className="relative h-20 w-20 flex-shrink-0 rounded-lg bg-zinc-100 p-2">
                         <Image
                           src={item.image}
                           alt={item.name}
                           fill
-                          className="object-contain rounded-lg"
+                          className="rounded-lg object-contain"
                         />
                       </div>
 
-                      <div className="flex-1 min-w-0">
+                      <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between">
                           <div>
-                            <h3 className="font-semibold text-white text-lg">{item.name}</h3>
-                            <div className="text-purple-200 text-sm mt-1">
+                            <h3 className="text-lg font-semibold text-zinc-900">{item.name}</h3>
+                            <div className="mt-1 text-sm text-zinc-600">
                               <p>Size: {item.size}</p>
                               <p>Color: {item.color}</p>
                             </div>
-                            <div className="flex items-center space-x-2 mt-2">
-                              <span className="font-bold text-white">KMC {item.price.toLocaleString()}</span>
+                            <div className="mt-2 flex items-center space-x-2">
+                              <span className="font-bold text-zinc-900">
+                                KMC {item.price.toLocaleString()}
+                              </span>
                               {item.originalPrice && item.originalPrice > item.price && (
-                                <span className="text-sm text-purple-300 line-through">
+                                <span className="text-sm text-zinc-400 line-through">
                                   KMC {item.originalPrice.toLocaleString()}
                                 </span>
                               )}
@@ -172,9 +140,8 @@ export default function CartPage() {
                               variant="ghost"
                               size="sm"
                               disabled={loading}
-                              className="text-purple-300 hover:text-white cursor-pointer"
+                              className="cursor-pointer text-zinc-600 hover:text-zinc-900"
                               onClick={() => {
-                                // TODO: Integrate with wishlist store
                                 toast.success("Added to wishlist");
                               }}
                             >
@@ -185,37 +152,39 @@ export default function CartPage() {
                               size="sm"
                               onClick={() => handleRemoveItem(item.id)}
                               disabled={loading}
-                              className="text-red-400 hover:text-red-300 cursor-pointer"
+                              className="cursor-pointer text-red-500 hover:text-red-600"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between mt-4">
+                        <div className="mt-4 flex items-center justify-between">
                           <div className="flex items-center space-x-3">
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                               disabled={item.quantity <= 1 || loading}
-                              className="border-purple-500/50 text-white hover:bg-purple-500/20 cursor-pointer"
+                              className="cursor-pointer border-zinc-300 text-zinc-900 hover:bg-zinc-100"
                             >
                               <Minus className="h-4 w-4" />
                             </Button>
-                            <span className="w-8 text-center font-semibold text-white">{item.quantity}</span>
+                            <span className="w-8 text-center font-semibold text-zinc-900">
+                              {item.quantity}
+                            </span>
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                               disabled={loading}
-                              className="border-purple-500/50 text-white hover:bg-purple-500/20 cursor-pointer"
+                              className="cursor-pointer border-zinc-300 text-zinc-900 hover:bg-zinc-100"
                             >
                               <Plus className="h-4 w-4" />
                             </Button>
                           </div>
                           <div className="text-right">
-                            <p className="font-bold text-white">
+                            <p className="font-bold text-zinc-900">
                               KMC {(item.price * item.quantity).toLocaleString()}
                             </p>
                           </div>
@@ -230,23 +199,23 @@ export default function CartPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <Card className="bg-black/40 border-purple-500/30 backdrop-blur-sm sticky top-4">
+            <Card className="sticky top-4 rounded-2xl border-zinc-200 bg-white shadow-sm">
               <CardContent className="p-6">
-                <h2 className="text-xl font-semibold text-white mb-6">Order Summary</h2>
+                <h2 className="mb-6 text-xl font-semibold text-zinc-900">Order Summary</h2>
 
-                <div className="space-y-4 text-white">
+                <div className="space-y-4 text-zinc-900">
                   <div className="flex justify-between text-lg">
                     <span>Subtotal ({itemCount} items)</span>
                     <span className="font-semibold">{subtotal.toFixed(3)} KWD</span>
                   </div>
-                  
-                  <div className="flex justify-between">
-                    <span className="text-purple-200">Tax/VAT</span>
+
+                  <div className="flex justify-between text-zinc-600">
+                    <span>Tax/VAT</span>
                     <span>{taxVat.toFixed(3)} KWD</span>
                   </div>
-                  
-                  <Separator className="bg-purple-500/30" />
-                  
+
+                  <Separator className="bg-zinc-200" />
+
                   <div className="flex justify-between text-xl font-bold">
                     <span>Total</span>
                     <span>{finalTotal.toFixed(3)} KWD</span>
@@ -254,21 +223,21 @@ export default function CartPage() {
                 </div>
 
                 <div className="mt-6 space-y-3">
-                  <Button 
-                    size="lg" 
+                  <Button
+                    size="lg"
                     disabled={loading || cartItems.length === 0}
-                    className="w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full cursor-pointer bg-zinc-900 hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50"
                     asChild
                   >
-                    <Link href={"/checkout"}>{loading ? "Processing..." : "Proceed to Checkout"}</Link>
+                    <Link href="/checkout">{loading ? "Processing..." : "Proceed to Checkout"}</Link>
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    className="w-full border-purple-500/50 text-white hover:bg-purple-500/20 cursor-pointer"
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full cursor-pointer border-zinc-900 text-zinc-900 hover:bg-zinc-900 hover:text-white"
                     asChild
                   >
-                    <Link href={"/products"}>Continue to Shopping</Link>
+                    <Link href="/products">Continue to Shopping</Link>
                   </Button>
                 </div>
               </CardContent>

@@ -82,6 +82,7 @@ export async function updateSession(request: NextRequest) {
     "/api/cart",           // Cart operations
     "/api/orders",         // Order management
     "/api/users",          // User management
+    "/api/admin",          // Admin APIs
     "/api/addresses",      // User addresses
     "/api/wishlist",       // Wishlist operations
     "/api/variants",       // Product variants (admin)
@@ -113,9 +114,10 @@ export async function updateSession(request: NextRequest) {
   // If user is authenticated and trying to access auth-only routes (login/signup)
   if (user && isAuthOnlyRoute) {
     const url = request.nextUrl.clone();
-    // Redirect to home page or dashboard based on user role
     const userRole = user.user_metadata?.role;
-    url.pathname = userRole === 'admin' ? "/admin" : "/";
+    const isAdmin =
+      userRole === 'ADMIN' || userRole === 'admin';
+    url.pathname = isAdmin ? "/admin" : "/";
     return NextResponse.redirect(url);
   }
 

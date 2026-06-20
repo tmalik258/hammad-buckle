@@ -133,7 +133,7 @@ export function CarouselSection({
 
                         {/* Quick Add to Cart */}
                         <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <Button className="w-full bg-black/80 hover:bg-black text-white">
+                          <Button className="w-full bg-zinc-900 hover:bg-zinc-800 text-white cursor-pointer">
                             <ShoppingCart className="h-4 w-4 mr-2" />
                             Quick Add
                           </Button>
@@ -148,7 +148,7 @@ export function CarouselSection({
                           </Badge>
                         </div>
                         
-                        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors">
+                        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-zinc-900 transition-colors">
                           {product.name}
                         </h3>
                         

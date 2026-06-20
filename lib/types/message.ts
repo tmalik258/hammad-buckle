@@ -60,13 +60,11 @@ export interface MessageThread {
     name: string;
     email: string;
     phone?: string;
-    avatar?: string;
   };
   staffInfo?: {
     id: string;
     name: string;
     email: string;
-    avatar?: string;
     department?: string;
   };
   metadata: {

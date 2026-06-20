@@ -12,7 +12,6 @@ import {
   ProductError,
   ProductDetailSkeleton,
 } from "../_components/product-skeleton";
-import Image from "next/image";
 
 // Transform hook product data to component format
 const transformProduct = (hookProduct: {
@@ -243,8 +242,8 @@ export default function ProductDetailPage() {
 
   if (productError || !product) {
     return (
-      <div className="min-h-screen">
-        <div className="container mx-auto px-4 pt-20 pb-8">
+      <div className="min-h-screen bg-zinc-50 pt-20">
+        <div className="container mx-auto px-4 pb-8">
           <ProductError />
         </div>
       </div>
@@ -252,18 +251,9 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className="min-h-screen -z-20 max-md:-mt-20">
-      <div className="absolute">
-        <Image
-          src={"/images/product-detail-eclipse.svg"}
-          alt="Product Detail Eclipse"
-          width={1080}
-          height={1080}
-          className="w-full h-full -z-10"
-        />
-      </div>
-      <div className="container mx-auto space-y-8 px-4 pt-20 pb-8 z-50">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 z-50">
+    <div className="min-h-screen bg-zinc-50 pt-20 pb-8">
+      <div className="container mx-auto space-y-8 px-4">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {product.images ? (
             <ProductImages
               images={product.images}
@@ -271,7 +261,7 @@ export default function ProductDetailPage() {
               loading={false}
             />
           ) : (
-            <div className="text-center text-white bg-slate-900 rounded-2xl p-3">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-3 text-center text-zinc-600 shadow-sm">
               No Image
             </div>
           )}

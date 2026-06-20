@@ -236,15 +236,15 @@ export function GlobalSearch() {
       <div
         key={`${type}-${result.id}`}
         className={cn(
-          "flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800",
-          isSelected && "bg-gray-800"
+          "flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-zinc-100",
+          isSelected && "bg-zinc-100"
         )}
         onClick={() => navigateToResult(result, type)}
       >
-        <div className="text-gray-400">{getIcon()}</div>
+        <div className="text-muted-foreground">{getIcon()}</div>
         <div className="flex-1 min-w-0">
-          <div className="font-medium text-sm truncate text-white">{getTitle()}</div>
-          <div className="text-xs text-gray-400 truncate">{getSubtitle()}</div>
+          <div className="truncate text-sm font-medium text-foreground">{getTitle()}</div>
+          <div className="truncate text-xs text-muted-foreground">{getSubtitle()}</div>
         </div>
       </div>
     );
@@ -255,7 +255,7 @@ export function GlobalSearch() {
 
     return (
       <div key={type}>
-        <div className="px-4 py-2 text-xs font-medium text-gray-300 bg-gray-800 border-b border-gray-700">
+        <div className="border-b border-border bg-muted px-4 py-2 text-xs font-medium text-muted-foreground">
           {title} ({results.length})
         </div>
         {results.map((result, index) => 
@@ -278,7 +278,7 @@ export function GlobalSearch() {
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="w-full rounded-lg border border-gray-200 pl-10 pr-10 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+          className="w-full rounded-lg border border-zinc-200 bg-white pl-10 pr-10 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900"
         />
         {query && (
           <button
@@ -296,16 +296,16 @@ export function GlobalSearch() {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto"
+          className="absolute top-full left-0 right-0 z-50 mt-1 max-h-96 overflow-y-auto rounded-lg border border-border bg-popover shadow-lg"
         >
           {!results && !isSearching && query.length >= 2 && (
-            <div className="px-4 py-8 text-center text-gray-400">
+            <div className="px-4 py-8 text-center text-muted-foreground">
               No results found for &quot;{query}&quot;
             </div>
           )}
           
           {results && results.totalResults === 0 && (
-            <div className="px-4 py-8 text-center text-gray-400">
+            <div className="px-4 py-8 text-center text-muted-foreground">
               No results found for &quot;{query}&quot;
             </div>
           )}
@@ -327,7 +327,7 @@ export function GlobalSearch() {
           )}
 
           {results && results.totalResults > 0 && (
-            <div className="px-4 py-2 text-xs text-gray-400 border-t border-gray-700 bg-gray-800">
+            <div className="border-t border-border bg-muted px-4 py-2 text-xs text-muted-foreground">
               Press Enter to select, ↑↓ to navigate, Esc to close
             </div>
           )}

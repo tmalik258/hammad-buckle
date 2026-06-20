@@ -77,7 +77,6 @@ export async function GET(request: NextRequest) {
             select: {
               id: true,
               name: true,
-              avatar: true,
             },
           },
           product: {
@@ -193,7 +192,6 @@ export async function POST(request: NextRequest) {
             select: {
               id: true,
               name: true,
-              avatar: true,
             },
           },
           product: {

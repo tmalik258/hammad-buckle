@@ -4,7 +4,6 @@ export interface Customer {
   id: string;
   email: string;
   name?: string;
-  avatar?: string;
   role: 'ADMIN' | 'CUSTOMER';
   isActive: boolean;
   createdAt: string;

@@ -4,13 +4,14 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 // Cart Page Skeleton
 export function CartSkeleton() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-50 pt-20">
+      <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
           <Skeleton className="h-8 w-32 mb-6" />
           {Array.from({ length: 3 }).map((_, i) => (
-            <Card key={i}>
+            <Card key={i} className="rounded-2xl border-zinc-200 bg-white shadow-sm">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
                   <Skeleton className="h-20 w-20 rounded-md" />
@@ -31,7 +32,7 @@ export function CartSkeleton() {
         
         {/* Order Summary */}
         <div>
-          <Card>
+          <Card className="rounded-2xl border-zinc-200 bg-white shadow-sm">
             <CardHeader>
               <Skeleton className="h-6 w-32" />
             </CardHeader>
@@ -55,6 +56,7 @@ export function CartSkeleton() {
           </Card>
         </div>
       </div>
+      </div>
     </div>
   );
 }
@@ -62,7 +64,7 @@ export function CartSkeleton() {
 // Products Page Skeleton
 export const ProductsPageSkeleton = () => {
   return (
-    <div className="min-h-screen pt-20 z-0">
+    <div className="min-h-screen bg-zinc-50 pt-20 z-0">
       <div className="container mx-auto px-4 lg:px-6 py-4">
         {/* Main Content Layout */}
         <div id="products-section" className="flex flex-col lg:flex-row gap-6 lg:gap-8">
@@ -84,7 +86,7 @@ export const ProductsPageSkeleton = () => {
                     {/* Filter sections */}
                     {[1, 2].map((i) => (
                       <div key={i} className="content-rounded-2xl">
-                        <div className="p-4 space-y-2 lg:space-y-3 bg-black/10 rounded-2xl">
+                        <div className="p-4 space-y-2 lg:space-y-3 bg-zinc-100 rounded-2xl">
                           <Skeleton className="h-4 mb-3" />
                           <div className="space-y-1 lg:space-y-2">
                             {[1, 2, 3, 4].map((j) => (
@@ -100,7 +102,7 @@ export const ProductsPageSkeleton = () => {
                     
                     {/* Price Range Filter */}
                     <div className="content-rounded-2xl">
-                      <div className="rounded-2xl bg-black/10 p-4 space-y-2 lg:space-y-3">
+                      <div className="rounded-2xl bg-zinc-100 p-4 space-y-2 lg:space-y-3">
                         <Skeleton className="h-4 mb-3" />
                         <div className="px-2">
                           <div className="relative">
@@ -316,82 +318,8 @@ export function ContactSkeleton() {
   );
 }
 
-// My Account Page Skeleton
-export function MyAccountSkeleton() {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="container mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <Skeleton className="h-10 w-48 mb-2" />
-          <Skeleton className="h-4 w-64" />
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-center mb-6">
-                  <Skeleton className="h-20 w-20 rounded-full mx-auto mb-4" />
-                  <Skeleton className="h-5 w-32 mx-auto mb-2" />
-                  <Skeleton className="h-3 w-40 mx-auto" />
-                </div>
-                <div className="space-y-2">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <Skeleton key={i} className="h-10 w-full" />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Main Content */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <Card key={i}>
-                  <CardContent className="p-6 text-center">
-                    <Skeleton className="h-8 w-8 mx-auto mb-2" />
-                    <Skeleton className="h-6 w-16 mx-auto mb-1" />
-                    <Skeleton className="h-3 w-20 mx-auto" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            
-            {/* Recent Orders */}
-            <Card>
-              <CardHeader>
-                <Skeleton className="h-6 w-32" />
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <Skeleton className="h-12 w-12 rounded-md" />
-                        <div className="space-y-2">
-                          <Skeleton className="h-4 w-32" />
-                          <Skeleton className="h-3 w-24" />
-                        </div>
-                      </div>
-                      <div className="text-right space-y-2">
-                        <Skeleton className="h-4 w-16" />
-                        <Skeleton className="h-6 w-20" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+// My Account Page Skeleton — shared with my-account route
+export { MyAccountSkeleton } from "@/app/(routes)/my-account/_components/my-account-skeleton";
 
 // Wishlist Page Skeleton
 export function WishlistSkeleton() {

@@ -3,12 +3,17 @@ import { prisma } from '@/lib/prisma';
 import { Prisma, UserRole } from '@prisma/client';
 import { createAdminClient } from '@/lib/utils/supabase/admin';
 import { z } from 'zod';
+import { assertAdminApi, assertSelfOrAdminApi } from '@/lib/utils/auth';
+import {
+  syncUserRoleToSupabase,
+  validateAdminRoleChange,
+  countActiveAdmins,
+} from '@/lib/utils/user-role';
 
 // Validation schema for user update
 const updateUserSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name too long').optional(),
   email: z.email('Invalid email address').optional(),
-  avatar: z.url('Invalid avatar URL').optional(),
   role: z.enum(UserRole).optional(),
   isActive: z.boolean().optional(),
   password: z.string().min(6, 'Password must be at least 6 characters').optional(),
@@ -36,6 +41,9 @@ export async function GET(
         { status: 400 }
       );
     }
+
+    const access = await assertSelfOrAdminApi(id);
+    if (access instanceof NextResponse) return access;
 
     const selectExtra: Partial<Prisma.UserSelect> = {
       _count: {
@@ -105,7 +113,6 @@ export async function GET(
         id: true,
         name: true,
         email: true,
-        avatar: true,
         role: true,
         isActive: true,
         createdAt: true,
@@ -147,14 +154,16 @@ export async function PUT(
       );
     }
 
+    const adminCheck = await assertAdminApi();
+    if (adminCheck instanceof NextResponse) return adminCheck;
+
     const validatedData = updateUserSchema.parse(body);
     type UpdateUserBody = z.infer<typeof updateUserSchema>;
     const { password, ...updates } = validatedData as UpdateUserBody;
 
-    // Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { id },
-      select: { id: true, email: true },
+      select: { id: true, email: true, role: true, isActive: true },
     });
 
     if (!existingUser) {
@@ -162,6 +171,16 @@ export async function PUT(
         { error: 'User not found' },
         { status: 404 }
       );
+    }
+
+    const roleError = await validateAdminRoleChange({
+      targetUserId: id,
+      nextRole: validatedData.role,
+      nextIsActive: validatedData.isActive,
+      actorUserId: adminCheck.id,
+    });
+    if (roleError) {
+      return NextResponse.json({ error: roleError }, { status: 400 });
     }
 
     // Check if email is being updated and if it's already taken
@@ -181,7 +200,6 @@ export async function PUT(
     const updateData: Partial<{
       name: string;
       email: string;
-      avatar: string;
       role: string;
       isActive: boolean;
       emailVerified: Date;
@@ -213,7 +231,6 @@ export async function PUT(
       id: true,
       name: true,
       email: true,
-      avatar: true,
       role: true,
       isActive: true,
       createdAt: true,
@@ -248,6 +265,10 @@ export async function PUT(
       } else {
         throw err;
       }
+    }
+
+    if (validatedData.role && validatedData.role !== existingUser.role) {
+      await syncUserRoleToSupabase(id, validatedData.role);
     }
 
     return NextResponse.json(user);
@@ -290,12 +311,17 @@ export async function DELETE(
       );
     }
 
+    const adminCheck = await assertAdminApi();
+    if (adminCheck instanceof NextResponse) return adminCheck;
+
     // Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { id },
       select: {
         id: true,
         email: true,
+        role: true,
+        isActive: true,
         _count: {
           select: {
             orders: true,
@@ -314,6 +340,16 @@ export async function DELETE(
         { error: 'User not found' },
         { status: 404 }
       );
+    }
+
+    if (existingUser.role === UserRole.ADMIN && existingUser.isActive) {
+      const remainingAdmins = await countActiveAdmins(id);
+      if (remainingAdmins === 0) {
+        return NextResponse.json(
+          { error: 'Cannot delete the last active admin' },
+          { status: 400 }
+        );
+      }
     }
 
     // Check if user has orders or reviews (prevent deletion if they do)

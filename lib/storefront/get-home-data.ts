@@ -140,7 +140,7 @@ const getCachedTestimonials = unstable_cache(
       take: 6,
       orderBy: { createdAt: "desc" },
       include: {
-        user: { select: { id: true, name: true, avatar: true } },
+        user: { select: { id: true, name: true } },
         product: { select: { id: true, name: true } },
       },
     });

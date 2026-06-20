@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { assertAdminApi } from '@/lib/utils/auth';
 
 export async function GET() {
+  const adminCheck = await assertAdminApi();
+  if (adminCheck instanceof NextResponse) return adminCheck;
+
   try {
     // Get pending orders count (orders that need attention)
     const pendingOrders = await prisma.order.count({

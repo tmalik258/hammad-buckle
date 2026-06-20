@@ -43,7 +43,6 @@ export interface Review {
   customerInfo: {
     id: string;
     name: string;
-    avatar?: string;
     isVerified: boolean;
     reviewCount: number;
     averageRating: number;

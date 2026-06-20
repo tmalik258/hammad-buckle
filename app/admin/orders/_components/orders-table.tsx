@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { UserInitialsAvatar } from '@/components/ui/user-initials-avatar';
 import Image from 'next/image';
 import {
   Table,
@@ -330,12 +331,10 @@ export default function OrdersTable({
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <Image
-                        src={order.user?.avatar || '/default-avatar.png'}
-                        alt={order.user?.name || 'User'}
-                        width={32}
-                        height={32}
-                        className="rounded-full"
+                      <UserInitialsAvatar
+                        name={order.user?.name}
+                        email={order.user?.email}
+                        size="sm"
                       />
                       <div>
                         <div className="font-medium">{order.user?.name || 'Unknown User'}</div>

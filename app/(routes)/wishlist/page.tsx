@@ -92,22 +92,22 @@ export default function WishlistPage() {
 
       {/* Wishlist Content */}
       <div className="container mx-auto px-4 lg:px-0 pb-16">
-        <h2 className="text-3xl lg:text-4xl font-semibold mb-8">
+        <h2 className="text-3xl lg:text-4xl font-semibold text-zinc-900 mb-8">
           Your Wishlist
         </h2>
 
         {items.length === 0 ? (
           <div className="text-center py-16">
             <div className="mb-8">
-              <Heart className="w-24 h-24 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">
+              <Heart className="w-24 h-24 text-zinc-300 mx-auto mb-4" />
+              <h3 className="text-2xl font-semibold text-zinc-900 mb-2">
                 Your wishlist is empty
               </h3>
-              <p className="text-gray-400 mb-6">
+              <p className="text-zinc-600 mb-6">
                 Start adding products you love to your wishlist
               </p>
               <Link href="/products">
-                <Button className="bg-gradient-to-r from-purple-400 to-black hover:from-purple-500 hover:to-black px-8 py-3 rounded-xl font-semibold">
+                <Button className="rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-8 py-3 font-semibold text-white hover:bg-zinc-800 cursor-pointer">
                   Browse Products
                 </Button>
               </Link>
@@ -120,7 +120,7 @@ export default function WishlistPage() {
               {items.map((item) => (
                 <Card
                   key={item.id}
-                  className="group relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300"
+                  className="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md"
                 >
                   <CardContent className="p-4">
                     {/* Stock Badge */}
@@ -128,8 +128,8 @@ export default function WishlistPage() {
                       <Badge
                         className={`px-3 py-1 text-sm font-medium rounded-tr-2xl rounded-bl-2xl ${
                           item.inStock
-                            ? "bg-gradient-to-r from-purple-400 to-black"
-                            : "bg-purple-400"
+                            ? "bg-zinc-900 text-white"
+                            : "bg-zinc-200 text-zinc-600"
                         }`}
                       >
                         {item.inStock ? "In Stock" : "Out of Stock"}
@@ -152,7 +152,7 @@ export default function WishlistPage() {
 
                     {/* Product Info */}
                     <div className="space-y-2">
-                      <h3 className="text-lg font-bold line-clamp-2">
+                      <h3 className="text-lg font-bold text-zinc-900 line-clamp-2">
                         {item.name}
                       </h3>
                       {/* <p className="text-gray-300 text-sm line-clamp-2">
@@ -162,7 +162,7 @@ export default function WishlistPage() {
 
                       {/* Price and Actions */}
                       <div className="flex items-center justify-between pt-2">
-                        <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-black bg-clip-text text-transparent">
+                        <span className="text-lg font-bold text-zinc-900">
                           {item.price} KWD
                         </span>
                         <div className="flex items-center gap-2">
@@ -199,10 +199,10 @@ export default function WishlistPage() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
-              <Link href="/profile">
+              <Link href="/my-account">
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 bg-gradient-to-r from-purple-400 to-black border-0 px-6 py-3 rounded-xl font-semibold hover:from-purple-500 hover:to-black"
+                  className="flex cursor-pointer items-center gap-2 rounded-none rounded-tr-2xl rounded-bl-2xl border-zinc-900 px-6 py-3 font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white"
                 >
                   <ArrowLeft className="w-4 h-4 rotate-90" />
                   Back to Profile
@@ -210,7 +210,7 @@ export default function WishlistPage() {
               </Link>
 
               <Link href="/products">
-                <Button className="bg-gradient-to-r from-purple-400 to-black hover:from-purple-500 hover:to-black px-6 py-3 rounded-xl font-semibold">
+                <Button className="rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-6 py-3 font-semibold text-white hover:bg-zinc-800 cursor-pointer">
                   Continue Shopping
                 </Button>
               </Link>

@@ -28,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Search,
   MoreHorizontal,
@@ -57,7 +57,6 @@ const mockReviews = [
     user: {
       name: 'John Doe',
       email: 'john@example.com',
-      avatar: null,
     },
     product: {
       name: 'Wireless Headphones',
@@ -75,7 +74,6 @@ const mockReviews = [
     user: {
       name: 'Jane Smith',
       email: 'jane@example.com',
-      avatar: null,
     },
     product: {
       name: 'Smart Watch',
@@ -93,7 +91,6 @@ const mockReviews = [
     user: {
       name: 'Mike Johnson',
       email: 'mike@example.com',
-      avatar: null,
     },
     product: {
       name: 'Gaming Mouse',
@@ -296,7 +293,6 @@ export default function ReviewsTable({
                   <div className="space-y-2">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={review.user.avatar || ''} />
                         <AvatarFallback>
                           {review.user.name.charAt(0)}
                         </AvatarFallback>

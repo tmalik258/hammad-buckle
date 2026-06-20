@@ -1,8 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { ErrorComponent } from "@/components/ui/error-component";
+import { Button } from "@/components/ui/button";import { ErrorComponent } from "@/components/ui/error-component";
 import { MyAccountSkeleton } from "./_components/my-account-skeleton";
 import {
   useUserProfile,
@@ -24,7 +22,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useState, useCallback } from "react";
-import { PictureChangeModal } from "./_components/picture-change-modal";
 import { ChangePasswordModal } from "./_components/change-password-modal";
 import { ProfileEditModal } from "./_components/profile-edit-modal";
 import ProfileHeader from "./_components/profile-header";
@@ -156,9 +153,6 @@ export default function MyAccountPage() {
   // Zustand store for UI state management
   const { getFormData, getDisplayProfile } = useUserStore();
 
-  // State for picture change modal
-  const [isPictureModalOpen, setIsPictureModalOpen] = useState(false);
-
   // State for change password modal
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false);
@@ -214,8 +208,6 @@ export default function MyAccountPage() {
       const updateData = {
         name: fullName,
         email: data.email.trim(),
-        // Preserve existing avatar if not provided in form data
-        avatar: data.avatar?.trim() || displayProfile?.avatar || null,
       };
 
       // Update profile using TanStack Query mutation with optimistic updates
@@ -276,25 +268,6 @@ export default function MyAccountPage() {
     updateProfileMutation.mutate(userProfileFormToApi(variables));
   };
 
-  // Handle picture update from modal
-  const handlePictureUpdate = async (newImageUrl: string) => {
-    if (!displayProfile) return;
-
-    const updatedData: UserAccountFormData = {
-      name: displayProfile.name || "", // Preserve full name instead of truncating to first word
-      email: displayProfile.email,
-      avatar: newImageUrl,
-    };
-
-    try {
-      await updateProfileMutation.mutateAsync(
-        userProfileFormToApi(updatedData)
-      );
-    } catch (error) {
-      console.error("Error updating profile picture:", error);
-    }
-  };
-
   // Get fallback data if available
   const hasAnyProfileData = userProfile || fallbackProfile;
 
@@ -315,7 +288,7 @@ export default function MyAccountPage() {
   }
 
   return (
-    <div className="min-h-screen md:pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-20">
       {/* Error Alert */}
       {lastError && !isLoadingProfile && (
         <div className="bg-red-600 text-white p-2 text-center text-sm">
@@ -344,14 +317,12 @@ export default function MyAccountPage() {
 
       {/* Welcome Header */}
       <ProfileHeader
-        avatar={displayProfile?.avatar}
-        name={displayProfile?.name?.split(" ")[0]}
-        onEditClick={() => setIsPictureModalOpen(true)}
+        name={displayProfile?.name || undefined}
+        email={displayProfile?.email}
       />
 
       {/* Profile Overview */}
       <ProfileOverview
-        avatar={displayProfile?.avatar}
         name={displayProfile?.name || undefined}
         email={displayProfile?.email}
         onEditProfileClick={() => setIsProfileEditModalOpen(true)}
@@ -360,15 +331,6 @@ export default function MyAccountPage() {
 
       {/* Profile Overview */}
       <ProfileInfoCard displayProfile={displayProfile} />
-
-      {/* Picture Change Modal */}
-      <PictureChangeModal
-        isOpen={isPictureModalOpen}
-        onClose={() => setIsPictureModalOpen(false)}
-        currentImageUrl={displayProfile?.avatar}
-        onImageUpdate={handlePictureUpdate}
-        isLoading={updateProfileMutation.isPending}
-      />
 
       {/* Change Password Modal */}
       <ChangePasswordModal
