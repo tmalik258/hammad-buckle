@@ -1,0 +1,72 @@
+import type { Metadata } from "next";
+
+export const SITE_NAME = "Hammad Buckle";
+export const SITE_DESCRIPTION =
+  "Shop curated women's clothing, dresses, and heels at Hammad Buckle.";
+export const LOGO_PATH = "/logo-transparent.png";
+
+function getMetadataBase(): URL | undefined {
+  const url = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!url) return undefined;
+
+  try {
+    return new URL(url);
+  } catch {
+    return undefined;
+  }
+}
+
+export const rootMetadata: Metadata = {
+  metadataBase: getMetadataBase(),
+  title: {
+    default: `${SITE_NAME} — Women's Apparel & Footwear`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  icons: {
+    icon: [{ url: LOGO_PATH, type: "image/png" }],
+    apple: [{ url: LOGO_PATH, type: "image/png" }],
+    shortcut: LOGO_PATH,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Women's Apparel & Footwear`,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: LOGO_PATH,
+        width: 512,
+        height: 512,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} — Women's Apparel & Footwear`,
+    description: SITE_DESCRIPTION,
+    images: [LOGO_PATH],
+  },
+};
+
+export function buildPageMetadata(title: string, description?: string): Metadata {
+  const desc = description ?? SITE_DESCRIPTION;
+
+  return {
+    title,
+    description: desc,
+    openGraph: {
+      title,
+      description: desc,
+      images: [{ url: LOGO_PATH, alt: SITE_NAME }],
+    },
+    twitter: {
+      title,
+      description: desc,
+      images: [LOGO_PATH],
+    },
+  };
+}

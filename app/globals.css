@@ -60,10 +60,13 @@
 }
 
 :root {
+  --storefront-header-height: 4rem;
+  --storefront-announcement-height: 0px;
+  --site-chrome-height: var(--storefront-header-height);
   --radius: 0.625rem;
-  --background: rgb(250, 237, 229); /* cream/off-white */
+  --background: #ffffff; /* landing white */
   --foreground: #000000; /* pure black text */
-  --card: rgb(250, 237, 229);
+  --card: #ffffff;
   --card-foreground: #000000;
   --popover: #ffffff;
   --popover-foreground: #18181b;
@@ -72,7 +75,7 @@
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.2 0 0); /* darker muted-foreground for readability on cream */
+  --muted-foreground: oklch(0.2 0 0);
   --accent: #f4f4f5;
   --accent-foreground: #18181b;
   --destructive: oklch(0.577 0.245 27.325);
@@ -85,7 +88,7 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: rgb(250, 237, 229);
+  --sidebar: #ffffff;
   --sidebar-foreground: #000000;
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -202,9 +205,9 @@
 @layer base {
   /* Firefox - Global scrollbar */
   * {
-    /* Thumb: subtle black; Track: cream background */
+    /* Thumb: subtle black; Track: zinc-50 */
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.6) rgb(250, 237, 229);
+    scrollbar-color: rgba(0, 0, 0, 0.6) #fafafa;
   }
 
   /* Webkit browsers (Chrome, Safari, Edge) - Global scrollbar */
@@ -214,13 +217,13 @@
   }
 
   *::-webkit-scrollbar-track {
-    /* Cream track to match landing background */
-    background: rgb(250, 237, 229);
+    /* Zinc track to match storefront background */
+    background: #fafafa;
     border-radius: 3px;
   }
 
   *::-webkit-scrollbar-thumb {
-    /* Subtle black thumb for contrast on cream */
+    /* Subtle black thumb for contrast */
     background: rgba(0, 0, 0, 0.6);
     border-radius: 3px;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -237,7 +240,7 @@
 
   /* Corner styling */
   *::-webkit-scrollbar-corner {
-    background: rgb(250, 237, 229);
+    background: #fafafa;
   }
 
   *,
@@ -250,9 +253,9 @@
 /* Utility class for specific elements that need custom scrollbar */
 @layer utilities {
   .scrollbar-thin {
-    /* Thumb: subtle black; Track: cream */
+    /* Thumb: subtle black; Track: zinc-50 */
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.6) rgb(250, 237, 229);
+    scrollbar-color: rgba(0, 0, 0, 0.6) #fafafa;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -261,7 +264,7 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: rgb(250, 237, 229);
+    background: #fafafa;
     border-radius: 3px;
   }
 
@@ -281,7 +284,7 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-corner {
-    background: rgb(250, 237, 229);
+    background: #fafafa;
   }
 }
 
@@ -383,7 +386,7 @@
   }
   
   .high-contrast-bg {
-    background-color: rgb(250, 237, 229);
+    background-color: #ffffff;
     color: #000;
   }
 }
@@ -400,11 +403,11 @@
 /* Color contrast utilities */
 .text-contrast-safe {
   color: #000;
-  background-color: rgb(250, 237, 229);
+  background-color: #ffffff;
 }
 
 .text-contrast-safe-inverse {
-  color: rgb(250, 237, 229);
+  color: #FFF8E7;
   background-color: #000;
 }
 
@@ -576,7 +579,7 @@
   top: -40px;
   left: 6px;
   background: #000;
-  color: rgb(250, 237, 229);
+  color: #FFF8E7;
   padding: 8px;
   text-decoration: none;
   border-radius: 4px;

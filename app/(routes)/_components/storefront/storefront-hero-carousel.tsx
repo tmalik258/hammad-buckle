@@ -3,31 +3,72 @@
 import Image from "next/image";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { HeroSlide } from "@prisma/client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import gsap from "gsap";
 import { cn } from "@/lib/utils";
 
 type Props = {
   slides: HeroSlide[];
 };
 
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export function StorefrontHeroCarousel({ slides }: Props) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
+  const autoplay = useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: "start" },
+    [autoplay.current]
+  );
   const [selected, setSelected] = useState(0);
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
+  const animateSlideContent = useCallback((index: number) => {
+    const el = contentRefs.current[index];
+    if (!el) return;
+
+    if (prefersReducedMotion()) {
+      gsap.set(el.children, { opacity: 1, y: 0 });
+      return;
+    }
+
+    gsap.fromTo(
+      el.children,
+      { opacity: 0, y: 28 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.65,
+        stagger: 0.08,
+        ease: "power2.out",
+        overwrite: true,
+      }
+    );
+  }, []);
+
   useEffect(() => {
     if (!emblaApi) return;
-    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
+    const onSelect = () => {
+      const index = emblaApi.selectedScrollSnap();
+      setSelected(index);
+      animateSlideContent(index);
+    };
     emblaApi.on("select", onSelect);
     onSelect();
     return () => {
       emblaApi.off("select", onSelect);
     };
-  }, [emblaApi]);
+  }, [emblaApi, animateSlideContent]);
 
   if (!slides.length) {
     return (
@@ -43,9 +84,9 @@ export function StorefrontHeroCarousel({ slides }: Props) {
     <section className="relative overflow-hidden bg-zinc-50">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
-          {slides.map((slide) => (
+          {slides.map((slide, index) => (
             <div key={slide.id} className="relative min-w-0 shrink-0 grow-0 basis-full">
-              <div className="relative aspect-[4/5] md:aspect-[21/9] w-full">
+              <div className="relative h-[100svh] min-h-[680px] w-full">
                 {slide.imageMobile?.trim() ? (
                   <Image
                     src={slide.imageMobile}
@@ -69,7 +110,12 @@ export function StorefrontHeroCarousel({ slides }: Props) {
                   sizes="100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent md:bg-gradient-to-r md:from-black/60 md:via-black/20 md:to-transparent" />
-                <div className="absolute inset-0 flex flex-col justify-end p-6 pb-10 md:p-12 md:pb-14 lg:max-w-2xl">
+                <div
+                  ref={(node) => {
+                    contentRefs.current[index] = node;
+                  }}
+                  className="absolute inset-0 flex flex-col justify-end p-6 pb-16 md:p-12 md:pb-20 lg:max-w-2xl"
+                >
                   {slide.badgeText ? (
                     <span className="mb-3 inline-flex w-fit rounded-full bg-white/95 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-zinc-900">
                       {slide.badgeText}
@@ -79,19 +125,21 @@ export function StorefrontHeroCarousel({ slides }: Props) {
                     {slide.heading}
                   </h1>
                   {slide.subheading ? (
-                    <p className="mt-3 max-w-xl text-base text-white/90 md:text-lg">{slide.subheading}</p>
+                    <p className="mt-3 max-w-xl text-base text-white/90 md:text-lg">
+                      {slide.subheading}
+                    </p>
                   ) : null}
                   <div className="mt-6 flex flex-wrap gap-3">
                     <Link
                       href={slide.primaryCtaHref}
-                      className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-zinc-900 shadow-sm transition hover:bg-zinc-100 cursor-pointer"
+                      className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-zinc-900 shadow-sm transition hover:bg-zinc-100"
                     >
                       {slide.primaryCtaLabel}
                     </Link>
                     {slide.secondaryCtaLabel && slide.secondaryCtaHref ? (
                       <Link
                         href={slide.secondaryCtaHref}
-                        className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/70 bg-transparent px-6 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/10 cursor-pointer"
+                        className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-full border border-white/70 bg-transparent px-6 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/10"
                       >
                         {slide.secondaryCtaLabel}
                       </Link>
@@ -120,8 +168,8 @@ export function StorefrontHeroCarousel({ slides }: Props) {
               type="button"
               aria-label={`Go to slide ${i + 1}`}
               className={cn(
-                "h-2 w-2 rounded-full transition cursor-pointer",
-                i === selected ? "bg-white w-6" : "bg-white/40 hover:bg-white/70"
+                "h-2 w-2 cursor-pointer rounded-full transition",
+                i === selected ? "w-6 bg-white" : "bg-white/40 hover:bg-white/70"
               )}
               onClick={() => emblaApi?.scrollTo(i)}
             />

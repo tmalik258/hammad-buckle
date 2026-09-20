@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,18 +32,18 @@ import {
 // Contact information
 const contactInfo = {
   address: {
-    street: "123 Commerce Street",
-    city: "New York",
-    state: "NY",
-    zip: "10001",
-    country: "United States"
+    street: "42 Mall Road, Gulberg III",
+    city: "Lahore",
+    state: "Punjab",
+    zip: "54000",
+    country: "Pakistan",
   },
-  phone: "+1 (555) 123-4567",
-  email: "support@hammadbuckle.com",
+  phone: "+92 300 847 2653",
+  email: "hello@hammadbuckle.com",
   hours: {
-    weekdays: "Monday - Friday: 9:00 AM - 8:00 PM EST",
-    weekends: "Saturday - Sunday: 10:00 AM - 6:00 PM EST"
-  }
+    weekdays: "Monday - Friday: 10:00 AM - 7:00 PM PKT",
+    weekends: "Saturday - Sunday: 11:00 AM - 5:00 PM PKT",
+  },
 };
 
 // FAQ data
@@ -54,7 +54,7 @@ const faqData = [
     questions: [
       {
         question: "How can I track my order?",
-        answer: "You can track your order by visiting our Track Order page and entering your order number or tracking ID."
+        answer: "Sign in and visit My Account or the Orders page to view order status and tracking details."
       },
       {
         question: "Can I modify or cancel my order?",
@@ -288,7 +288,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-12 text-center">
@@ -601,8 +601,8 @@ export default function ContactPage() {
               <p className="text-sm text-gray-600 mb-4">
                 Browse our comprehensive help articles and guides
               </p>
-              <Button variant="outline" size="sm" className="cursor-pointer">
-                Visit Help Center
+              <Button asChild variant="outline" size="sm" className="cursor-pointer">
+                <Link href="/faq">Visit Help Center</Link>
               </Button>
             </CardContent>
           </Card>
@@ -610,12 +610,12 @@ export default function ContactPage() {
           <Card className="text-center">
             <CardContent className="pt-6">
               <MessageCircle className="h-12 w-12 mx-auto mb-4 text-primary" />
-              <h4 className="font-semibold mb-2">Live Chat</h4>
+              <h4 className="font-semibold mb-2">Email Support</h4>
               <p className="text-sm text-gray-600 mb-4">
-                Chat with our support team in real-time
+                Reach our support team by email during business hours
               </p>
-              <Button variant="outline" size="sm" className="cursor-pointer">
-                Start Live Chat
+              <Button asChild variant="outline" size="sm" className="cursor-pointer">
+                <Link href="mailto:hello@hammadbuckle.com">Email Support</Link>
               </Button>
             </CardContent>
           </Card>
@@ -627,8 +627,8 @@ export default function ContactPage() {
               <p className="text-sm text-gray-600 mb-4">
                 Track your orders and delivery status
               </p>
-              <Button variant="outline" size="sm" className="cursor-pointer">
-                Track Order
+              <Button asChild variant="outline" size="sm" className="cursor-pointer">
+                <Link href="/orders">Track Order</Link>
               </Button>
             </CardContent>
           </Card>

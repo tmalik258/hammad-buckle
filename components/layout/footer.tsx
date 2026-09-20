@@ -23,6 +23,7 @@ const footerSections: FooterSection[] = [
     links: [
       { label: "Shop all", href: "/products" },
       { label: "New arrivals", href: "/products?isNew=true" },
+      { label: "Sale", href: "/products?onSale=true" },
       { label: "Collections", href: "/collections" },
     ],
   },
@@ -86,7 +87,7 @@ export function Footer({ className = "" }: FooterProps) {
             <div className="space-y-4">
               <h2 className="text-2xl font-bold text-[#FFF8E7]">Hammad Buckle</h2>
               <p className="text-white/80 text-sm leading-relaxed max-w-sm">
-                Modern apparel and footwear for women and men — curated drops, timeless staples,
+                Modern apparel and footwear for women — curated drops, timeless staples,
                 and responsive service you can trust.
               </p>
             </div>

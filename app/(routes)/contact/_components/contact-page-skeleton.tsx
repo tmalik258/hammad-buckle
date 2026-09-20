@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function ContactPageSkeleton() {
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       {/* Removed HeroSection */}
       
       <div className="container mx-auto px-4 py-8">

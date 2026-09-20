@@ -288,7 +288,7 @@ export default function MyAccountPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       {/* Error Alert */}
       {lastError && !isLoadingProfile && (
         <div className="bg-red-600 text-white p-2 text-center text-sm">

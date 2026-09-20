@@ -6,16 +6,16 @@ import {
   ShoppingCart,
   User,
   Menu,
-  Home,
   Grid3X3,
   Package,
   UserPlus,
   Settings,
   LogOut,
   Info,
-  X,
-  Search,
   LayoutDashboard,
+  Sparkles,
+  Tag,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,8 +37,19 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { UserInitialsAvatar } from "@/components/ui/user-initials-avatar";
 import { UserRole } from "@prisma/client";
+import type { NavCategory } from "@/lib/storefront/get-nav-categories";
 
-export function Header() {
+type HeaderProps = {
+  navCategories?: NavCategory[];
+};
+
+const mobileLinkClass =
+  "flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer";
+
+const desktopLinkClass =
+  "whitespace-nowrap text-sm font-medium transition-colors hover:text-primary cursor-pointer";
+
+export function Header({ navCategories = [] }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const { itemCount } = useCartStore();
   const { logout } = useUserStore();
@@ -50,7 +61,7 @@ export function Header() {
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
-      logout(true); // Show toast message for explicit logout
+      logout(true);
       toast.success("Logged out successfully");
       router.push("/");
     } catch (error) {
@@ -61,28 +72,30 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 0);
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const categoryLinks = navCategories.map((category) => ({
+    href: `/products?category=${category.id}`,
+    label: category.name,
+  }));
+
   return (
-    <header
-      className={`sticky top-0 z-[1000] w-full transition-all duration-300 bg-transparent ${
-        isScrolled
-          ? "backdrop-blur supports-[backdrop-filter]:bg-background/5 border-b"
-          : "border-transparent"
-      }`}
-    >
-      {/* Main Header */}
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Mobile Menu */}
+    <header className="w-full bg-transparent px-3 pb-2 pt-2 sm:px-4 md:px-6">
+      <div
+        className={`mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 rounded-2xl border px-3 transition-all duration-300 sm:h-16 sm:px-4 ${
+          isScrolled
+            ? "border-white/40 bg-white/35 shadow-lg shadow-zinc-900/5 backdrop-blur-2xl"
+            : "border-white/30 bg-white/20 shadow-md shadow-zinc-900/5 backdrop-blur-2xl"
+        }`}
+      >
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon" className="md:hidden cursor-pointer">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -92,7 +105,6 @@ export function Header() {
               className="w-[320px] sm:w-[400px] border-r border-border backdrop-blur-xl z-[3000]"
             >
               <div className="flex flex-col h-full">
-                {/* Header Section with Logo */}
                 <div className="flex items-center mb-6">
                   <Image
                     src="/logo-transparent.png"
@@ -103,7 +115,6 @@ export function Header() {
                   />
                 </div>
 
-                {/* User Profile Section */}
                 {isAuthenticated && (
                   <div className="px-4 mb-6">
                     <div className="flex items-center gap-3 p-3 rounded-xl bg-accent/20 border border-border">
@@ -132,43 +143,52 @@ export function Header() {
                   </div>
                 )}
 
-                {/* Navigation Links */}
-                <nav className="flex-1 px-4 space-y-2">
-                  <Link
-                    href="/"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer"
-                  >
-                    <Home className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
+                  {categoryLinks.map((link) => (
+                    <Link key={link.href} href={link.href} className={mobileLinkClass}>
+                      <Package className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      <span className="font-medium group-hover:text-foreground transition-colors">
+                        {link.label}
+                      </span>
+                    </Link>
+                  ))}
+
+                  <Link href="/collections" className={mobileLinkClass}>
+                    <Grid3X3 className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                     <span className="font-medium group-hover:text-foreground transition-colors">
-                      Home
+                      Collections
                     </span>
                   </Link>
 
-                  <Link
-                    href="/products"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer"
-                  >
-                    <Package className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  <Link href="/products?isNew=true" className={mobileLinkClass}>
+                    <Sparkles className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                     <span className="font-medium group-hover:text-foreground transition-colors">
-                      Products
+                      New Arrivals
                     </span>
                   </Link>
 
-                  <Link
-                    href="/about-us"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer"
-                  >
+                  <Link href="/products?onSale=true" className={mobileLinkClass}>
+                    <Tag className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                    <span className="font-medium group-hover:text-foreground transition-colors">
+                      Sale
+                    </span>
+                  </Link>
+
+                  <Link href="/about-us" className={mobileLinkClass}>
                     <Info className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                     <span className="font-medium group-hover:text-foreground transition-colors">
                       About Us
                     </span>
                   </Link>
 
-                  {/* Cart Link with Badge */}
-                  <Link
-                    href="/cart"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer"
-                  >
+                  <Link href="/contact" className={mobileLinkClass}>
+                    <Mail className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                    <span className="font-medium group-hover:text-foreground transition-colors">
+                      Contact
+                    </span>
+                  </Link>
+
+                  <Link href="/cart" className={mobileLinkClass}>
                     <div className="relative">
                       <ShoppingCart className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                       {itemCount > 0 && (
@@ -183,14 +203,10 @@ export function Header() {
                   </Link>
                 </nav>
 
-                {/* Bottom Section - Auth Actions */}
                 <div className="px-4 py-4 border-t border-border space-y-2">
                   {isAuthenticated ? (
                     <>
-                      <Link
-                        href="/my-account"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-zinc-100 border border-transparent transition-all duration-300 group cursor-pointer"
-                      >
+                      <Link href="/my-account" className={mobileLinkClass}>
                         <Settings className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
                         <span className="font-medium group-hover:text-zinc-900 transition-colors">
                           Profile Settings
@@ -198,10 +214,7 @@ export function Header() {
                       </Link>
 
                       {profile?.role === UserRole.ADMIN ? (
-                        <Link
-                          href="/admin"
-                          className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-zinc-100 border border-transparent transition-all duration-300 group cursor-pointer"
-                        >
+                        <Link href="/admin" className={mobileLinkClass}>
                           <LayoutDashboard className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
                           <span className="font-medium group-hover:text-zinc-900 transition-colors">
                             Admin
@@ -221,10 +234,7 @@ export function Header() {
                     </>
                   ) : (
                     <>
-                      <Link
-                        href="/auth/login"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer"
-                      >
+                      <Link href="/auth/login" className={mobileLinkClass}>
                         <User className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
                         <span className="font-medium group-hover:text-foreground transition-colors">
                           Account
@@ -236,9 +246,7 @@ export function Header() {
                         className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group cursor-pointer"
                       >
                         <UserPlus className="h-5 w-5 transition-colors" />
-                        <span className="font-medium transition-colors">
-                          Join
-                        </span>
+                        <span className="font-medium transition-colors">Join</span>
                       </Link>
                     </>
                   )}
@@ -247,7 +255,6 @@ export function Header() {
             </SheetContent>
           </Sheet>
 
-          {/* Logo */}
           <Link href="/" className="flex items-center cursor-pointer">
             <div className="font-bold text-2xl font-serif text-primary">
               <Image
@@ -255,63 +262,40 @@ export function Header() {
                 alt="Hammad Buckle"
                 width={100}
                 height={100}
-                className="w-full h-full"
+                className="h-10 w-auto sm:h-12"
               />
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Home
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-5">
+            {categoryLinks.map((link) => (
+              <Link key={link.href} href={link.href} className={desktopLinkClass}>
+                {link.label}
+              </Link>
+            ))}
+            <Link href="/collections" className={desktopLinkClass}>
+              Collections
             </Link>
-            <Link
-              href="/products"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Products
+            <Link href="/products?isNew=true" className={desktopLinkClass}>
+              New Arrivals
             </Link>
-            <Link
-              href="/about-us"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
+            <Link href="/products?onSale=true" className={desktopLinkClass}>
+              Sale
+            </Link>
+            <Link href="/contact" className={desktopLinkClass}>
+              Contact
+            </Link>
+            <Link href="/about-us" className={desktopLinkClass}>
               About Us
             </Link>
-            {/* <Link
-              href="/track-order"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Track Order
-            </Link> */}
-            {/* <Link
-              href="/contact"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Contact
-            </Link> */}
           </nav>
 
-          {/* Right Actions */}
           <div className="flex items-center">
             {isAuthenticated && isInitialized ? (
               <>
-                {/* Search Icon */}
-                <Button variant="ghost" size="icon">
-                  <Search className="h-5 w-5" />
-                  <span className="sr-only">Search</span>
-                </Button>
-
-                {/* User Account */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="cursor-pointer"
-                    >
+                    <Button variant="ghost" size="icon" className="cursor-pointer">
                       <User className="h-5 w-5" />
                       <span className="sr-only">Account</span>
                     </Button>
@@ -349,7 +333,6 @@ export function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                {/* Shopping Cart */}
                 <Button
                   variant="ghost"
                   size="icon"
@@ -385,11 +368,9 @@ export function Header() {
                 </Link>
               </div>
             ) : (
-              /* Loading state - show nothing to prevent flickering */
               <div className="h-8 w-36" />
             )}
           </div>
-        </div>
       </div>
     </header>
   );

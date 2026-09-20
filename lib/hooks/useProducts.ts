@@ -15,6 +15,8 @@ export interface ProductsParams {
   maxPrice?: number;
   inStock?: boolean;
   featured?: boolean;
+  isNew?: boolean;
+  onSale?: boolean;
   genderTarget?: string;
   categories?: string[];
   rating?: number;
@@ -45,6 +47,8 @@ export function useProducts(params: ProductsParams = {}) {
     maxPrice,
     inStock,
     featured,
+    isNew,
+    onSale,
     genderTarget,
     categories = [],
     rating,
@@ -68,6 +72,8 @@ export function useProducts(params: ProductsParams = {}) {
       maxPrice, 
       inStock, 
       featured,
+      isNew,
+      onSale,
       genderTarget,
       categories, 
       rating,
@@ -85,6 +91,8 @@ export function useProducts(params: ProductsParams = {}) {
         ...(maxPrice !== undefined && { maxPrice: maxPrice.toString() }),
         ...(inStock !== undefined && { inStock: inStock.toString() }),
         ...(featured !== undefined && { featured: featured.toString() }),
+        ...(isNew !== undefined && { isNew: isNew.toString() }),
+        ...(onSale !== undefined && { onSale: onSale.toString() }),
         ...(genderTarget && { genderTarget }),
         ...(categories.length > 0 && { categories: categories.join(',') }),
         ...(rating !== undefined && { rating: rating.toString() }),

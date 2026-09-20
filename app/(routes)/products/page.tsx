@@ -1,26 +1,40 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, Suspense } from "react";
+import React, { useState, useCallback, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ProductsPageSkeleton } from "@/components/ui/route-skeletons";
-import ProductFilters from "./_components/product-filters";
 import ProductGrid from "./_components/product-grid";
+import { ProductsToolbar } from "./_components/products-toolbar";
+import { ProductsActiveChips } from "./_components/products-active-chips";
+import { ProductFiltersSheet } from "./_components/product-filters-sheet";
+import {
+  productsPageHeading,
+  type ProductsFiltersState,
+} from "./_components/products-filter-types";
 import { useProducts } from "@/lib/hooks/useProducts";
+import { useFilters } from "@/lib/hooks/useFilters";
+
+const DEFAULT_FILTERS: ProductsFiltersState = {
+  search: "",
+  category: "",
+  genderTarget: "",
+  status: "",
+  sortBy: "createdAt",
+  sortOrder: "desc",
+  minPrice: undefined,
+  maxPrice: undefined,
+  isNew: undefined,
+  onSale: undefined,
+  featured: undefined,
+};
 
 function ProductsContent() {
   const searchParams = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState({
-    search: "",
-    category: "",
-    genderTarget: "",
-    status: "",
-    sortBy: "createdAt",
-    sortOrder: "desc" as "asc" | "desc",
-    minPrice: undefined as number | undefined,
-    maxPrice: undefined as number | undefined,
-  });
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filters, setFilters] = useState<ProductsFiltersState>(DEFAULT_FILTERS);
+  const { categories } = useFilters();
 
   const scrollToProductsTop = useCallback(() => {
     const el = document.getElementById("products-section");
@@ -31,36 +45,36 @@ function ProductsContent() {
     }
   }, []);
 
-  // Initialize filters from URL parameters on mount
   useEffect(() => {
-    const urlCategory = searchParams.get("category") || "";
-    const urlMinPrice = searchParams.get("minPrice");
-    const urlMaxPrice = searchParams.get("maxPrice");
-    const urlSearch = searchParams.get("search") || "";
-    const urlSortBy = searchParams.get("sortBy") || "createdAt";
+    const parseBool = (value: string | null) =>
+      value === "true" ? true : value === "false" ? false : undefined;
+
     const urlSortOrder = searchParams.get("sortOrder") || "desc";
-    const urlPage = searchParams.get("page");
-    const urlGender = searchParams.get("genderTarget") || "";
 
-    setFilters((prev) => ({
-      ...prev,
-      search: urlSearch,
-      category: urlCategory,
-      genderTarget: urlGender,
-      minPrice: urlMinPrice ? Number(urlMinPrice) : undefined,
-      maxPrice: urlMaxPrice ? Number(urlMaxPrice) : undefined,
-      sortBy: urlSortBy,
+    setFilters({
+      search: searchParams.get("search") || "",
+      category:
+        searchParams.get("category") || searchParams.get("categoryId") || "",
+      genderTarget: searchParams.get("genderTarget") || "",
+      status: "",
+      sortBy: searchParams.get("sortBy") || "createdAt",
       sortOrder:
-        urlSortOrder === "asc" || urlSortOrder === "desc"
-          ? urlSortOrder
-          : "desc",
-    }));
+        urlSortOrder === "asc" || urlSortOrder === "desc" ? urlSortOrder : "desc",
+      minPrice: searchParams.get("minPrice")
+        ? Number(searchParams.get("minPrice"))
+        : undefined,
+      maxPrice: searchParams.get("maxPrice")
+        ? Number(searchParams.get("maxPrice"))
+        : undefined,
+      isNew: parseBool(searchParams.get("isNew")),
+      onSale: parseBool(searchParams.get("onSale")),
+      featured: parseBool(searchParams.get("featured")),
+    });
 
+    const urlPage = searchParams.get("page");
     if (urlPage) {
       const pageNum = Number(urlPage);
-      if (pageNum > 0) {
-        setCurrentPage(pageNum);
-      }
+      if (pageNum > 0) setCurrentPage(pageNum);
     }
   }, [searchParams]);
 
@@ -74,136 +88,155 @@ function ProductsContent() {
   const totalProducts = data?.pagination.totalCount || 0;
   const totalPages = data?.pagination.totalPages || 1;
 
+  const categoryName = useMemo(() => {
+    if (!filters.category || !categories.data) return undefined;
+    return categories.data.find((c) => c.id === filters.category)?.name;
+  }, [filters.category, categories.data]);
+
+  const priceLabel = useMemo(() => {
+    if (filters.minPrice == null && filters.maxPrice == null) return undefined;
+    if (filters.minPrice != null && filters.maxPrice != null) {
+      return `${filters.minPrice}–${filters.maxPrice}`;
+    }
+    if (filters.minPrice != null) return `From ${filters.minPrice}`;
+    return `Up to ${filters.maxPrice}`;
+  }, [filters.minPrice, filters.maxPrice]);
+
+  const activeFilterCount = [
+    filters.category,
+    filters.genderTarget,
+    filters.minPrice != null || filters.maxPrice != null,
+    filters.isNew,
+    filters.onSale,
+    filters.featured,
+  ].filter(Boolean).length;
+
+  const syncUrl = useCallback(
+    (next: ProductsFiltersState, page: number) => {
+      const params = new URLSearchParams();
+      if (next.search) params.set("search", next.search);
+      if (next.category) params.set("category", next.category);
+      if (next.genderTarget) params.set("genderTarget", next.genderTarget);
+      if (next.sortBy) params.set("sortBy", next.sortBy);
+      if (next.sortOrder) params.set("sortOrder", next.sortOrder);
+      if (next.minPrice != null) params.set("minPrice", String(next.minPrice));
+      if (next.maxPrice != null) params.set("maxPrice", String(next.maxPrice));
+      if (next.isNew === true) params.set("isNew", "true");
+      if (next.onSale === true) params.set("onSale", "true");
+      if (next.featured === true) params.set("featured", "true");
+      params.set("page", String(page));
+      window.history.pushState({}, "", `?${params.toString()}`);
+    },
+    []
+  );
+
   const handleFilterChange = useCallback(
-    (newFilters: Partial<typeof filters>) => {
-      setFilters((prev) => ({ ...prev, ...newFilters }));
-      setCurrentPage(1); // Reset to first page when filters change
-
-      // Update URL parameters
-      const params = new URLSearchParams(searchParams);
-
-      // Update each filter parameter
-      Object.entries(newFilters).forEach(([key, value]) => {
-        if (value !== undefined && value !== null && value !== "") {
-          params.set(key, value.toString());
-        } else {
-          params.delete(key);
-        }
+    (partial: Partial<ProductsFiltersState>) => {
+      setFilters((prev) => {
+        const next = { ...prev, ...partial };
+        setCurrentPage(1);
+        syncUrl(next, 1);
+        return next;
       });
-
-      // Reset page to 1 when filters change
-      params.set("page", "1");
-
-      // Update URL without page reload
-      window.history.pushState({}, "", `?${params.toString()}`);
     },
-    [searchParams]
+    [syncUrl]
   );
 
-  const handleSortChange = useCallback(
-    (sortBy: string) => {
-      setFilters((prev) => ({ ...prev, sortBy }));
+  const handleClearAll = useCallback(() => {
+    const next: ProductsFiltersState = {
+      ...DEFAULT_FILTERS,
+      search: filters.search,
+      sortBy: filters.sortBy,
+      sortOrder: filters.sortOrder,
+    };
+    setFilters(next);
+    setCurrentPage(1);
+    syncUrl(next, 1);
+  }, [filters.search, filters.sortBy, filters.sortOrder, syncUrl]);
 
-      // Update URL parameters
-      const params = new URLSearchParams(searchParams);
-      params.set("sortBy", sortBy);
-
-      // Update URL without page reload
-      window.history.pushState({}, "", `?${params.toString()}`);
+  const goToPage = useCallback(
+    (page: number) => {
+      setCurrentPage(page);
+      syncUrl(filters, page);
+      scrollToProductsTop();
     },
-    [searchParams]
+    [filters, syncUrl, scrollToProductsTop]
   );
 
-  // Loading state
   if (isLoading) {
     return <ProductsPageSkeleton />;
   }
 
-  return (
-    <div className="min-h-screen pt-20 z-0">
-      <div className="container mx-auto px-4 lg:px-6 py-4">
-        {/* Removed HeroSection */}
+  const title = productsPageHeading(filters, categoryName);
 
-        {/* Main Content Layout */}
-        <div
-          id="products-section"
-          className="flex max-md:flex-col space-x-5 space-y-4 md:space-y-6 lg:space-y-8 z-10"
-        >
-          {/* Reusable Filter Component - Full Width */}
-          <ProductFilters
+  return (
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
+      <div className="mx-auto max-w-7xl px-4 py-8 lg:px-6 lg:py-10">
+        <div id="products-section" className="space-y-6">
+          <ProductsToolbar
+            title={title}
+            productsCount={totalProducts}
             filters={filters}
             onFilterChange={handleFilterChange}
+            onOpenFilters={() => setFiltersOpen(true)}
+            activeFilterCount={activeFilterCount}
           />
 
-          {/* Main Content Area - Full Width */}
-          <div className="flex-1">
-            {/* Products Grid */}
-            <ProductGrid
-              products={products}
-              loading={isLoading}
-              error={error?.message || null}
-              onRetry={refetch}
-              productsCount={totalProducts}
-              sortBy={filters.sortBy}
-              onSortChange={handleSortChange}
-            />
-          </div>
-        </div>
+          <ProductsActiveChips
+            filters={filters}
+            categoryName={categoryName}
+            priceLabel={priceLabel}
+            onFilterChange={handleFilterChange}
+            onClearAll={handleClearAll}
+          />
 
-        {/* Pagination */}
-        <div className="flex justify-center items-center space-x-4 mt-12 z-10">
-          <Button
-            variant="outline"
-            onClick={() => {
-              const newPage = Math.max(1, currentPage - 1);
-              setCurrentPage(newPage);
+          <ProductGrid
+            products={products}
+            loading={false}
+            error={error?.message || null}
+            onRetry={refetch}
+          />
 
-              // Update URL parameters
-              const params = new URLSearchParams(searchParams);
-              params.set("page", newPage.toString());
-              window.history.pushState({}, "", `?${params.toString()}`);
-
-              // Scroll to top of products section
-              scrollToProductsTop();
-            }}
-            disabled={currentPage === 1 || isLoading}
-            className="cursor-pointer border-zinc-300 text-zinc-900 hover:bg-zinc-100 disabled:cursor-none"
-          >
-            Previous
-          </Button>
-
-          <span className="text-black">
-            Page {currentPage} of {totalPages}
-          </span>
-
-          <Button
-            variant="outline"
-            onClick={() => {
-              const newPage = currentPage + 1;
-              setCurrentPage(newPage);
-
-              // Update URL parameters
-              const params = new URLSearchParams(searchParams);
-              params.set("page", newPage.toString());
-              window.history.pushState({}, "", `?${params.toString()}`);
-
-              // Scroll to top of products section
-              scrollToProductsTop();
-            }}
-            disabled={currentPage >= totalPages || isLoading}
-            className="cursor-pointer border-zinc-300 text-zinc-900 hover:bg-zinc-100 disabled:cursor-none"
-          >
-            Next
-          </Button>
+          {totalPages > 1 ? (
+            <div className="flex items-center justify-center gap-3 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => goToPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="cursor-pointer border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 disabled:cursor-not-allowed"
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-zinc-600">
+                {currentPage} / {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                onClick={() => goToPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage >= totalPages}
+                className="cursor-pointer border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 disabled:cursor-not-allowed"
+              >
+                Next
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
+
+      <ProductFiltersSheet
+        open={filtersOpen}
+        onOpenChange={setFiltersOpen}
+        filters={filters}
+        onFilterChange={handleFilterChange}
+        onClearAll={handleClearAll}
+      />
     </div>
   );
 }
 
 export default function ProductsPage() {
   return (
-    <Suspense fallback={<ProductsPageSkeleton />}> 
+    <Suspense fallback={<ProductsPageSkeleton />}>
       <ProductsContent />
     </Suspense>
   );

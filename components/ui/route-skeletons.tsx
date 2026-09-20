@@ -64,103 +64,36 @@ export function CartSkeleton() {
 // Products Page Skeleton
 export const ProductsPageSkeleton = () => {
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20 z-0">
-      <div className="container mx-auto px-4 lg:px-6 py-4">
-        {/* Main Content Layout */}
-        <div id="products-section" className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-          {/* Filters Sidebar */}
-          <div className="w-full lg:w-80 lg:flex-shrink-0">
-            {/* Mobile Filter Button */}
-            <div className="lg:hidden mb-4">
-              <Skeleton className="h-10 w-24" />
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
+      <div className="mx-auto max-w-7xl px-4 py-8 lg:px-6 lg:py-10">
+        <div className="space-y-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="space-y-2">
+              <Skeleton className="h-8 w-48" />
+              <Skeleton className="h-4 w-24" />
             </div>
-            
-            {/* Desktop Sidebar */}
-            <div className="hidden lg:flex w-full">
-              <div className="content-rounded-lg flex flex-col w-full">
-                <div className="flex-1 overflow-y-auto p-4 lg:p-6">
-                  <div className="space-y-4 lg:space-y-6 h-full">
-                    {/* Filters Title */}
-                    <Skeleton className="h-6 mb-2 lg:mb-4" />
-                    
-                    {/* Filter sections */}
-                    {[1, 2].map((i) => (
-                      <div key={i} className="content-rounded-2xl">
-                        <div className="p-4 space-y-2 lg:space-y-3 bg-zinc-100 rounded-2xl">
-                          <Skeleton className="h-4 mb-3" />
-                          <div className="space-y-1 lg:space-y-2">
-                            {[1, 2, 3, 4].map((j) => (
-                              <div key={j} className="flex items-center space-x-2">
-                                <Skeleton className="w-4 h-4 rounded-full" />
-                                <Skeleton className="h-3 flex-1" />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    
-                    {/* Price Range Filter */}
-                    <div className="content-rounded-2xl">
-                      <div className="rounded-2xl bg-zinc-100 p-4 space-y-2 lg:space-y-3">
-                        <Skeleton className="h-4 mb-3" />
-                        <div className="px-2">
-                          <div className="relative">
-                            <Skeleton className="h-2 rounded-full" />
-                            <div className="flex justify-between text-xs mt-2">
-                              <Skeleton className="h-3 w-12" />
-                              <Skeleton className="h-3 w-16" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 lg:flex lg:flex-wrap gap-1 lg:gap-2 mt-2 lg:mt-4">
-                          {[1, 2, 3, 4].map((i) => (
-                            <Skeleton key={i} className="h-8" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="flex gap-2">
+              <Skeleton className="h-10 w-[180px]" />
+              <Skeleton className="h-10 w-28" />
             </div>
           </div>
 
-          {/* Main Content Area */}
-          <div className="flex-1">
-            {/* Header with Sort and Product Count */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 lg:mb-6">
-              <div className="flex items-center gap-4 w-full sm:w-auto">
-                <Skeleton className="w-full sm:w-48 h-10" />
-                <Skeleton className="h-4 w-20 hidden sm:block" />
-              </div>
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Skeleton className="h-4 w-20 sm:hidden" />
-                <Skeleton className="h-8 w-32 ml-auto sm:ml-0" />
-              </div>
-            </div>
-
-            {/* Products Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array.from({ length: 9 }).map((_, i) => (
-                <div key={i} className="content-rounded-lg overflow-hidden">
-                  <Skeleton className="h-64 w-full" />
-                  <div className="p-4 space-y-3">
-                    <Skeleton className="h-4" />
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-5 w-1/2" />
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="flex gap-2">
+            <Skeleton className="h-8 w-20 rounded-full" />
+            <Skeleton className="h-8 w-24 rounded-full" />
           </div>
-        </div>
 
-        {/* Pagination Skeleton */}
-        <div className="flex justify-center items-center space-x-4 mt-12">
-          <Skeleton className="h-10 w-20" />
-          <Skeleton className="h-4 w-24" />
-          <Skeleton className="h-10 w-16" />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+                <Skeleton className="aspect-[4/5] w-full" />
+                <div className="space-y-2 p-4">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-1/3" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

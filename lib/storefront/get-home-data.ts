@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { unstable_cache } from "next/cache";
+import { buildPageMetadata } from "@/lib/site-metadata";
 import { ReviewStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import type { ProductWithRelations } from "@/lib/hooks/useProductQueries";
@@ -170,12 +172,12 @@ export async function getHomePageData() {
   };
 }
 
-export async function getHomeMetadata() {
+export async function getHomeMetadata(): Promise<Metadata> {
   const { settings } = await getCachedCms();
-  return {
-    title: settings?.homeTitle ?? "Hammad Buckle — Apparel & footwear",
-    description:
-      settings?.homeDescription ??
-      "Shop curated clothing and shoes for women and men — new drops and timeless staples.",
-  };
+  const title = settings?.homeTitle ?? "Hammad Buckle — Women's apparel & footwear";
+  const description =
+    settings?.homeDescription ??
+    "Shop curated women's clothing, dresses, and heels — new drops and timeless staples.";
+
+  return buildPageMetadata(title, description);
 }

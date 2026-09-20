@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CheckoutPageSkeleton() {
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       <div className="container mx-auto px-4 py-8">
         {/* Trust Indicators Skeleton */}
         <div className="mb-8 flex items-center justify-center space-x-8">

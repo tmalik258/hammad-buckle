@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/components/providers/query-client-provider";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { rootMetadata } from "@/lib/site-metadata";
 import "./globals.css";
 
 const inter = Inter({
@@ -18,11 +18,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Hammad Buckle - Premium E-commerce Store",
-  description:
-    "Discover premium products with exceptional quality and style at Hammad Buckle.",
-};
+export const metadata = rootMetadata;
 
 export default function RootLayout({
   children,

@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function MyAccountSkeleton() {
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       <div className="container mx-auto mb-8 px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

@@ -243,7 +243,7 @@ export function ProductDetailSkeleton() {
         <Skeleton className="w-full h-[1080px] bg-gray-900/20" />
       </div>
       
-      <div className="container mx-auto px-4 pt-20 pb-8">
+      <div className="container mx-auto px-4 pt-[var(--site-chrome-height,4rem)] pb-8">
         {/* Main product grid - 2 columns */}
         <div className="grid grid-cols-2 gap-5">
           <ProductImageSkeleton />

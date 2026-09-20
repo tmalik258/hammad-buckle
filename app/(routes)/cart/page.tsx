@@ -50,7 +50,7 @@ export default function CartPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-zinc-50 pt-20">
+      <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
         <div className="container mx-auto px-4 py-16">
           <ErrorComponent
             title="Cart Error"
@@ -64,7 +64,7 @@ export default function CartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-zinc-50 pt-20">
+      <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
         <div className="container mx-auto px-4 py-16">
           <div className="mx-auto max-w-md text-center">
             <div className="relative z-10">
@@ -93,7 +93,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       <div className="container mx-auto px-4 pb-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Cart Items */}

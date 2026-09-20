@@ -25,7 +25,7 @@ export function StorefrontTrustRow({ badges }: Props) {
     <section className="border-y border-zinc-100 bg-white py-12 md:py-14" aria-label="Store policies">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-3">
         {rows.map((b, i) => (
-          <div key={`${b.label}-${i}`} className="flex gap-4">
+          <div key={`${b.label}-${i}`} className="flex items-center justify-center gap-4">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-900">
               <IconFor name={b.icon} />
             </div>

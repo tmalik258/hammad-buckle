@@ -17,7 +17,7 @@ export default async function CollectionsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-zinc-50 md:pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
         <header className="mb-10 max-w-2xl">
           <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 md:text-4xl">

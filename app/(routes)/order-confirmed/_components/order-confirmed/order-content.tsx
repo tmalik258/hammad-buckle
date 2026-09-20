@@ -212,7 +212,7 @@ export default function OrderContent() {
   // Loading state
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 pt-20">
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
         <div className="text-center">
           <div className="mx-auto mb-4 h-16 w-16 animate-spin rounded-full border-4 border-zinc-900 border-t-transparent"></div>
           <p className="text-lg font-medium text-zinc-900">Loading your order details...</p>
@@ -224,7 +224,7 @@ export default function OrderContent() {
   // Error state
   if (error || !order) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 pt-20">
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
         <div className="mx-auto max-w-md rounded-lg border border-red-200 bg-red-50 p-6 text-center">
           <h2 className="text-2xl font-bold text-red-600 mb-4">Order Not Found</h2>
           <p className="text-gray-700 mb-6">{error || "Unable to load order details. Please check the URL or try again later."}</p>
@@ -239,7 +239,7 @@ export default function OrderContent() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       {/* Hero Section */}
       <HeroSection 
         orderNumber={order.id}

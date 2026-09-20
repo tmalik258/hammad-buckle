@@ -87,7 +87,7 @@ export default function WishlistPage() {
   ];
 
   return (
-    <div className="container mx-auto min-h-screen md:pt-20">
+    <div className="container mx-auto min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       {/* Removed HeroSection */}
 
       {/* Wishlist Content */}
@@ -139,10 +139,7 @@ export default function WishlistPage() {
                     {/* Product Image */}
                     <div className="relative mb-4">
                       <Image
-                        src={
-                          item.image ||
-                          "https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=product%20placeholder%20image&image_size=square"
-                        }
+                        src={item.image || "/logo-transparent.png"}
                         alt={item.name}
                         width={300}
                         height={300}

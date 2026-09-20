@@ -1,56 +1,26 @@
-import {
-  AnnouncementStyle,
-  HomeProductPickSection,
-  PromoBannerLayout,
-} from "@prisma/client";
+import { AnnouncementStyle, HomeProductPickSection, PromoBannerLayout } from "@prisma/client";
 import { prisma } from "../prisma";
+import {
+  WOMENS_CATEGORY_IDS,
+  WOMENS_HERO_SLIDES,
+  WOMENS_STOREFRONT_SETTINGS,
+} from "./womens-catalog-data";
 
-const heroSlides = [
-  {
-    sortOrder: 0,
-    isActive: true,
-    imageDesktop:
-      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1920&q=80",
-    imageMobile:
-      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=768&q=80",
-    heading: "New season essentials",
-    subheading: "Elevated fits for every day — tailored layers, premium fabrics.",
-    badgeText: "Just dropped",
-    primaryCtaLabel: "Shop women",
-    primaryCtaHref: "/products?genderTarget=WOMENS",
-    secondaryCtaLabel: "Shop men",
-    secondaryCtaHref: "/products?genderTarget=MENS",
-  },
-  {
-    sortOrder: 1,
-    isActive: true,
-    imageDesktop:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1920&q=80",
-    imageMobile:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=768&q=80",
-    heading: "Footwear that moves with you",
-    subheading: "Running, lifestyle, and street silhouettes with responsive comfort.",
-    badgeText: "Shoes",
-    primaryCtaLabel: "Shop shoes",
-    primaryCtaHref: "/collections",
-    secondaryCtaLabel: "View all",
-    secondaryCtaHref: "/products",
-  },
-  {
-    sortOrder: 2,
-    isActive: true,
-    imageDesktop:
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&q=80",
-    imageMobile:
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=768&q=80",
-    heading: "Weekend polish",
-    subheading: "Knits, denim, and outerwear styled for crisp transitions.",
-    badgeText: "Looks",
-    primaryCtaLabel: "Explore apparel",
-    primaryCtaHref: "/products?categoryId=cat-fashion",
-    secondaryCtaLabel: "Sale",
-    secondaryCtaHref: "/products?onSale=true",
-  },
+const preferredSpotlights = [
+  { categoryId: WOMENS_CATEGORY_IDS.clothing, titleOverride: "Clothing" },
+  { categoryId: WOMENS_CATEGORY_IDS.shoes, titleOverride: "Shoes & Heels" },
+];
+
+const preferredProductPicks: Array<{
+  productId: string;
+  section: HomeProductPickSection;
+  sortOrder: number;
+}> = [
+  { productId: "prod-wrap-dress", section: HomeProductPickSection.EDITORIAL_GRID, sortOrder: 0 },
+  { productId: "prod-linen-blazer", section: HomeProductPickSection.EDITORIAL_GRID, sortOrder: 1 },
+  { productId: "prod-running-shoes", section: HomeProductPickSection.HERO_SECONDARY, sortOrder: 0 },
+  { productId: "prod-block-heels", section: HomeProductPickSection.TRENDING, sortOrder: 0 },
+  { productId: "prod-pump-heels", section: HomeProductPickSection.TRENDING, sortOrder: 1 },
 ];
 
 export async function seedStorefront() {
@@ -58,82 +28,85 @@ export async function seedStorefront() {
     where: { id: "default" },
     create: {
       id: "default",
-      announcementEnabled: true,
-      announcementText: "Free shipping on orders over $75 · New arrivals every week",
-      announcementHref: "/products",
+      ...WOMENS_STOREFRONT_SETTINGS,
       announcementStyle: AnnouncementStyle.NEUTRAL,
-      homeTitle: "Modern apparel & footwear",
-      homeDescription:
-        "Discover curated clothing and shoes for women and men — shop new drops and timeless staples.",
-      newsletterTitle: "Stay in the loop",
-      newsletterSubtitle: "Early access to releases and members-only offers.",
-      trustBadgesJson: [
-        { icon: "truck", label: "Free shipping", sub: "On qualifying orders" },
-        { icon: "refresh", label: "Easy returns", sub: "30-day policy" },
-        { icon: "shield", label: "Secure checkout", sub: "Encrypted payments" },
-      ],
-      homeSectionOrderJson: [
-        "announcement",
-        "hero",
-        "categories",
-        "editorial",
-        "promos",
-        "newArrivals",
-        "sale",
-        "featured",
-        "trending",
-        "testimonials",
-        "newsletter",
-        "trust",
-      ],
     },
-    update: {},
+    update: {
+      ...WOMENS_STOREFRONT_SETTINGS,
+      announcementStyle: AnnouncementStyle.NEUTRAL,
+    },
   });
 
   await prisma.heroSlide.deleteMany();
-  for (const slide of heroSlides) {
+  for (const slide of WOMENS_HERO_SLIDES) {
     await prisma.heroSlide.create({ data: slide });
+    console.log(`✅ Seeded hero slide: ${slide.heading}`);
   }
+
+  const categories = await prisma.category.findMany({
+    where: { isActive: true },
+    orderBy: { name: "asc" },
+  });
+  const categoryIds = new Set(categories.map((category) => category.id));
 
   await prisma.homeCategorySpotlight.deleteMany();
-  const spotlightCategories = [
-    { categoryId: "cat-fashion", sortOrder: 0, titleOverride: "Apparel" },
-    { categoryId: "cat-sports-outdoors", sortOrder: 1, titleOverride: "Activewear" },
-    { categoryId: "cat-electronics", sortOrder: 2, titleOverride: "Accessories" },
-    { categoryId: "cat-home-garden", sortOrder: 3, titleOverride: "Lifestyle" },
-  ];
-  for (const row of spotlightCategories) {
-    await prisma.homeCategorySpotlight.create({
-      data: { ...row, isActive: true },
-    });
+
+  const spotlightRows = preferredSpotlights
+    .filter((row) => categoryIds.has(row.categoryId))
+    .map((row, sortOrder) => ({ ...row, sortOrder, isActive: true }));
+
+  for (const row of spotlightRows.length > 0 ? spotlightRows : categories.slice(0, 2).map((category, sortOrder) => ({
+    categoryId: category.id,
+    sortOrder,
+    titleOverride: category.name,
+    isActive: true,
+  }))) {
+    await prisma.homeCategorySpotlight.create({ data: row });
   }
 
+  const products = await prisma.product.findMany({
+    where: { isActive: true, genderTarget: "WOMENS" },
+    orderBy: { createdAt: "desc" },
+    select: { id: true },
+  });
+  const productIds = new Set(products.map((product) => product.id));
+
   await prisma.homeProductPick.deleteMany();
-  const picks: Array<{
-    productId: string;
-    section: HomeProductPickSection;
-    sortOrder: number;
-  }> = [
-    { productId: "prod-designer-jacket", section: HomeProductPickSection.EDITORIAL_GRID, sortOrder: 0 },
-    { productId: "prod-running-shoes", section: HomeProductPickSection.EDITORIAL_GRID, sortOrder: 1 },
-    { productId: "prod-iphone-15", section: HomeProductPickSection.HERO_SECONDARY, sortOrder: 0 },
-    { productId: "prod-macbook-air", section: HomeProductPickSection.TRENDING, sortOrder: 0 },
-    { productId: "prod-running-shoes", section: HomeProductPickSection.TRENDING, sortOrder: 1 },
-  ];
-  for (const p of picks) {
-    await prisma.homeProductPick.create({
-      data: { ...p, isActive: true },
-    });
+
+  const pickRows = preferredProductPicks.filter((pick) => productIds.has(pick.productId));
+
+  if (pickRows.length === 0 && products.length > 0) {
+    for (const [sortOrder, product] of products.slice(0, 5).entries()) {
+      await prisma.homeProductPick.create({
+        data: {
+          productId: product.id,
+          section:
+            sortOrder === 0
+              ? HomeProductPickSection.HERO_SECONDARY
+              : sortOrder < 3
+                ? HomeProductPickSection.EDITORIAL_GRID
+                : HomeProductPickSection.TRENDING,
+          sortOrder,
+          isActive: true,
+        },
+      });
+    }
+  } else {
+    for (const pick of pickRows) {
+      await prisma.homeProductPick.create({
+        data: { ...pick, isActive: true },
+      });
+    }
   }
 
   await prisma.homePromoBanner.deleteMany();
   await prisma.homePromoBanner.create({
     data: {
       sortOrder: 0,
-      title: "Members save more",
-      body: "Sign in at checkout to apply promos and track rewards.",
+      title: "Members save on women's edits",
+      body: "Sign in at checkout to apply promos and track rewards on clothing and heels.",
       imageUrl:
-        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80",
+        "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=80",
       href: "/auth/signup",
       layout: PromoBannerLayout.SPLIT_RIGHT_IMAGE,
       isActive: true,
@@ -142,11 +115,11 @@ export async function seedStorefront() {
   await prisma.homePromoBanner.create({
     data: {
       sortOrder: 1,
-      title: "Bundle & save",
-      body: "Pair essentials and unlock bundle pricing this week only.",
+      title: "Heels & dresses on sale",
+      body: "Limited-time pricing on select women's shoes and occasion wear.",
       imageUrl:
-        "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a1?w=1200&q=80",
-      href: "/products?onSale=true",
+        "https://images.unsplash.com/photo-1515372039744-b8a02bd438ca?w=1200&q=80",
+      href: "/products?genderTarget=WOMENS&onSale=true",
       layout: PromoBannerLayout.SPLIT_LEFT_IMAGE,
       isActive: true,
     },

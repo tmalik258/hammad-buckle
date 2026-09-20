@@ -242,7 +242,7 @@ export default function ProductDetailPage() {
 
   if (productError || !product) {
     return (
-      <div className="min-h-screen bg-zinc-50 pt-20">
+      <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
         <div className="container mx-auto px-4 pb-8">
           <ProductError />
         </div>
@@ -251,7 +251,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20 pb-8">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)] pb-8">
       <div className="container mx-auto space-y-8 px-4">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {product.images ? (

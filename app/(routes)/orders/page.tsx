@@ -103,7 +103,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:pt-20">
+    <div className="container mx-auto min-h-screen bg-zinc-50 px-4 py-8 md:pt-[var(--site-chrome-height,4rem)]">
       {/* Breadcrumb Navigation */}
       <BreadcrumbNavigation items={breadcrumbItems} />
 

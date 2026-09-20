@@ -1,9 +1,7 @@
-import { AnnouncementStyle } from "@prisma/client";
 import { Fragment, Suspense, type ReactNode } from "react";
 import { getHomePageData } from "@/lib/storefront/get-home-data";
 import type { HomeSectionKey } from "@/lib/storefront/constants";
 import { resolveHeading } from "@/lib/storefront/section-headings";
-import { StorefrontAnnouncementBar } from "./storefront-announcement-bar";
 import { StorefrontHeroCarousel } from "./storefront-hero-carousel";
 import { StorefrontHeroSecondaryStrip } from "./storefront-hero-secondary-strip";
 import { StorefrontCategorySpotlight } from "./storefront-category-spotlight";
@@ -12,16 +10,12 @@ import { StorefrontPromoBanners } from "./storefront-promo-banners";
 import { StorefrontProductRail } from "./storefront-product-rail";
 import { StorefrontTrustRow } from "./storefront-trust-row";
 import { StorefrontHomeTestimonials } from "./storefront-home-testimonials";
+import { StorefrontReveal } from "./storefront-reveal";
 import NewsletterSection from "../newsletter-section";
 
 export async function StorefrontHome() {
   const data = await getHomePageData();
   const headings = data.sectionHeadings;
-
-  const announcementEnabled = data.settings?.announcementEnabled ?? false;
-  const announcementText = data.settings?.announcementText ?? null;
-  const announcementHref = data.settings?.announcementHref ?? null;
-  const announcementStyle = data.settings?.announcementStyle ?? AnnouncementStyle.NEUTRAL;
 
   const newsletterTitle = data.settings?.newsletterTitle ?? undefined;
   const newsletterSubtitle = data.settings?.newsletterSubtitle ?? undefined;
@@ -36,101 +30,119 @@ export async function StorefrontHome() {
   const testimonialsHeading = resolveHeading(headings, "testimonials");
 
   const sectionBlocks: Record<HomeSectionKey, ReactNode | null> = {
-    announcement: (
-      <StorefrontAnnouncementBar
-        enabled={announcementEnabled}
-        text={announcementText}
-        href={announcementHref}
-        style={announcementStyle}
-      />
-    ),
+    announcement: null,
     hero: (
-      <>
-        <Suspense fallback={<div className="h-[60vh] animate-pulse bg-zinc-100" aria-hidden />}>
+      <div className="-mt-[var(--site-chrome-height,4rem)]">
+        <Suspense fallback={<div className="h-[100svh] animate-pulse bg-zinc-100" aria-hidden />}>
           <StorefrontHeroCarousel slides={data.heroSlides} />
         </Suspense>
         {data.picksHeroSecondary.length ? (
-          <StorefrontHeroSecondaryStrip
-            title={heroSecondaryHeading.title}
-            subtitle={heroSecondaryHeading.subtitle}
-            products={data.picksHeroSecondary}
-          />
+          <StorefrontReveal>
+            <StorefrontHeroSecondaryStrip
+              title={heroSecondaryHeading.title}
+              subtitle={heroSecondaryHeading.subtitle}
+              products={data.picksHeroSecondary}
+            />
+          </StorefrontReveal>
         ) : null}
-      </>
+      </div>
     ),
     categories: data.categorySpotlights.length ? (
-      <StorefrontCategorySpotlight
-        title={categoriesHeading.title}
-        subtitle={categoriesHeading.subtitle}
-        rows={data.categorySpotlights}
-      />
+      <StorefrontReveal>
+        <StorefrontCategorySpotlight
+          title={categoriesHeading.title}
+          subtitle={categoriesHeading.subtitle}
+          rows={data.categorySpotlights}
+        />
+      </StorefrontReveal>
     ) : null,
     editorial: data.picksEditorial.length ? (
-      <StorefrontEditorialGrid
-        title={editorialHeading.title}
-        subtitle={editorialHeading.subtitle}
-        products={data.picksEditorial}
-      />
+      <StorefrontReveal>
+        <StorefrontEditorialGrid
+          title={editorialHeading.title}
+          subtitle={editorialHeading.subtitle}
+          products={data.picksEditorial}
+        />
+      </StorefrontReveal>
     ) : null,
     promos: data.promoBanners.length ? (
-      <div className="bg-white">
-        <StorefrontPromoBanners banners={data.promoBanners} />
-      </div>
+      <StorefrontReveal>
+        <div className="bg-white">
+          <StorefrontPromoBanners banners={data.promoBanners} />
+        </div>
+      </StorefrontReveal>
     ) : null,
     newArrivals: (
-      <StorefrontProductRail
-        title={newArrivalsHeading.title}
-        subtitle={newArrivalsHeading.subtitle}
-        products={data.newArrivals}
-        viewAllHref="/products?isNew=true"
-      />
+      <StorefrontReveal>
+        <StorefrontProductRail
+          title={newArrivalsHeading.title}
+          subtitle={newArrivalsHeading.subtitle}
+          products={data.newArrivals}
+          viewAllHref="/products?isNew=true"
+        />
+      </StorefrontReveal>
     ),
     sale: (
-      <div className="bg-zinc-50">
-        <StorefrontProductRail
-          title={saleHeading.title}
-          subtitle={saleHeading.subtitle}
-          products={data.onSale}
-          viewAllHref="/products?onSale=true"
-          viewAllLabel="Shop sale"
-        />
-      </div>
+      <StorefrontReveal>
+        <div className="bg-zinc-50">
+          <StorefrontProductRail
+            title={saleHeading.title}
+            subtitle={saleHeading.subtitle}
+            products={data.onSale}
+            viewAllHref="/products?onSale=true"
+            viewAllLabel="Shop sale"
+          />
+        </div>
+      </StorefrontReveal>
     ),
     featured: (
-      <StorefrontProductRail
-        title={featuredHeading.title}
-        subtitle={featuredHeading.subtitle}
-        products={data.featured}
-        viewAllHref="/products?featured=true"
-      />
+      <StorefrontReveal>
+        <StorefrontProductRail
+          title={featuredHeading.title}
+          subtitle={featuredHeading.subtitle}
+          products={data.featured}
+          viewAllHref="/products?featured=true"
+        />
+      </StorefrontReveal>
     ),
     trending: (
-      <div className="bg-zinc-50">
-        <StorefrontProductRail
-          title={trendingHeading.title}
-          subtitle={trendingHeading.subtitle}
-          products={data.trendingProducts}
-          viewAllHref="/products?sortBy=reviewCount&sortOrder=desc"
-          viewAllLabel="Explore trending"
-        />
-      </div>
+      <StorefrontReveal>
+        <div className="bg-zinc-50">
+          <StorefrontProductRail
+            title={trendingHeading.title}
+            subtitle={trendingHeading.subtitle}
+            products={data.trendingProducts}
+            viewAllHref="/products?sortBy=reviewCount&sortOrder=desc"
+            viewAllLabel="Explore trending"
+          />
+        </div>
+      </StorefrontReveal>
     ),
     testimonials: (
-      <StorefrontHomeTestimonials
-        title={testimonialsHeading.title}
-        subtitle={testimonialsHeading.subtitle}
-        testimonials={data.testimonials}
-      />
+      <StorefrontReveal>
+        <StorefrontHomeTestimonials
+          title={testimonialsHeading.title}
+          subtitle={testimonialsHeading.subtitle}
+          testimonials={data.testimonials}
+        />
+      </StorefrontReveal>
     ),
     newsletter: (
-      <NewsletterSection title={newsletterTitle} subtitle={newsletterSubtitle} />
+      <StorefrontReveal>
+        <NewsletterSection title={newsletterTitle} subtitle={newsletterSubtitle} />
+      </StorefrontReveal>
     ),
-    trust: <StorefrontTrustRow badges={data.trustBadges} />,
+    trust: (
+      <StorefrontReveal>
+        <StorefrontTrustRow badges={data.trustBadges} />
+      </StorefrontReveal>
+    ),
   };
 
   return (
     <div className="min-h-screen bg-white">
       {data.sectionOrder.map((key) => {
+        if (key === "announcement") return null;
         const block = sectionBlocks[key];
         if (block == null) return null;
         return <Fragment key={key}>{block}</Fragment>;
