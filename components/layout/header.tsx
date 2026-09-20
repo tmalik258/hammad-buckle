@@ -93,169 +93,7 @@ export function Header({ navCategories = [] }: HeaderProps) {
             : "border-white/30 bg-white/20 shadow-md shadow-zinc-900/5 backdrop-blur-2xl"
         }`}
       >
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden cursor-pointer">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side="left"
-              className="w-[320px] sm:w-[400px] border-r border-border backdrop-blur-xl z-[3000]"
-            >
-              <div className="flex flex-col h-full">
-                <div className="flex items-center mb-6">
-                  <Image
-                    src="/logo-transparent.png"
-                    alt="Hammad Buckle"
-                    width={100}
-                    height={100}
-                    className="h-full w-auto"
-                  />
-                </div>
-
-                {isAuthenticated && (
-                  <div className="px-4 mb-6">
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-accent/20 border border-border">
-                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-border">
-                        {isLoading ? (
-                          <div className="w-full h-full bg-muted animate-pulse rounded-full" />
-                        ) : (
-                          <UserInitialsAvatar
-                            name={profile?.name || user?.user_metadata?.name}
-                            email={profile?.email || user?.email}
-                            size="md"
-                          />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        {isLoading ? (
-                          <div className="h-4 w-24 bg-zinc-200 animate-pulse rounded" />
-                        ) : (
-                          <p className="text-sm font-medium text-foreground truncate">
-                            {profile?.name || user?.email || "User"}
-                          </p>
-                        )}
-                        <p className="text-xs text-muted-foreground">Welcome back!</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
-                  {categoryLinks.map((link) => (
-                    <Link key={link.href} href={link.href} className={mobileLinkClass}>
-                      <Package className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      <span className="font-medium group-hover:text-foreground transition-colors">
-                        {link.label}
-                      </span>
-                    </Link>
-                  ))}
-
-                  <Link href="/collections" className={mobileLinkClass}>
-                    <Grid3X3 className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                    <span className="font-medium group-hover:text-foreground transition-colors">
-                      Collections
-                    </span>
-                  </Link>
-
-                  <Link href="/products?isNew=true" className={mobileLinkClass}>
-                    <Sparkles className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                    <span className="font-medium group-hover:text-foreground transition-colors">
-                      New Arrivals
-                    </span>
-                  </Link>
-
-                  <Link href="/products?onSale=true" className={mobileLinkClass}>
-                    <Tag className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                    <span className="font-medium group-hover:text-foreground transition-colors">
-                      Sale
-                    </span>
-                  </Link>
-
-                  <Link href="/about-us" className={mobileLinkClass}>
-                    <Info className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                    <span className="font-medium group-hover:text-foreground transition-colors">
-                      About Us
-                    </span>
-                  </Link>
-
-                  <Link href="/contact" className={mobileLinkClass}>
-                    <Mail className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                    <span className="font-medium group-hover:text-foreground transition-colors">
-                      Contact
-                    </span>
-                  </Link>
-
-                  <Link href="/cart" className={mobileLinkClass}>
-                    <div className="relative">
-                      <ShoppingCart className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      {itemCount > 0 && (
-                        <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs !bg-primary !text-primary-foreground border-none">
-                          {itemCount}
-                        </Badge>
-                      )}
-                    </div>
-                    <span className="font-medium group-hover:text-foreground transition-colors">
-                      Shopping Cart
-                    </span>
-                  </Link>
-                </nav>
-
-                <div className="px-4 py-4 border-t border-border space-y-2">
-                  {isAuthenticated ? (
-                    <>
-                      <Link href="/my-account" className={mobileLinkClass}>
-                        <Settings className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
-                        <span className="font-medium group-hover:text-zinc-900 transition-colors">
-                          Profile Settings
-                        </span>
-                      </Link>
-
-                      {profile?.role === UserRole.ADMIN ? (
-                        <Link href="/admin" className={mobileLinkClass}>
-                          <LayoutDashboard className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
-                          <span className="font-medium group-hover:text-zinc-900 transition-colors">
-                            Admin
-                          </span>
-                        </Link>
-                      ) : null}
-
-                      <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-destructive/10 border border-transparent transition-all duration-300 group cursor-pointer"
-                      >
-                        <LogOut className="h-5 w-5 text-destructive transition-colors" />
-                        <span className="font-medium group-hover:text-destructive transition-colors">
-                          Sign Out
-                        </span>
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link href="/auth/login" className={mobileLinkClass}>
-                        <User className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                        <span className="font-medium group-hover:text-foreground transition-colors">
-                          Account
-                        </span>
-                      </Link>
-
-                      <Link
-                        href="/auth/signup"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group cursor-pointer"
-                      >
-                        <UserPlus className="h-5 w-5 transition-colors" />
-                        <span className="font-medium transition-colors">Join</span>
-                      </Link>
-                    </>
-                  )}
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
-
-          <Link href="/" className="flex items-center cursor-pointer">
+          <Link href="/" className="flex shrink-0 items-center cursor-pointer">
             <div className="font-bold text-2xl font-serif text-primary">
               <Image
                 src="/logo-transparent.png"
@@ -290,7 +128,7 @@ export function Header({ navCategories = [] }: HeaderProps) {
             </Link>
           </nav>
 
-          <div className="flex items-center">
+          <div className="flex items-center gap-1 sm:gap-2">
             {isAuthenticated && isInitialized ? (
               <>
                 <DropdownMenu>
@@ -370,6 +208,168 @@ export function Header({ navCategories = [] }: HeaderProps) {
             ) : (
               <div className="h-8 w-36" />
             )}
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="lg:hidden cursor-pointer">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-[320px] sm:w-[400px] border-l border-border backdrop-blur-xl z-[3000]"
+              >
+                <div className="flex flex-col h-full">
+                  <div className="flex items-center mb-6">
+                    <Image
+                      src="/logo-transparent.png"
+                      alt="Hammad Buckle"
+                      width={100}
+                      height={100}
+                      className="h-full w-auto"
+                    />
+                  </div>
+
+                  {isAuthenticated && (
+                    <div className="px-4 mb-6">
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-accent/20 border border-border">
+                        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-border">
+                          {isLoading ? (
+                            <div className="w-full h-full bg-muted animate-pulse rounded-full" />
+                          ) : (
+                            <UserInitialsAvatar
+                              name={profile?.name || user?.user_metadata?.name}
+                              email={profile?.email || user?.email}
+                              size="md"
+                            />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          {isLoading ? (
+                            <div className="h-4 w-24 bg-zinc-200 animate-pulse rounded" />
+                          ) : (
+                            <p className="text-sm font-medium text-foreground truncate">
+                              {profile?.name || user?.email || "User"}
+                            </p>
+                          )}
+                          <p className="text-xs text-muted-foreground">Welcome back!</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
+                    {categoryLinks.map((link) => (
+                      <Link key={link.href} href={link.href} className={mobileLinkClass}>
+                        <Package className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                        <span className="font-medium group-hover:text-foreground transition-colors">
+                          {link.label}
+                        </span>
+                      </Link>
+                    ))}
+
+                    <Link href="/collections" className={mobileLinkClass}>
+                      <Grid3X3 className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      <span className="font-medium group-hover:text-foreground transition-colors">
+                        Collections
+                      </span>
+                    </Link>
+
+                    <Link href="/products?isNew=true" className={mobileLinkClass}>
+                      <Sparkles className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      <span className="font-medium group-hover:text-foreground transition-colors">
+                        New Arrivals
+                      </span>
+                    </Link>
+
+                    <Link href="/products?onSale=true" className={mobileLinkClass}>
+                      <Tag className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      <span className="font-medium group-hover:text-foreground transition-colors">
+                        Sale
+                      </span>
+                    </Link>
+
+                    <Link href="/about-us" className={mobileLinkClass}>
+                      <Info className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      <span className="font-medium group-hover:text-foreground transition-colors">
+                        About Us
+                      </span>
+                    </Link>
+
+                    <Link href="/contact" className={mobileLinkClass}>
+                      <Mail className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                      <span className="font-medium group-hover:text-foreground transition-colors">
+                        Contact
+                      </span>
+                    </Link>
+
+                    <Link href="/cart" className={mobileLinkClass}>
+                      <div className="relative">
+                        <ShoppingCart className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                        {itemCount > 0 && (
+                          <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs !bg-primary !text-primary-foreground border-none">
+                            {itemCount}
+                          </Badge>
+                        )}
+                      </div>
+                      <span className="font-medium group-hover:text-foreground transition-colors">
+                        Shopping Cart
+                      </span>
+                    </Link>
+                  </nav>
+
+                  <div className="px-4 py-4 border-t border-border space-y-2">
+                    {isAuthenticated ? (
+                      <>
+                        <Link href="/my-account" className={mobileLinkClass}>
+                          <Settings className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
+                          <span className="font-medium group-hover:text-zinc-900 transition-colors">
+                            Profile Settings
+                          </span>
+                        </Link>
+
+                        {profile?.role === UserRole.ADMIN ? (
+                          <Link href="/admin" className={mobileLinkClass}>
+                            <LayoutDashboard className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
+                            <span className="font-medium group-hover:text-zinc-900 transition-colors">
+                              Admin
+                            </span>
+                          </Link>
+                        ) : null}
+
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-destructive/10 border border-transparent transition-all duration-300 group cursor-pointer"
+                        >
+                          <LogOut className="h-5 w-5 text-destructive transition-colors" />
+                          <span className="font-medium group-hover:text-destructive transition-colors">
+                            Sign Out
+                          </span>
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <Link href="/auth/login" className={mobileLinkClass}>
+                          <User className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                          <span className="font-medium group-hover:text-foreground transition-colors">
+                            Account
+                          </span>
+                        </Link>
+
+                        <Link
+                          href="/auth/signup"
+                          className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group cursor-pointer"
+                        >
+                          <UserPlus className="h-5 w-5 transition-colors" />
+                          <span className="font-medium transition-colors">Join</span>
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
       </div>
     </header>

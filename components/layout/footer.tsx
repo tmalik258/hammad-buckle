@@ -157,26 +157,40 @@ export function Footer({ className = "" }: FooterProps) {
 
         {/* Bottom Footer */}
         <div className="border-t border-white/20 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-white/80">
-              <p>&copy; {new Date().getFullYear()} Hammad Buckle. All rights reserved.</p>
-              <div className="flex space-x-4">
-                <Link href="/privacy-policy" className="hover:text-[#FFF8E7] transition-colors duration-200">
-                  Privacy Policy
-                </Link>
-                <Link href="/terms-of-service" className="hover:text-[#FFF8E7] transition-colors duration-200">
-                  Terms of Service
-                </Link>
-                <Link href="/cookie-policy" className="hover:text-[#FFF8E7] transition-colors duration-200">
-                  Cookie Policy
-                </Link>
-              </div>
+          <div className="flex flex-col items-center gap-4 text-sm text-white/80 lg:flex-row lg:items-center lg:justify-between">
+            <p className="shrink-0 text-center lg:text-left">
+              &copy; {new Date().getFullYear()} Hammad Buckle. All rights reserved.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+              <Link
+                href="/privacy-policy"
+                className="whitespace-nowrap hover:text-[#FFF8E7] transition-colors duration-200"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms-of-service"
+                className="whitespace-nowrap hover:text-[#FFF8E7] transition-colors duration-200"
+              >
+                Terms of Service
+              </Link>
+              <Link
+                href="/cookie-policy"
+                className="whitespace-nowrap hover:text-[#FFF8E7] transition-colors duration-200"
+              >
+                Cookie Policy
+              </Link>
             </div>
-            
-            <div className="flex items-center space-x-2 text-sm text-white/80">
+
+            <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
               <span>Made with</span>
-              <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+              <svg className="h-4 w-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span>in Pakistan</span>
             </div>
