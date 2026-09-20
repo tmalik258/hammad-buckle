@@ -16,9 +16,10 @@ import {
 import type { PromoCodeValidationResponse, PromoCodeApplicationResponse } from "@/lib/types/promo-code";
 
 export default function CheckoutPage() {
-  const { items: cartItems, getTotalPrice, clearCart, clearCartSilently } = useCartStore();
-  const { profile, isAuthenticated } = useUserStore();
+  const { items: cartItems, getTotalPrice, clearCartSilently } = useCartStore();
+  const { profile } = useUserStore();
   const router = useRouter();
+  const isSignedIn = Boolean(profile?.id);
 
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [selectedShippingMethod, setSelectedShippingMethod] =
@@ -158,13 +159,22 @@ export default function CheckoutPage() {
       toast.error("Your cart is empty. Redirecting to shop...");
       router.push("/products");
     }
-    console.log("Cart Items", cartItems)
-  }, [router]);
+  }, [router, cartItems.length]);
+
+  // Prefill shipping contact from signed-in profile
+  useEffect(() => {
+    if (!profile) return;
+    setFormData((prev) => ({
+      ...prev,
+      name: prev.name || profile.name || "",
+      email: prev.email || profile.email || "",
+    }));
+  }, [profile]);
 
   const subtotal = getTotalPrice();
   const shipping = subtotal > 100 ? 0 : 9.99;
   const tax = subtotal * 0.08;
-  const discount = promoCodeDiscount;
+  const discount = isSignedIn ? promoCodeDiscount : 0;
   const total = Math.max(0, subtotal + shipping + tax - discount);
 
   // Initialize form validation on component mount
@@ -200,6 +210,11 @@ export default function CheckoutPage() {
 
   // Handle promo code application
   const applyPromoCode = async () => {
+    if (!isSignedIn) {
+      toast.error("Sign in to use promo codes");
+      return;
+    }
+
     if (!promoCode.trim()) {
       toast.error("Please enter a valid promo code");
       return;
@@ -311,13 +326,6 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent): Promise<string | null> => {
     e.preventDefault();
 
-    // Check if user is authenticated
-    if (!isAuthenticated || !profile?.id) {
-      toast.error("Please log in to complete your order");
-      router.push("/auth/login");
-      return null;
-    }
-
     if (!validateForm()) {
       toast.error("Please fix the errors in the form before submitting");
       return null;
@@ -334,9 +342,10 @@ export default function CheckoutPage() {
 
       // Prepare order data for submission (matching API schema)
       const orderData = {
-        userId: profile.id, // Get actual user ID from auth context
+        ...(profile?.id ? { userId: profile.id } : {}),
+        email: formData.email,
         items: cartItems.map((item) => ({
-          productId: item.productId, // Use the actual productId, not the timestamp-modified id
+          productId: item.productId,
           quantity: item.quantity,
           price: item.price,
         })),
@@ -354,7 +363,7 @@ export default function CheckoutPage() {
         shipping: shipping,
         discount: discount,
         totalAmount: total,
-        promoCode: appliedPromoCode,
+        promoCode: isSignedIn ? appliedPromoCode : null,
       };
 
       // Submit order to API
@@ -368,33 +377,15 @@ export default function CheckoutPage() {
 
       const result = await response.json();
 
-      if (!result.success) {
-        // Handle specific error types
-        const errorCode = result.error?.code || "unknown_error";
-        const errorMessage = result.error?.message || "Failed to place order";
-
-        switch (errorCode) {
-          case "validation_error":
-            toast.error(`Validation error: ${errorMessage}`);
-            break;
-          case "payment_failed":
-            toast.error(
-              `Payment failed: ${errorMessage}. Please check your payment details and try again.`
-            );
-            break;
-          case "order_submission_failed":
-            toast.error(
-              `Order submission failed: ${errorMessage}. Please try again later.`
-            );
-            break;
-          default:
-            toast.error(errorMessage);
-        }
-
+      if (!response.ok || !result.success) {
+        const errorMessage =
+          typeof result.error === "string"
+            ? result.error
+            : result.error?.message || "Failed to place order";
+        toast.error(errorMessage);
         return null;
       }
 
-      console.log("Order placed successfully:", result);
       toast.success("Order placed successfully!");
 
       // Set the created order ID
@@ -423,16 +414,8 @@ export default function CheckoutPage() {
             error.message || "Failed to place order. Please try again."
           );
         }
-
-        // Log detailed error for debugging
-        console.log("Detailed error:", {
-          name: error.name,
-          message: error.message,
-          stack: error.stack,
-        });
       } else {
         toast.error("Failed to place order. Please try again.");
-        console.log("Unknown error:", error);
       }
 
       return null;
@@ -493,6 +476,7 @@ export default function CheckoutPage() {
                   appliedPromoCode={appliedPromoCode}
                   removePromoCode={removePromoCode}
                   isApplyingPromoCode={isApplyingPromoCode}
+                  canUsePromo={isSignedIn}
                 />
               </div>
             </div>

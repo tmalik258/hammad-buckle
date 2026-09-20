@@ -4,26 +4,26 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 // Cart Page Skeleton
 export function CartSkeleton() {
   return (
-    <div className="min-h-screen bg-zinc-50 pt-20">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
       <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
-          <Skeleton className="h-8 w-32 mb-6" />
+          <Skeleton className="h-8 w-32 mb-6 bg-zinc-200/80" />
           {Array.from({ length: 3 }).map((_, i) => (
-            <Card key={i} className="rounded-2xl border-zinc-200 bg-white shadow-sm">
+            <Card key={i} className="rounded-2xl border-0 bg-white shadow-sm">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
-                  <Skeleton className="h-20 w-20 rounded-md" />
+                  <Skeleton className="h-20 w-20 rounded-md bg-zinc-200/80" />
                   <div className="flex-1 space-y-2">
-                    <Skeleton className="h-4 w-48" />
-                    <Skeleton className="h-3 w-32" />
+                    <Skeleton className="h-4 w-48 bg-zinc-200/80" />
+                    <Skeleton className="h-3 w-32 bg-zinc-200/80" />
                     <div className="flex items-center space-x-4">
-                      <Skeleton className="h-8 w-24" />
-                      <Skeleton className="h-4 w-16" />
+                      <Skeleton className="h-8 w-24 bg-zinc-200/80" />
+                      <Skeleton className="h-4 w-16 bg-zinc-200/80" />
                     </div>
                   </div>
-                  <Skeleton className="h-8 w-8" />
+                  <Skeleton className="h-8 w-8 bg-zinc-200/80" />
                 </div>
               </CardContent>
             </Card>
@@ -32,26 +32,26 @@ export function CartSkeleton() {
         
         {/* Order Summary */}
         <div>
-          <Card className="rounded-2xl border-zinc-200 bg-white shadow-sm">
+          <Card className="rounded-2xl border-0 bg-white shadow-sm">
             <CardHeader>
-              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-6 w-32 bg-zinc-200/80" />
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <Skeleton className="h-4 w-16" />
-                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-4 w-16 bg-zinc-200/80" />
+                  <Skeleton className="h-4 w-12 bg-zinc-200/80" />
                 </div>
                 <div className="flex justify-between">
-                  <Skeleton className="h-4 w-20" />
-                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-4 w-20 bg-zinc-200/80" />
+                  <Skeleton className="h-4 w-12 bg-zinc-200/80" />
                 </div>
                 <div className="flex justify-between">
-                  <Skeleton className="h-4 w-12" />
-                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-4 w-12 bg-zinc-200/80" />
+                  <Skeleton className="h-4 w-12 bg-zinc-200/80" />
                 </div>
               </div>
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full bg-zinc-200/80" />
             </CardContent>
           </Card>
         </div>
@@ -103,49 +103,50 @@ export const ProductsPageSkeleton = () => {
 // Checkout Page Skeleton
 export function CheckoutSkeleton() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
+      <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Checkout Form */}
         <div className="space-y-6">
-          <Skeleton className="h-8 w-40 mb-6" />
+          <Skeleton className="mb-6 h-8 w-40 bg-zinc-200/80" />
           
           {/* Contact Information */}
-          <Card>
+          <Card className="rounded-2xl border-0 bg-white shadow-sm">
             <CardHeader>
-              <Skeleton className="h-6 w-48" />
+              <Skeleton className="h-6 w-48 bg-zinc-200/80" />
             </CardHeader>
             <CardContent className="space-y-4">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full bg-zinc-200/80" />
+              <Skeleton className="h-10 w-full bg-zinc-200/80" />
             </CardContent>
           </Card>
           
           {/* Shipping Address */}
-          <Card>
+          <Card className="rounded-2xl border-0 bg-white shadow-sm">
             <CardHeader>
-              <Skeleton className="h-6 w-36" />
+              <Skeleton className="h-6 w-36 bg-zinc-200/80" />
             </CardHeader>
             <CardContent className="space-y-4">
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full bg-zinc-200/80" />
               <div className="grid grid-cols-2 gap-4">
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full bg-zinc-200/80" />
+                <Skeleton className="h-10 w-full bg-zinc-200/80" />
               </div>
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full bg-zinc-200/80" />
             </CardContent>
           </Card>
           
           {/* Payment Method */}
-          <Card>
+          <Card className="rounded-2xl border-0 bg-white shadow-sm">
             <CardHeader>
-              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-6 w-32 bg-zinc-200/80" />
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="flex items-center space-x-2">
-                    <Skeleton className="h-4 w-4 rounded-full" />
-                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-4 rounded-full bg-zinc-200/80" />
+                    <Skeleton className="h-4 w-24 bg-zinc-200/80" />
                   </div>
                 ))}
               </div>
@@ -155,39 +156,40 @@ export function CheckoutSkeleton() {
         
         {/* Order Summary */}
         <div>
-          <Card>
+          <Card className="rounded-2xl border-0 bg-white shadow-sm">
             <CardHeader>
-              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-6 w-32 bg-zinc-200/80" />
             </CardHeader>
             <CardContent className="space-y-4">
               {Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="flex items-center space-x-4">
-                  <Skeleton className="h-16 w-16 rounded-md" />
+                  <Skeleton className="h-16 w-16 rounded-md bg-zinc-200/80" />
                   <div className="flex-1 space-y-2">
-                    <Skeleton className="h-4 w-32" />
-                    <Skeleton className="h-3 w-20" />
+                    <Skeleton className="h-4 w-32 bg-zinc-200/80" />
+                    <Skeleton className="h-3 w-20 bg-zinc-200/80" />
                   </div>
-                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-4 w-12 bg-zinc-200/80" />
                 </div>
               ))}
-              <div className="border-t pt-4 space-y-2">
+              <div className="space-y-2 border-t border-zinc-100 pt-4">
                 <div className="flex justify-between">
-                  <Skeleton className="h-4 w-16" />
-                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-4 w-16 bg-zinc-200/80" />
+                  <Skeleton className="h-4 w-12 bg-zinc-200/80" />
                 </div>
                 <div className="flex justify-between">
-                  <Skeleton className="h-4 w-20" />
-                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-4 w-20 bg-zinc-200/80" />
+                  <Skeleton className="h-4 w-12 bg-zinc-200/80" />
                 </div>
                 <div className="flex justify-between font-bold">
-                  <Skeleton className="h-5 w-12" />
-                  <Skeleton className="h-5 w-16" />
+                  <Skeleton className="h-5 w-12 bg-zinc-200/80" />
+                  <Skeleton className="h-5 w-16 bg-zinc-200/80" />
                 </div>
               </div>
-              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full bg-zinc-200/80" />
             </CardContent>
           </Card>
         </div>
+      </div>
       </div>
     </div>
   );
@@ -196,7 +198,8 @@ export function CheckoutSkeleton() {
 // Contact Page Skeleton
 export function ContactSkeleton() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
+      <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <Skeleton className="h-10 w-48 mx-auto mb-4" />
@@ -247,6 +250,7 @@ export function ContactSkeleton() {
           </div>
         </div>
       </div>
+      </div>
     </div>
   );
 }
@@ -257,26 +261,28 @@ export { MyAccountSkeleton } from "@/app/(routes)/my-account/_components/my-acco
 // Wishlist Page Skeleton
 export function WishlistSkeleton() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="container mx-auto">
-        <div className="mb-8">
-          <Skeleton className="h-10 w-32 mb-2" />
-          <Skeleton className="h-4 w-48" />
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8 space-y-2">
+          <Skeleton className="h-9 w-32 bg-zinc-200/80" />
+          <Skeleton className="h-4 w-48 bg-zinc-200/80" />
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 8 }).map((_, i) => (
-            <Card key={i}>
-              <CardContent className="p-4">
-                <div className="relative mb-4">
-                  <Skeleton className="h-48 w-full rounded-md" />
-                  <Skeleton className="absolute top-2 right-2 h-8 w-8 rounded-full" />
+            <Card key={i} className="overflow-hidden rounded-2xl border-0 bg-white shadow-sm">
+              <CardContent className="p-0">
+                <div className="relative">
+                  <Skeleton className="aspect-[4/5] w-full rounded-none bg-zinc-200/80" />
+                  <Skeleton className="absolute top-2 right-2 h-8 w-8 rounded-full bg-zinc-200/80" />
                 </div>
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-3 w-24 mb-2" />
-                <div className="flex items-center justify-between">
-                  <Skeleton className="h-5 w-16" />
-                  <Skeleton className="h-8 w-20" />
+                <div className="space-y-2 p-4">
+                  <Skeleton className="h-4 w-full bg-zinc-200/80" />
+                  <Skeleton className="h-3 w-24 bg-zinc-200/80" />
+                  <div className="flex items-center justify-between pt-1">
+                    <Skeleton className="h-5 w-16 bg-zinc-200/80" />
+                    <Skeleton className="h-8 w-20 bg-zinc-200/80" />
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -290,60 +296,61 @@ export function WishlistSkeleton() {
 // Track Order Page Skeleton
 export function TrackOrderSkeleton() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
+      <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <Skeleton className="h-10 w-48 mb-4" />
-          <Skeleton className="h-4 w-64" />
+        <div className="mb-8 space-y-2">
+          <Skeleton className="h-9 w-48 bg-zinc-200/80" />
+          <Skeleton className="h-4 w-64 bg-zinc-200/80" />
         </div>
         
         {/* Search Form */}
-        <Card className="mb-8">
+        <Card className="mb-8 rounded-2xl border-0 bg-white shadow-sm">
           <CardContent className="p-6">
             <div className="flex gap-4">
-              <Skeleton className="h-12 flex-1" />
-              <Skeleton className="h-12 w-32" />
+              <Skeleton className="h-12 flex-1 bg-zinc-200/80" />
+              <Skeleton className="h-12 w-32 bg-zinc-200/80" />
             </div>
           </CardContent>
         </Card>
         
         {/* Order Status */}
         <div className="space-y-6">
-          <Card>
+          <Card className="rounded-2xl border-0 bg-white shadow-sm">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <Skeleton className="h-6 w-32" />
-                <Skeleton className="h-6 w-20" />
+                <Skeleton className="h-6 w-32 bg-zinc-200/80" />
+                <Skeleton className="h-6 w-20 bg-zinc-200/80" />
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Skeleton className="h-3 w-24" />
-                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-3 w-24 bg-zinc-200/80" />
+                  <Skeleton className="h-4 w-32 bg-zinc-200/80" />
                 </div>
                 <div className="space-y-2">
-                  <Skeleton className="h-3 w-20" />
-                  <Skeleton className="h-4 w-28" />
+                  <Skeleton className="h-3 w-20 bg-zinc-200/80" />
+                  <Skeleton className="h-4 w-28 bg-zinc-200/80" />
                 </div>
               </div>
-              <Skeleton className="h-2 w-full" />
+              <Skeleton className="h-2 w-full bg-zinc-200/80" />
             </CardContent>
           </Card>
           
           {/* Timeline */}
-          <Card>
+          <Card className="rounded-2xl border-0 bg-white shadow-sm">
             <CardHeader>
-              <Skeleton className="h-6 w-40" />
+              <Skeleton className="h-6 w-40 bg-zinc-200/80" />
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {Array.from({ length: 4 }).map((_, i) => (
                   <div key={i} className="flex items-center space-x-4">
-                    <Skeleton className="h-8 w-8 rounded-full" />
+                    <Skeleton className="h-8 w-8 rounded-full bg-zinc-200/80" />
                     <div className="flex-1 space-y-2">
-                      <Skeleton className="h-4 w-48" />
-                      <Skeleton className="h-3 w-32" />
+                      <Skeleton className="h-4 w-48 bg-zinc-200/80" />
+                      <Skeleton className="h-3 w-32 bg-zinc-200/80" />
                     </div>
                   </div>
                 ))}
@@ -351,6 +358,7 @@ export function TrackOrderSkeleton() {
             </CardContent>
           </Card>
         </div>
+      </div>
       </div>
     </div>
   );

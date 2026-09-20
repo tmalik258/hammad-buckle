@@ -49,11 +49,11 @@ const transformProduct = (hookProduct: {
     stockCount: hookProduct.stockQuantity || 0,
     sizes:
       hookProduct.variants
-        ?.filter((variant) => variant.name === "size")
+        ?.filter((variant) => variant.name.toLowerCase() === "size")
         .map((v) => v.value) || [],
     colors:
       hookProduct.variants
-        ?.filter((variant) => variant.name === "color")
+        ?.filter((variant) => variant.name.toLowerCase() === "color")
         ?.map((variant) => ({
           name: variant.value,
           value: getColorValue(variant.value),
@@ -243,7 +243,7 @@ export default function ProductDetailPage() {
   if (productError || !product) {
     return (
       <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)]">
-        <div className="container mx-auto px-4 pb-8">
+        <div className="container mx-auto px-4 py-8">
           <ProductError />
         </div>
       </div>
@@ -252,7 +252,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 pt-[var(--site-chrome-height,4rem)] pb-8">
-      <div className="container mx-auto space-y-8 px-4">
+      <div className="container mx-auto space-y-8 px-4 pt-8">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {product.images ? (
             <ProductImages

@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { X, Loader2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { CartItem } from "@/lib/stores/cart-store";
 
 interface OrderSummaryProps {
@@ -22,6 +23,7 @@ interface OrderSummaryProps {
   appliedPromoCode?: string | null;
   removePromoCode?: () => void;
   isApplyingPromoCode?: boolean;
+  canUsePromo?: boolean;
 }
 
 export const OrderSummary = ({
@@ -37,6 +39,7 @@ export const OrderSummary = ({
   appliedPromoCode = null,
   removePromoCode = () => {},
   isApplyingPromoCode = false,
+  canUsePromo = true,
 }: OrderSummaryProps) => {
   return (
     <Card className="sticky top-4 rounded-2xl border-zinc-200 bg-white shadow-sm">
@@ -107,7 +110,14 @@ export const OrderSummary = ({
         {/* Promo Code Section */}
         <div className="space-y-3">
           <h3 className="font-semibold text-zinc-900">Promo Code</h3>
-          {appliedPromoCode ? (
+          {!canUsePromo ? (
+            <p className="text-sm text-zinc-600">
+              <Link href="/auth/login?next=/checkout" className="font-medium text-zinc-900 underline-offset-4 hover:underline cursor-pointer">
+                Sign in
+              </Link>{" "}
+              to use promo codes.
+            </p>
+          ) : appliedPromoCode ? (
             <div className="flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-3">
               <div className="flex items-center gap-2">
                 <Badge variant="secondary" className="bg-green-100 text-green-800">

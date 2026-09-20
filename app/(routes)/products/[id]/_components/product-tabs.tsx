@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { ProductTabsSkeleton } from "../../_components/product-skeleton";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface Specification {
@@ -23,8 +22,50 @@ interface ProductTabsProps {
 
 type TabType = "description" | "specifications" | "shipping" | "returns";
 
+const TABS: { id: TabType; label: string }[] = [
+  { id: "description", label: "Description" },
+  { id: "specifications", label: "Specifications" },
+  { id: "shipping", label: "Shipping" },
+  { id: "returns", label: "Returns" },
+];
+
 export function ProductTabs({ product, loading = false }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState<TabType>("description");
+  const listRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0, ready: false });
+
+  const updateIndicator = useCallback(() => {
+    const list = listRef.current;
+    const index = TABS.findIndex((tab) => tab.id === activeTab);
+    const tab = tabRefs.current[index];
+    if (!list || !tab) return;
+
+    setIndicator({
+      left: tab.offsetLeft,
+      width: tab.offsetWidth,
+      ready: true,
+    });
+  }, [activeTab]);
+
+  useLayoutEffect(() => {
+    updateIndicator();
+
+    const list = listRef.current;
+    if (!list) return;
+
+    const resizeObserver = new ResizeObserver(() => updateIndicator());
+    resizeObserver.observe(list);
+    tabRefs.current.forEach((tab) => {
+      if (tab) resizeObserver.observe(tab);
+    });
+
+    window.addEventListener("resize", updateIndicator);
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateIndicator);
+    };
+  }, [updateIndicator]);
 
   if (loading) {
     return <ProductTabsSkeleton />;
@@ -40,31 +81,48 @@ export function ProductTabs({ product, loading = false }: ProductTabsProps) {
     );
   }
 
-  const tabs = [
-    { id: "description" as TabType, label: "Description" },
-    { id: "specifications" as TabType, label: "Specifications" },
-    { id: "shipping" as TabType, label: "Shipping" },
-    { id: "returns" as TabType, label: "Returns" },
-  ];
-
   return (
-    <div className="rounded-2xl p-8">
-      <div className="mb-8 flex space-x-4 overflow-x-auto scroll-auto max-md:py-5">
-        {tabs.map((tab) => (
-          <Button
-            key={tab.id}
-            variant="ghost"
-            onClick={() => setActiveTab(tab.id)}
-            className={cn(
-              "rounded-lg p-0 font-semibold transition-colors",
-              activeTab === tab.id
-                ? "bg-zinc-900 text-white hover:bg-zinc-800 hover:text-white"
-                : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
-            )}
-          >
-            <div className="px-4 py-2">{tab.label}</div>
-          </Button>
-        ))}
+    <div className="rounded-2xl p-4 sm:p-8">
+      <div
+        ref={listRef}
+        className="relative mb-8 flex max-w-full gap-3 overflow-x-auto scroll-smooth max-md:py-1 sm:gap-4"
+        role="tablist"
+        aria-label="Product details"
+      >
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute top-0 h-full rounded-lg bg-zinc-900",
+            indicator.ready
+              ? "transition-[left,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+              : "opacity-0"
+          )}
+          style={{ left: indicator.left, width: indicator.width }}
+        />
+
+        {TABS.map((tab, index) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              ref={(el) => {
+                tabRefs.current[index] = el;
+              }}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => setActiveTab(tab.id)}
+              className={cn(
+                "relative z-10 cursor-pointer whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors duration-200 sm:text-base",
+                isActive
+                  ? "text-white"
+                  : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
+              )}
+            >
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
 
       <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-zinc-900 shadow-sm">

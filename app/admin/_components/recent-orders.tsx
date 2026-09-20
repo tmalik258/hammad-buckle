@@ -61,6 +61,9 @@ export default async function RecentOrders() {
         const firstItem = order.items[0];
         const itemCount = order._count.items;
         const additionalItems = itemCount - 1;
+        const customerLabel =
+          order.user?.name || order.user?.email || order.guestEmail || "Guest";
+        const avatarInitial = customerLabel[0]?.toUpperCase() || "G";
         
         return (
           <div key={order.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border rounded-lg hover:bg-muted/50 transition-colors space-y-3 sm:space-y-0">
@@ -68,7 +71,7 @@ export default async function RecentOrders() {
               {/* User Avatar */}
               <Avatar className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0">
                 <AvatarFallback>
-                  {order.user.name?.[0]}
+                  {avatarInitial}
                 </AvatarFallback>
               </Avatar>
               
@@ -86,7 +89,7 @@ export default async function RecentOrders() {
                   </Badge>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2 text-xs text-muted-foreground">
-                  <span className="truncate">{order.user.name}</span>
+                  <span className="truncate">{customerLabel}</span>
                   <span className="hidden sm:inline">•</span>
                   <span>{formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}</span>
                 </div>

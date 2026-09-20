@@ -68,7 +68,8 @@ export type OrderListItem = Prisma.OrderGetPayload<{
 
 // Form data interface for creating/updating orders
 export interface OrderFormData {
-  userId: string;
+  userId?: string | null;
+  guestEmail?: string | null;
   orderNumber?: string;
   status?: OrderStatus;
   totalAmount: number;

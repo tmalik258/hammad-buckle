@@ -54,6 +54,9 @@ export async function updateSession(request: NextRequest) {
     "/products",           // Products page
     "/categories",         // Categories page
     "/contact",            // Contact page
+    "/cart",               // Shopping cart (guest-friendly)
+    "/checkout",           // Guest checkout
+    "/order-confirmed",    // Order confirmation after checkout
     "/auth",               // Authentication pages
     "/error",              // Error pages
     "/unauthorized",       // Unauthorized page
@@ -64,23 +67,21 @@ export async function updateSession(request: NextRequest) {
     "/api/products",       // Product listings and details
     "/api/categories",     // Category listings
     "/api/reviews",        // Product reviews (read-only)
+    "/api/orders/submit",  // Guest + authenticated order placement
   ];
 
   // Define private routes that require authentication
   const privateRoutes = [
     "/my-account",         // User account management
-    "/checkout",           // Checkout process
-    "/cart",               // Shopping cart
     "/wishlist",           // User wishlist
     "/track-order",        // Order tracking
-    "/order-confirmed",    // Order confirmation
     "/admin",              // Admin panel
   ];
 
   // Define private API routes that require authentication
   const privateApiRoutes = [
     "/api/cart",           // Cart operations
-    "/api/orders",         // Order management
+    "/api/orders",         // Order management (except /api/orders/submit)
     "/api/users",          // User management
     "/api/admin",          // Admin APIs
     "/api/addresses",      // User addresses
@@ -96,7 +97,7 @@ export async function updateSession(request: NextRequest) {
   );
 
   const isPublicApiRoute = publicApiRoutes.some(route => 
-    pathname.startsWith(route)
+    pathname === route || pathname.startsWith(route + "/")
   );
 
   const isPrivateRoute = privateRoutes.some(route => 
@@ -121,17 +122,17 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Public routes/APIs win over private prefixes (e.g. /api/orders/submit vs /api/orders)
+  if (isPublicRoute || isPublicApiRoute) {
+    return supabaseResponse;
+  }
+
   // If user is not authenticated and trying to access private routes
   if (!user && (isPrivateRoute || isPrivateApiRoute)) {
     const redirectUrl = new URL("/auth/login", request.url);
     // Add the current path as 'next' parameter to redirect back after login
     redirectUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(redirectUrl);
-  }
-
-  // Allow access to public routes and public API routes
-  if (isPublicRoute || isPublicApiRoute) {
-    return supabaseResponse;
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.

@@ -128,7 +128,8 @@ model ProductVariant {
 // Order model for purchase tracking
 model Order {
   id            String      @id @default(cuid())
-  userId        String
+  userId        String?
+  guestEmail    String?
   orderNumber   String      @unique
   status        OrderStatus @default(PENDING)
   totalAmount   Float
@@ -148,7 +149,7 @@ model Order {
   updatedAt     DateTime    @updatedAt
 
   // Relations
-  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
   items           OrderItem[]
   shippingAddress Address?     @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
   billingAddress  Address?     @relation("BillingAddress", fields: [billingAddressId], references: [id])
@@ -196,7 +197,7 @@ model OrderTimeline {
 // Address model for shipping and billing
 model Address {
   id          String   @id @default(cuid())
-  userId      String
+  userId      String?
   type        AddressType @default(SHIPPING)
   name        String
   email       String?
@@ -210,7 +211,7 @@ model Address {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   shippingOrders  Order[] @relation("ShippingAddress")
   billingOrders   Order[] @relation("BillingAddress")
 
