@@ -20,8 +20,6 @@ export default function CheckoutPage() {
   const { profile, isAuthenticated } = useUserStore();
   const router = useRouter();
 
-  console.log(profile?.id)
-
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [selectedShippingMethod, setSelectedShippingMethod] =
     useState("standard");

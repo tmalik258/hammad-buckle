@@ -29,7 +29,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import Image from "next/image";
 import { createClient } from "@/lib/utils/supabase/client";
 import { toast } from "sonner";
@@ -130,64 +136,45 @@ export function Header({ navCategories = [] }: HeaderProps) {
 
           <div className="flex items-center gap-1 sm:gap-2">
             {isAuthenticated && isInitialized ? (
-              <>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="cursor-pointer">
-                      <User className="h-5 w-5" />
-                      <span className="sr-only">Account</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="min-w-48 rounded-xl border-zinc-200 bg-white p-1 text-zinc-900 shadow-md"
-                  >
-                    <DropdownMenuLabel className="font-medium text-zinc-900">
-                      {profile?.name || user?.email || "User"}
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator className="bg-zinc-200" />
-                    <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
-                      <Link href="/my-account">Profile</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
-                      <Link href="/wishlist">Wishlist</Link>
-                    </DropdownMenuItem>
-                    {profile?.role === UserRole.ADMIN ? (
-                      <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
-                        <Link href="/admin">
-                          <LayoutDashboard className="mr-2 inline h-4 w-4" />
-                          Admin
-                        </Link>
-                      </DropdownMenuItem>
-                    ) : null}
-                    <DropdownMenuSeparator className="bg-zinc-200" />
-                    <DropdownMenuItem
-                      variant="destructive"
-                      onClick={handleLogout}
-                      className="cursor-pointer"
-                    >
-                      Logout
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="cursor-pointer relative"
-                  asChild
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="cursor-pointer">
+                    <User className="h-5 w-5" />
+                    <span className="sr-only">Account</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="min-w-48 rounded-xl border-zinc-200 bg-white p-1 text-zinc-900 shadow-md"
                 >
-                  <Link href="/cart">
-                    <ShoppingCart className="h-5 w-5" />
-                    {itemCount > 0 && (
-                      <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
-                        {itemCount}
-                      </Badge>
-                    )}
-                    <span className="sr-only">Shopping cart</span>
-                  </Link>
-                </Button>
-              </>
+                  <DropdownMenuLabel className="font-medium text-zinc-900">
+                    {profile?.name || user?.email || "User"}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-zinc-200" />
+                  <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
+                    <Link href="/my-account">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
+                    <Link href="/wishlist">Wishlist</Link>
+                  </DropdownMenuItem>
+                  {profile?.role === UserRole.ADMIN ? (
+                    <DropdownMenuItem asChild className="cursor-pointer text-zinc-700 focus:bg-zinc-100 focus:text-zinc-900">
+                      <Link href="/admin">
+                        <LayoutDashboard className="mr-2 inline h-4 w-4" />
+                        Admin
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : null}
+                  <DropdownMenuSeparator className="bg-zinc-200" />
+                  <DropdownMenuItem
+                    variant="destructive"
+                    onClick={handleLogout}
+                    className="cursor-pointer"
+                  >
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : isInitialized ? (
               <div className="flex items-center gap-3">
                 <Button
@@ -209,6 +196,25 @@ export function Header({ navCategories = [] }: HeaderProps) {
               <div className="h-8 w-36" />
             )}
 
+            {isInitialized ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative cursor-pointer"
+                asChild
+              >
+                <Link href="/cart">
+                  <ShoppingCart className="h-5 w-5" />
+                  {itemCount > 0 && (
+                    <Badge className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full p-0 text-xs">
+                      {itemCount}
+                    </Badge>
+                  )}
+                  <span className="sr-only">Shopping cart</span>
+                </Link>
+              </Button>
+            ) : null}
+
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="lg:hidden cursor-pointer">
@@ -220,6 +226,10 @@ export function Header({ navCategories = [] }: HeaderProps) {
                 side="right"
                 className="w-[320px] sm:w-[400px] border-l border-border backdrop-blur-xl z-[3000]"
               >
+                <SheetTitle className="sr-only">Main menu</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Site navigation and account links
+                </SheetDescription>
                 <div className="flex flex-col h-full">
                   <div className="flex items-center mb-6">
                     <Image

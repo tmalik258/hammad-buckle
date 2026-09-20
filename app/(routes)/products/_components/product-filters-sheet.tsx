@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
@@ -116,6 +117,9 @@ export function ProductFiltersSheet({
               </Button>
             ) : null}
           </div>
+          <SheetDescription className="sr-only">
+            Refine products by gender, price, and availability
+          </SheetDescription>
         </SheetHeader>
 
         <div className="flex-1 space-y-8 overflow-y-auto py-6">

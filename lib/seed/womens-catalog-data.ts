@@ -39,10 +39,10 @@ export const WOMENS_PRODUCTS = [
     price: 189.99,
     originalPrice: 229.99,
     image:
-      "https://images.unsplash.com/photo-1496747611176-843222e1ad57?w=800&q=80",
+      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
     images: [
-      "https://images.unsplash.com/photo-1496747611176-843222e1ad57?w=800&q=80",
-      "https://images.unsplash.com/photo-1515372039744-b8a02bd438ca?w=800&q=80",
+      "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
+      "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&q=80",
     ],
     categoryId: WOMENS_CATEGORY_IDS.clothing,
     averageRating: 4.7,
@@ -63,7 +63,7 @@ export const WOMENS_PRODUCTS = [
       "Relaxed tailored blazer in breathable linen — sharp structure, easy movement.",
     price: 149.99,
     image:
-      "https://images.unsplash.com/photo-1594633313593-bab3825df0bd?w=800&q=80",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
     categoryId: WOMENS_CATEGORY_IDS.clothing,
     averageRating: 4.6,
     reviewCount: 0,
@@ -84,7 +84,7 @@ export const WOMENS_PRODUCTS = [
     price: 299.99,
     originalPrice: 399.99,
     image:
-      "https://images.unsplash.com/photo-1551028718-0016710586ab?w=800&q=80",
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80",
     categoryId: WOMENS_CATEGORY_IDS.clothing,
     averageRating: 4.6,
     reviewCount: 0,
@@ -104,7 +104,7 @@ export const WOMENS_PRODUCTS = [
       "Liquid satin midi with a soft sheen — pairs with knits, blazers, and heels.",
     price: 89.99,
     image:
-      "https://images.unsplash.com/photo-1585487003540-76018ecdebca?w=800&q=80",
+      "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=800&q=80",
     categoryId: WOMENS_CATEGORY_IDS.clothing,
     averageRating: 4.5,
     reviewCount: 0,
@@ -145,7 +145,7 @@ export const WOMENS_PRODUCTS = [
       "Stable block heel sandal with ankle strap — dress up or down with ease.",
     price: 129.99,
     image:
-      "https://images.unsplash.com/photo-1560767559-724f8b3a0703?w=800&q=80",
+      "https://images.unsplash.com/photo-1518049362265-d5b2a6467637?w=800&q=80",
     categoryId: WOMENS_CATEGORY_IDS.shoes,
     averageRating: 4.5,
     reviewCount: 0,
@@ -165,7 +165,7 @@ export const WOMENS_PRODUCTS = [
       "Sleek pointed pump in smooth finish — a wardrobe essential for work and evenings.",
     price: 159.99,
     image:
-      "https://images.unsplash.com/photo-1562184652-ee9453401da0?w=800&q=80",
+      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80",
     categoryId: WOMENS_CATEGORY_IDS.shoes,
     averageRating: 4.6,
     reviewCount: 0,

@@ -118,7 +118,7 @@ export async function seedStorefront() {
       title: "Heels & dresses on sale",
       body: "Limited-time pricing on select women's shoes and occasion wear.",
       imageUrl:
-        "https://images.unsplash.com/photo-1515372039744-b8a02bd438ca?w=1200&q=80",
+        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=1200&q=80",
       href: "/products?genderTarget=WOMENS&onSale=true",
       layout: PromoBannerLayout.SPLIT_LEFT_IMAGE,
       isActive: true,

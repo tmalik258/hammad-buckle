@@ -5,15 +5,23 @@ export const SITE_DESCRIPTION =
   "Shop curated women's clothing, dresses, and heels at Hammad Buckle.";
 export const LOGO_PATH = "/logo-transparent.png";
 
-function getMetadataBase(): URL | undefined {
-  const url = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (!url) return undefined;
-
-  try {
-    return new URL(url);
-  } catch {
-    return undefined;
+function getMetadataBase(): URL {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (configured) {
+    try {
+      return new URL(configured);
+    } catch {
+      // Fall through to Vercel / local defaults.
+    }
   }
+
+  const vercelUrl = process.env.VERCEL_URL?.trim();
+  if (vercelUrl) {
+    const host = vercelUrl.startsWith("http") ? vercelUrl : `https://${vercelUrl}`;
+    return new URL(host);
+  }
+
+  return new URL("http://localhost:3000");
 }
 
 export const rootMetadata: Metadata = {
