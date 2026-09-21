@@ -6,13 +6,9 @@ import {
   ShoppingCart,
   User,
   Menu,
-  Grid3X3,
-  Package,
   Settings,
   LogOut,
   LayoutDashboard,
-  Sparkles,
-  Tag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -42,16 +38,23 @@ import { UserInitialsAvatar } from "@/components/ui/user-initials-avatar";
 import { UserRole } from "@prisma/client";
 import type { NavCategory } from "@/lib/storefront/get-nav-categories";
 import { LOGO_PATH, SITE_NAME } from "@/lib/site-metadata";
+import { cn } from "@/lib/utils";
 
 type HeaderProps = {
   navCategories?: NavCategory[];
 };
 
-const mobileLinkClass =
-  "flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-accent/40 border border-transparent transition-all duration-300 group cursor-pointer";
-
 const desktopLinkClass =
   "whitespace-nowrap text-sm font-medium transition-colors hover:text-primary cursor-pointer";
+
+const shopLinkClass =
+  "group relative block cursor-pointer py-3.5 font-serif text-xl tracking-tight text-foreground transition-colors duration-300 hover:text-foreground/70";
+
+const utilityLinkClass =
+  "flex cursor-pointer items-center gap-3 py-2.5 text-sm text-foreground/70 transition-colors duration-300 hover:text-foreground";
+
+const shopStaggerClass =
+  "animate-in fade-in fill-mode-both duration-500";
 
 export function Header({ navCategories = [] }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -208,132 +211,132 @@ export function Header({ navCategories = [] }: HeaderProps) {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-[320px] sm:w-[400px] border-l border-border backdrop-blur-xl z-[3000]"
+                className="z-[3000] w-[min(100vw,22rem)] gap-0 overflow-hidden border-l border-black/10 bg-white p-0 sm:max-w-[22rem]"
               >
                 <SheetTitle className="sr-only">Main menu</SheetTitle>
                 <SheetDescription className="sr-only">
                   Site navigation and account links
                 </SheetDescription>
-                <div className="flex flex-col h-full">
-                  <div className="flex items-center mb-6">
-                    <Image
-                      src={LOGO_PATH}
-                      alt={SITE_NAME}
-                      width={100}
-                      height={100}
-                      className="h-full w-auto"
-                    />
+                <div className="flex h-full min-h-0 flex-col overflow-hidden px-6 pb-6 pt-8">
+                  <div className="mb-10 shrink-0 animate-in fade-in duration-500">
+                    <Link href="/" className="inline-flex cursor-pointer flex-col items-start gap-2">
+                      <Image
+                        src={LOGO_PATH}
+                        alt={SITE_NAME}
+                        width={120}
+                        height={120}
+                        className="h-16 w-auto"
+                      />
+                      <span className="font-serif text-[0.65rem] font-semibold tracking-[0.28em] text-foreground/55 uppercase">
+                        Clothing Brand
+                      </span>
+                    </Link>
                   </div>
 
-                  {isAuthenticated && (
-                    <div className="px-4 mb-6">
-                      <div className="flex items-center gap-3 p-3 rounded-xl bg-accent/20 border border-border">
-                        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-border">
-                          {isLoading ? (
-                            <div className="w-full h-full bg-muted animate-pulse rounded-full" />
-                          ) : (
-                            <UserInitialsAvatar
-                              name={profile?.name || user?.user_metadata?.name}
-                              email={profile?.email || user?.email}
-                              size="md"
-                            />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          {isLoading ? (
-                            <div className="h-4 w-24 bg-zinc-200 animate-pulse rounded" />
-                          ) : (
-                            <p className="text-sm font-medium text-foreground truncate">
-                              {profile?.name || user?.email || "User"}
-                            </p>
-                          )}
-                          <p className="text-xs text-muted-foreground">Welcome back!</p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
-                    {categoryLinks.map((link) => (
-                      <Link key={link.href} href={link.href} className={mobileLinkClass}>
-                        <Package className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                        <span className="font-medium group-hover:text-foreground transition-colors">
-                          {link.label}
-                        </span>
-                      </Link>
-                    ))}
-
-                    <Link href="/collections" className={mobileLinkClass}>
-                      <Grid3X3 className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      <span className="font-medium group-hover:text-foreground transition-colors">
-                        Collections
-                      </span>
-                    </Link>
-
-                    <Link href="/products?isNew=true" className={mobileLinkClass}>
-                      <Sparkles className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      <span className="font-medium group-hover:text-foreground transition-colors">
-                        New Arrivals
-                      </span>
-                    </Link>
-
-                    <Link href="/products?onSale=true" className={mobileLinkClass}>
-                      <Tag className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      <span className="font-medium group-hover:text-foreground transition-colors">
-                        Sale
-                      </span>
-                    </Link>
-
-                    <Link href="/cart" className={mobileLinkClass}>
-                      <div className="relative">
-                        <ShoppingCart className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                        {itemCount > 0 && (
-                          <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs !bg-primary !text-primary-foreground border-none">
-                            {itemCount}
-                          </Badge>
+                  {isAuthenticated ? (
+                    <div className="mb-8 flex shrink-0 items-center gap-3 animate-in fade-in duration-500 delay-75">
+                      <div className="h-9 w-9 overflow-hidden rounded-full">
+                        {isLoading ? (
+                          <div className="h-full w-full animate-pulse rounded-full bg-black/10" />
+                        ) : (
+                          <UserInitialsAvatar
+                            name={profile?.name || user?.user_metadata?.name}
+                            email={profile?.email || user?.email}
+                            size="md"
+                          />
                         )}
                       </div>
-                      <span className="font-medium group-hover:text-foreground transition-colors">
-                        Shopping Cart
-                      </span>
-                    </Link>
+                      <div className="min-w-0 flex-1">
+                        {isLoading ? (
+                          <div className="h-4 w-24 animate-pulse rounded bg-black/10" />
+                        ) : (
+                          <p className="truncate text-sm text-foreground">
+                            {profile?.name || user?.email || "User"}
+                          </p>
+                        )}
+                        <p className="text-xs text-foreground/45">Welcome back</p>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <nav className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain">
+                    <p className="mb-3 font-serif text-[0.65rem] font-semibold tracking-[0.28em] text-foreground/45 uppercase">
+                      Shop
+                    </p>
+                    <div className="flex flex-col border-t border-black/10">
+                      {categoryLinks.map((link, index) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={cn(shopLinkClass, shopStaggerClass)}
+                          style={{ animationDelay: `${100 + index * 60}ms` }}
+                        >
+                          <span className="relative inline-block">
+                            {link.label}
+                            <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-foreground transition-transform duration-300 group-hover:scale-x-100" />
+                          </span>
+                        </Link>
+                      ))}
+                      {[
+                        { href: "/collections", label: "Collections" },
+                        { href: "/products?isNew=true", label: "New Arrivals" },
+                        { href: "/products?onSale=true", label: "Sale" },
+                      ].map((link, index) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={cn(shopLinkClass, shopStaggerClass)}
+                          style={{
+                            animationDelay: `${100 + (categoryLinks.length + index) * 60}ms`,
+                          }}
+                        >
+                          <span className="relative inline-block">
+                            {link.label}
+                            <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-foreground transition-transform duration-300 group-hover:scale-x-100" />
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
                   </nav>
 
-                  <div className="px-4 py-4 border-t border-border space-y-2">
+                  <div className="mt-auto shrink-0 space-y-1 border-t border-black/10 pt-5 animate-in fade-in duration-500 delay-300">
+                    <Link href="/cart" className={utilityLinkClass}>
+                      <ShoppingCart className="h-4 w-4" />
+                      <span>
+                        Cart{itemCount > 0 ? ` (${itemCount})` : ""}
+                      </span>
+                    </Link>
+
                     {isAuthenticated ? (
                       <>
-                        <Link href="/my-account" className={mobileLinkClass}>
-                          <Settings className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
-                          <span className="font-medium group-hover:text-zinc-900 transition-colors">
-                            Profile Settings
-                          </span>
+                        <Link href="/my-account" className={utilityLinkClass}>
+                          <Settings className="h-4 w-4" />
+                          <span>Profile</span>
                         </Link>
 
                         {profile?.role === UserRole.ADMIN ? (
-                          <Link href="/admin" className={mobileLinkClass}>
-                            <LayoutDashboard className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900 transition-colors" />
-                            <span className="font-medium group-hover:text-zinc-900 transition-colors">
-                              Admin
-                            </span>
+                          <Link href="/admin" className={utilityLinkClass}>
+                            <LayoutDashboard className="h-4 w-4" />
+                            <span>Admin</span>
                           </Link>
                         ) : null}
 
                         <button
+                          type="button"
                           onClick={handleLogout}
-                          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-destructive/10 border border-transparent transition-all duration-300 group cursor-pointer"
+                          className={cn(
+                            utilityLinkClass,
+                            "w-full text-destructive hover:text-destructive"
+                          )}
                         >
-                          <LogOut className="h-5 w-5 text-destructive transition-colors" />
-                          <span className="font-medium group-hover:text-destructive transition-colors">
-                            Sign Out
-                          </span>
+                          <LogOut className="h-4 w-4" />
+                          <span>Sign out</span>
                         </button>
                       </>
                     ) : (
-                      <Link href="/auth/login" className={mobileLinkClass}>
-                        <User className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                        <span className="font-medium group-hover:text-foreground transition-colors">
-                          Sign in
-                        </span>
+                      <Link href="/auth/login" className={utilityLinkClass}>
+                        <User className="h-4 w-4" />
+                        <span>Sign in</span>
                       </Link>
                     )}
                   </div>
