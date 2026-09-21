@@ -9,6 +9,7 @@ import { X, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CartItem } from "@/lib/stores/cart-store";
+import { SITE_CURRENCY } from "@/lib/site-metadata";
 
 interface OrderSummaryProps {
   cartItems: CartItem[];
@@ -72,7 +73,7 @@ export const OrderSummary = ({
               </div>
               <div className="text-right">
                 <p className="text-sm font-semibold text-zinc-900">
-                  KWD {item.price.toFixed(2)}
+                  {SITE_CURRENCY} {item.price.toFixed(2)}
                 </p>
               </div>
             </div>
@@ -85,25 +86,25 @@ export const OrderSummary = ({
         <div className="space-y-2">
           <div className="flex justify-between text-sm text-zinc-600">
             <span>Subtotal</span>
-            <span>KWD {subtotal.toFixed(3)}</span>
+            <span>{SITE_CURRENCY} {subtotal.toFixed(3)}</span>
           </div>
           <div className="flex justify-between text-sm text-zinc-600">
             <span>Shipping</span>
-            <span>KWD {shipping.toFixed(4)}</span>
+            <span>{SITE_CURRENCY} {shipping.toFixed(4)}</span>
           </div>
           <div className="flex justify-between text-sm text-zinc-600">
             <span>Tax (5%)</span>
-            <span>KWD {tax.toFixed(3)}</span>
+            <span>{SITE_CURRENCY} {tax.toFixed(3)}</span>
           </div>
           {discount > 0 && (
             <div className="flex justify-between text-sm text-green-600">
               <span>Discount</span>
-              <span>-KWD {discount.toFixed(3)}</span>
+              <span>-{SITE_CURRENCY} {discount.toFixed(3)}</span>
             </div>
           )}
           <div className="flex justify-between pt-2 text-lg font-bold text-zinc-900">
             <span>Total</span>
-            <span>KWD {total.toFixed(3)}</span>
+            <span>{SITE_CURRENCY} {total.toFixed(3)}</span>
           </div>
         </div>
 
@@ -163,7 +164,7 @@ export const OrderSummary = ({
         <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
           <div className="flex justify-between text-lg font-bold text-zinc-900">
             <span>Total Amount:</span>
-            <span>KWD {total.toFixed(3)}</span>
+            <span>{SITE_CURRENCY} {total.toFixed(3)}</span>
           </div>
           <p className="mt-2 text-xs text-zinc-600">
             Complete all steps to place your order

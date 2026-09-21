@@ -1,4 +1,3 @@
-import { removeLegacySeedData } from "./cleanup-legacy-seed";
 import { syncWomensCatalog } from "./sync-womens-catalog";
 import { seedStorefront } from "./storefront";
 import { prisma } from "../prisma";

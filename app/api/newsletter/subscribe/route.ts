@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { newsletterSubscribeSchema } from "@/lib/validations/newsletter-schema";
 import emailService from "@/lib/services/email-service";
 
-const DEFAULT_NEWSLETTER_TO = "support@hammadbuckle.com";
+const DEFAULT_NEWSLETTER_TO = "support@hanara.com";
 
 export async function POST(request: Request) {
   try {

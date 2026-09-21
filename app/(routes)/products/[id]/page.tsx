@@ -12,6 +12,7 @@ import {
   ProductError,
   ProductDetailSkeleton,
 } from "../_components/product-skeleton";
+import { SITE_CURRENCY, LOGO_PATH } from "@/lib/site-metadata";
 
 // Transform hook product data to component format
 const transformProduct = (hookProduct: {
@@ -37,9 +38,9 @@ const transformProduct = (hookProduct: {
   return {
     id: hookProduct.id,
     name: hookProduct.name,
-    price: `${hookProduct.price} KWD`,
+    price: `${hookProduct.price} ${SITE_CURRENCY}`,
     originalPrice: hookProduct.originalPrice
-      ? `${hookProduct.originalPrice} KWD`
+      ? `${hookProduct.originalPrice} ${SITE_CURRENCY}`
       : undefined,
     description: hookProduct.description || null,
     longDescription: hookProduct.description || undefined,
@@ -97,7 +98,7 @@ const transformRelatedProducts = (
     subtitle: product.description || undefined,
     price: product.price,
     rating: product.averageRating || 0,
-    image: product.image || product.images?.[0] || "/placeholder-product.jpg",
+    image: product.image || product.images?.[0] || LOGO_PATH,
   }));
 };
 
@@ -176,11 +177,11 @@ export default function ProductDetailPage() {
         id: `${product.id}-${Date.now()}`, // Temporary id for the store
         productId: product.id,
         name: product.name,
-        price: parseFloat(product.price.replace(" KWD", "")),
+        price: parseFloat(product.price.replace(` ${SITE_CURRENCY}`, "")),
         originalPrice: product.originalPrice
-          ? parseFloat(product.originalPrice.replace(" KWD", ""))
+          ? parseFloat(product.originalPrice.replace(` ${SITE_CURRENCY}`, ""))
           : undefined,
-        image: product.images[0] || "/placeholder-product.jpg",
+        image: product.images[0] || LOGO_PATH,
         size: size || undefined,
         color: color || undefined,
         quantity: 1,
@@ -208,8 +209,8 @@ export default function ProductDetailPage() {
       const wishlistItem = {
         productId: product.id,
         name: product.name,
-        price: parseFloat(product.price.replace(" KWD", "")),
-        image: product.images?.[0] || "/placeholder-product.jpg",
+        price: parseFloat(product.price.replace(` ${SITE_CURRENCY}`, "")),
+        image: product.images?.[0] || LOGO_PATH,
         category: "General", // Default category
         inStock: product.inStock,
       };

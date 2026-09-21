@@ -489,7 +489,7 @@ export async function POST(request: NextRequest) {
             description: row.description || '',
             price: Math.max(parseFloat(row.price) || 0, 0.01),
             originalPrice: row.originalPrice ? parseFloat(row.originalPrice) : null,
-            categoryId: 'cat-electronics', // Default fallback category
+            categoryId: null, // Invalid rows keep null category — never invent legacy IDs
             image: row.image || '',
             images: row.images ? row.images.split(',').map((img: string) => img.trim()) : [],
             stockQuantity: parseInt(row.stockQuantity) || 0,

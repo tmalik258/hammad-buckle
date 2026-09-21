@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 export const authInputClassName =
-  "w-full rounded-none rounded-tr-2xl rounded-bl-2xl border-zinc-200 bg-white px-4 py-3 text-zinc-900 placeholder:text-zinc-400";
+  "w-full rounded-none border-zinc-200 bg-white px-4 py-3 text-zinc-900 placeholder:text-zinc-400";
 
 export const authLinkClassName =
   "font-medium text-zinc-900 underline-offset-4 hover:underline cursor-pointer";

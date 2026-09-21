@@ -29,7 +29,7 @@ export default async function CollectionsPage() {
         </header>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((cat) => {
-            const img = cat.image?.trim() || "/logo-transparent.png";
+            const img = cat.image?.trim() || "/logo_transparent.png";
             return (
               <Link
                 key={cat.id}

@@ -47,11 +47,13 @@ export async function GET(
         shippingAddress: {
           select: {
             id: true,
+            name: true,
             street: true,
             city: true,
             area: true,
             postalCode: true,
             phone: true,
+            email: true,
           },
         },
         items: {

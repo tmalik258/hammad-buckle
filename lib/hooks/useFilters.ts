@@ -9,6 +9,7 @@ import {
   UseFiltersResult,
   FilterHookOptions,
 } from '@/lib/types/filters';
+import { SITE_CURRENCY } from '@/lib/site-metadata';
 
 // Legacy interfaces for backward compatibility
 export interface PriceRange {
@@ -57,7 +58,7 @@ export function usePriceStatistics(options: FilterHookOptions = {}) {
   } = options;
 
   return useQuery({
-    queryKey: ['price-stats'],
+    queryKey: ['price-stats', SITE_CURRENCY],
     queryFn: async (): Promise<PriceStatistics> => {
       const response = await axios.get('/api/products/price-stats');
       return response.data;

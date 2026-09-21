@@ -8,6 +8,7 @@ import { Star, Heart } from "lucide-react";
 import { Product, Category, Review } from "@prisma/client";
 import { useWishlistStore } from "@/lib/stores/wishlist-store";
 import { ProductWithRelations } from "@/lib/hooks/useProductQueries";
+import { LOGO_PATH, SITE_CURRENCY } from "@/lib/site-metadata";
 
 export type CardProductType = Product & {
   category?: Category | string;
@@ -64,7 +65,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const imageSrc =
     typeof product.image === "string" && product.image.trim() !== ""
       ? product.image
-      : "/logo-transparent.png";
+      : LOGO_PATH;
 
   return (
     <Link href={`/products/${product.id}`} className="block h-full">
@@ -120,11 +121,11 @@ export function ProductCard({ product }: ProductCardProps) {
               </div>
               <div className="mt-auto flex flex-col">
                 <span className="text-sm font-semibold text-zinc-900 sm:text-base lg:text-lg">
-                  {product.price} KWD
+                  {product.price} {SITE_CURRENCY}
                 </span>
                 {product.originalPrice && (
                   <span className="text-xs text-zinc-500 line-through">
-                    {product.originalPrice} KWD
+                    {product.originalPrice} {SITE_CURRENCY}
                   </span>
                 )}
               </div>

@@ -3,6 +3,7 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { ProductTabsSkeleton } from "../../_components/product-skeleton";
 import { cn } from "@/lib/utils";
+import { SITE_CURRENCY } from "@/lib/site-metadata";
 
 interface Specification {
   label: string;
@@ -175,10 +176,10 @@ export function ProductTabs({ product, loading = false }: ProductTabsProps) {
             <h3 className="mb-4 text-xl font-semibold">Shipping Information</h3>
             <div className="space-y-4">
               {[
-                "Free shipping on orders over 50 KWD",
+                `Free shipping on orders over 50 ${SITE_CURRENCY}`,
                 "Standard delivery: 3-5 business days",
                 "Express delivery: 1-2 business days (additional charges apply)",
-                "Same-day delivery available in Kuwait City",
+                "Same-day delivery available in Lahore",
               ].map((text) => (
                 <div key={text} className="flex items-start space-x-3">
                   <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-zinc-900" />

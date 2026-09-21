@@ -14,6 +14,7 @@ import {
   CheckoutPageSkeleton,
 } from "./_components";
 import type { PromoCodeValidationResponse, PromoCodeApplicationResponse } from "@/lib/types/promo-code";
+import { SITE_CURRENCY } from "@/lib/site-metadata";
 
 export default function CheckoutPage() {
   const { items: cartItems, getTotalPrice, clearCartSilently } = useCartStore();
@@ -255,7 +256,7 @@ export default function CheckoutPage() {
         setAppliedPromoCode(promoCode.trim());
         setPromoCodeDiscount(applicationResponse.data.discountAmount ?? 0);
         toast.success(
-          `Promo code applied! You saved KWD ${applicationResponse.data.discountAmount?.toFixed(2) || '0'}`
+          `Promo code applied! You saved ${SITE_CURRENCY} ${applicationResponse.data.discountAmount?.toFixed(2) || '0'}`
         );
       } else {
         toast.error(applicationResponse.data.error || "Failed to apply promo code");

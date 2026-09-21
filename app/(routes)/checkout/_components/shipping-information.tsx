@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Truck, Zap } from "lucide-react";
+import { SITE_CURRENCY } from "@/lib/site-metadata";
 
 interface ShippingInformationProps {
   formData: {
@@ -157,7 +158,7 @@ export const ShippingInformation = ({
                 className={`${inputClassName} ${
                   formErrors.city ? "border-red-500 focus:border-red-500" : ""
                 }`}
-                placeholder="Kuwait City"
+                placeholder="Lahore"
                 required
               />
               {formErrors.city && (
@@ -177,7 +178,7 @@ export const ShippingInformation = ({
                 className={`${inputClassName} ${
                   formErrors.area ? "border-red-500 focus:border-red-500" : ""
                 }`}
-                placeholder="Salmiya"
+                placeholder="Gulberg"
                 required
               />
               {formErrors.area && (
@@ -230,7 +231,7 @@ export const ShippingInformation = ({
                 </span>
               </div>
             </div>
-            <span className="text-sm font-medium text-zinc-600">KWD 3.00</span>
+            <span className="text-sm font-medium text-zinc-600">{SITE_CURRENCY} 3.00</span>
           </div>
 
           <div
@@ -248,11 +249,11 @@ export const ShippingInformation = ({
               <div className="flex items-center space-x-2">
                 <Zap className="h-5 w-5 text-zinc-600" />
                 <span className="text-base font-medium text-zinc-900">
-                  Express Shipping (Same day in Kuwait City)
+                  Express Shipping (Same day in Lahore)
                 </span>
               </div>
             </div>
-            <span className="text-sm font-medium text-zinc-600">KWD 5.00</span>
+            <span className="text-sm font-medium text-zinc-600">{SITE_CURRENCY} 5.00</span>
           </div>
         </div>
       </CardContent>

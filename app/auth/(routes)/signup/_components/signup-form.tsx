@@ -199,7 +199,7 @@ export function SignupForm() {
 
           <Button
             type="submit"
-            className="w-full cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl"
+            className="w-full cursor-pointer"
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? (

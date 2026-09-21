@@ -11,6 +11,7 @@ import { CartSkeleton } from "@/components/ui/route-skeletons";
 import { Trash2, Plus, Minus, Heart, ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/lib/stores";
 import { toast } from "sonner";
+import { SITE_CURRENCY } from "@/lib/site-metadata";
 
 export default function CartPage() {
   const {
@@ -80,7 +81,7 @@ export default function CartPage() {
               <Link href="/products">
                 <Button
                   size="lg"
-                  className="cursor-pointer rounded-xl bg-zinc-900 px-8 py-3 text-lg font-semibold text-white hover:bg-zinc-800"
+                  className="cursor-pointer bg-zinc-900 px-8 py-3 text-lg font-semibold tracking-wide text-white hover:bg-zinc-800"
                 >
                   Continue Shopping
                 </Button>
@@ -206,19 +207,19 @@ export default function CartPage() {
                 <div className="space-y-4 text-zinc-900">
                   <div className="flex justify-between text-lg">
                     <span>Subtotal ({itemCount} items)</span>
-                    <span className="font-semibold">{subtotal.toFixed(3)} KWD</span>
+                    <span className="font-semibold">{subtotal.toFixed(3)} {SITE_CURRENCY}</span>
                   </div>
 
                   <div className="flex justify-between text-zinc-600">
                     <span>Tax/VAT</span>
-                    <span>{taxVat.toFixed(3)} KWD</span>
+                    <span>{taxVat.toFixed(3)} {SITE_CURRENCY}</span>
                   </div>
 
                   <Separator className="bg-zinc-200" />
 
                   <div className="flex justify-between text-xl font-bold">
                     <span>Total</span>
-                    <span>{finalTotal.toFixed(3)} KWD</span>
+                    <span>{finalTotal.toFixed(3)} {SITE_CURRENCY}</span>
                   </div>
                 </div>
 

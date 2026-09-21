@@ -49,8 +49,8 @@ class EmailService {
       },
     };
     
-    this.fromName = process.env.EMAIL_FROM_NAME || 'Hammad Buckle';
-    this.fromAddress = process.env.EMAIL_FROM_ADDRESS || 'noreply@hammadbuckle.com';
+    this.fromName = process.env.EMAIL_FROM_NAME || 'Hanara';
+    this.fromAddress = process.env.EMAIL_FROM_ADDRESS || 'noreply@hanara.com';
     
     this.initializeTransporter();
   }

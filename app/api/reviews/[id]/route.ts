@@ -8,6 +8,7 @@ const updateReviewSchema = z.object({
   title: z.string().min(1, 'Review title is required').max(200, 'Title too long').optional(),
   comment: z.string().min(10, 'Comment must be at least 10 characters').max(1000, 'Comment too long').optional(),
   verified: z.boolean().optional(),
+  status: z.enum(['PENDING', 'APPROVED', 'REJECTED', 'FLAGGED', 'HIDDEN', 'REPORTED']).optional(),
 });
 
 interface RouteParams {

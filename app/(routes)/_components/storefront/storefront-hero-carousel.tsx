@@ -121,7 +121,7 @@ export function StorefrontHeroCarousel({ slides }: Props) {
                       {slide.badgeText}
                     </span>
                   ) : null}
-                  <h1 className="text-3xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
+                  <h1 className="font-serif text-3xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
                     {slide.heading}
                   </h1>
                   {slide.subheading ? (
@@ -132,14 +132,14 @@ export function StorefrontHeroCarousel({ slides }: Props) {
                   <div className="mt-6 flex flex-wrap gap-3">
                     <Link
                       href={slide.primaryCtaHref}
-                      className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-zinc-900 shadow-sm transition hover:bg-zinc-100"
+                      className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-none rounded-tr-2xl rounded-bl-2xl bg-white px-6 py-2.5 text-sm font-semibold tracking-wide text-zinc-900 shadow-sm transition hover:bg-zinc-100"
                     >
                       {slide.primaryCtaLabel}
                     </Link>
                     {slide.secondaryCtaLabel && slide.secondaryCtaHref ? (
                       <Link
                         href={slide.secondaryCtaHref}
-                        className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-full border border-white/70 bg-transparent px-6 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/10"
+                        className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-none rounded-tr-2xl rounded-bl-2xl border border-white/70 bg-transparent px-6 py-2.5 text-sm font-semibold tracking-wide text-white backdrop-blur-sm transition hover:bg-white/10"
                       >
                         {slide.secondaryCtaLabel}
                       </Link>

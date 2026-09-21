@@ -127,7 +127,7 @@ export function LoginForm() {
 
           <Button
             type="submit"
-            className="w-full cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl"
+            className="w-full cursor-pointer"
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? (
@@ -142,7 +142,7 @@ export function LoginForm() {
           <div className={`text-center ${authMutedTextClassName}`}>
             <span>Don&apos;t have an account? </span>
             <Link href="/auth/signup" className={authLinkClassName}>
-              Sign up
+              Create account
             </Link>
           </div>
         </form>

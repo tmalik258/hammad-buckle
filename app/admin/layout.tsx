@@ -5,7 +5,7 @@ import { AdminShell } from './_components/admin-shell';
 
 export const metadata: Metadata = buildPageMetadata(
   'Admin Dashboard',
-  'Manage your Hammad Buckle store from the admin dashboard'
+  'Manage your Hanara store from the admin dashboard'
 );
 export default async function AdminLayout({
   children,

@@ -42,9 +42,3 @@ export const LEGACY_SEED_PROMO_IDS = [
   "promo-summer2025",
   "promo-holiday50",
 ] as const;
-
-/** @deprecated Use LEGACY_CATEGORY_IDS */
-export const INACTIVE_CATEGORY_IDS = LEGACY_CATEGORY_IDS;
-
-/** @deprecated Use LEGACY_PRODUCT_IDS */
-export const INACTIVE_PRODUCT_IDS = LEGACY_PRODUCT_IDS;

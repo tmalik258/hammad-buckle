@@ -72,7 +72,7 @@ export function StorefrontProductRail({
           {products.map((product) => {
             const img =
               product.image ||
-              (product.images?.length ? product.images[0] : "/logo-transparent.png");
+              (product.images?.length ? product.images[0] : "/logo_transparent.png");
             return (
               <Link
                 key={product.id}

@@ -174,7 +174,7 @@ export async function getHomePageData() {
 
 export async function getHomeMetadata(): Promise<Metadata> {
   const { settings } = await getCachedCms();
-  const title = settings?.homeTitle ?? "Hammad Buckle — Women's apparel & footwear";
+  const title = settings?.homeTitle ?? "Hanara — Women's apparel & footwear";
   const description =
     settings?.homeDescription ??
     "Shop curated women's clothing, dresses, and heels — new drops and timeless staples.";

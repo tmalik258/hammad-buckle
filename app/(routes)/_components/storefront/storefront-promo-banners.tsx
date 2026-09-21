@@ -34,7 +34,7 @@ export function StorefrontPromoBanners({ banners }: Props) {
                   {b.body ? (
                     <p className="mt-3 max-w-xl text-sm text-white/90 md:text-base">{b.body}</p>
                   ) : null}
-                  <span className="mt-6 inline-flex w-fit rounded-full bg-white px-5 py-2 text-sm font-semibold text-zinc-900">
+                  <span className="mt-6 inline-flex w-fit rounded-none rounded-tr-2xl rounded-bl-2xl bg-white px-5 py-2 text-sm font-semibold text-zinc-900">
                     Shop now
                   </span>
                 </div>
@@ -59,7 +59,7 @@ export function StorefrontPromoBanners({ banners }: Props) {
                   {b.body ? <p className="mt-4 text-zinc-600">{b.body}</p> : null}
                   <Link
                     href={b.href}
-                    className="mt-8 inline-flex w-fit rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800 cursor-pointer"
+                    className="mt-8 inline-flex w-fit rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-6 py-3 text-sm font-semibold tracking-wide text-white transition hover:bg-zinc-800 cursor-pointer"
                   >
                     Explore
                   </Link>

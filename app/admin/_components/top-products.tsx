@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { prisma } from '@/lib/prisma';
 import { ExternalLink, Star } from 'lucide-react';
+import { LOGO_PATH } from '@/lib/site-metadata';
 
 export default async function TopProducts() {
   // Get top products based on order items count in the last 30 days
@@ -65,7 +66,7 @@ export default async function TopProducts() {
     <div className="space-y-4">
       {topProducts.map((product, index) => {
         const salesCount = product._count.orderItems;
-        const primaryImage = product.images?.[0] || '/placeholder-product.jpg';
+        const primaryImage = product.images?.[0] || LOGO_PATH;
         
         return (
           <div key={product.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">

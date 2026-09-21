@@ -22,8 +22,10 @@ import {
   Ticket,
   PanelsTopLeft,
   LogOut,
+  Star,
 } from 'lucide-react';
 import Image from 'next/image';
+import { LOGO_PATH, SITE_NAME } from '@/lib/site-metadata';
 
 interface NavItem {
   title: string;
@@ -62,6 +64,12 @@ const navItems: NavItem[] = [
     badgeKey: 'pendingOrders',
   },
   {
+    title: 'Reviews',
+    href: '/admin/reviews',
+    icon: Star,
+    badgeKey: 'pendingReviews',
+  },
+  {
     title: 'Promo Codes',
     href: '/admin/promo-codes',
     icon: Ticket,
@@ -91,7 +99,7 @@ export function AdminSidebar() {
     );
   }, [profile, user]);
 
-  const displayEmail = user?.email || 'admin@hammadbuckle.com';
+  const displayEmail = user?.email || 'admin@hanara.com';
   const isProfileActive = pathname.startsWith('/admin/profile');
 
   const handleSignOut = useCallback(async () => {
@@ -117,8 +125,8 @@ export function AdminSidebar() {
       <div className="flex h-16 max-md:h-14 items-center border-b border-zinc-200 px-6 max-md:px-4">
         <Link href="/admin" className="flex items-center justify-center">
           <Image
-            src="/logo-transparent.png"
-            alt="Hammad Buckle Admin"
+            src={LOGO_PATH}
+            alt={`${SITE_NAME} Admin`}
             width={100}
             height={100}
             className="mx-auto h-auto w-[100px] max-md:w-[80px]"

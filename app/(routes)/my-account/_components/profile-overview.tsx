@@ -3,7 +3,7 @@ import { CheckCircle2, Lock, User } from "lucide-react";
 import { UserInitialsAvatar } from "@/components/ui/user-initials-avatar";
 
 const actionButtonClass =
-  "cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl border-zinc-900 text-zinc-900 hover:bg-zinc-900 hover:text-white";
+  "cursor-pointer rounded-none border-zinc-900 text-zinc-900 hover:bg-zinc-900 hover:text-white";
 
 const ProfileOverview = ({
   name,

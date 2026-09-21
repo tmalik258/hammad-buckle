@@ -21,7 +21,7 @@ export function AboutStorySection() {
             Our Story
           </h2>
           <p className="text-lg leading-relaxed text-zinc-600">
-            At <span className="font-semibold text-zinc-900">Hammad Buckle</span>, we believe
+            At <span className="font-semibold text-zinc-900">Hanara</span>, we believe
             the future of shopping isn&apos;t just digital — it&apos;s personal, reliable, and
             inspiring. We started with one goal: to bring together technology and trust,
             creating an online experience that feels effortless.

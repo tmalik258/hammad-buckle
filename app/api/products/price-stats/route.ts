@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { SITE_CURRENCY } from '@/lib/site-metadata';
 
 // GET /api/products/price-stats - Get price statistics for all active products
 export async function GET(request: NextRequest) {
@@ -121,11 +122,11 @@ export async function GET(request: NextRequest) {
         p90: Math.round(percentiles.p90 * 100) / 100,
       },
       priceRanges: [
-        { min: 0, max: percentiles.p25, label: `Under ${Math.round(percentiles.p25)} KWD` },
-        { min: percentiles.p25, max: percentiles.p50, label: `${Math.round(percentiles.p25)} - ${Math.round(percentiles.p50)} KWD` },
-        { min: percentiles.p50, max: percentiles.p75, label: `${Math.round(percentiles.p50)} - ${Math.round(percentiles.p75)} KWD` },
-        { min: percentiles.p75, max: percentiles.p90, label: `${Math.round(percentiles.p75)} - ${Math.round(percentiles.p90)} KWD` },
-        { min: percentiles.p90, max: maxPrice, label: `${Math.round(percentiles.p90)}+ KWD` },
+        { min: 0, max: percentiles.p25, label: `Under ${Math.round(percentiles.p25)} ${SITE_CURRENCY}` },
+        { min: percentiles.p25, max: percentiles.p50, label: `${Math.round(percentiles.p25)} - ${Math.round(percentiles.p50)} ${SITE_CURRENCY}` },
+        { min: percentiles.p50, max: percentiles.p75, label: `${Math.round(percentiles.p50)} - ${Math.round(percentiles.p75)} ${SITE_CURRENCY}` },
+        { min: percentiles.p75, max: percentiles.p90, label: `${Math.round(percentiles.p75)} - ${Math.round(percentiles.p90)} ${SITE_CURRENCY}` },
+        { min: percentiles.p90, max: maxPrice, label: `${Math.round(percentiles.p90)}+ ${SITE_CURRENCY}` },
       ],
     };
 

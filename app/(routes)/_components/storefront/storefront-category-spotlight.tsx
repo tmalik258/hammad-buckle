@@ -35,7 +35,7 @@ export function StorefrontCategorySpotlight({ title, subtitle, rows }: Props) {
             const src =
               row.imageOverride?.trim() ||
               row.category.image?.trim() ||
-              "/logo-transparent.png";
+              "/logo_transparent.png";
             const title = row.titleOverride?.trim() || row.category.name;
             return (
               <Link

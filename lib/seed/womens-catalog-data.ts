@@ -2,8 +2,6 @@ import { GenderTarget } from "@prisma/client";
 
 /** Shared catalog + storefront seed data — women's clothing and shoes only. */
 
-export { LEGACY_CATEGORY_IDS, LEGACY_PRODUCT_IDS } from "./legacy-seed-ids";
-
 export const WOMENS_CATEGORY_IDS = {
   clothing: "cat-fashion",
   shoes: "cat-womens-shoes",
@@ -263,7 +261,7 @@ export const WOMENS_HERO_SLIDES = [
     heading: "Curated for her",
     subheading:
       "Women's clothing and footwear only — edit your wardrobe in one place.",
-    badgeText: "Hammad Buckle",
+    badgeText: "Hanara",
     primaryCtaLabel: "Explore collection",
     primaryCtaHref: "/products?genderTarget=WOMENS",
     secondaryCtaLabel: "Collections",

@@ -13,6 +13,7 @@ import {
 import { Star, Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { SITE_CURRENCY } from "@/lib/site-metadata";
 
 interface Product {
   id: string;
@@ -165,11 +166,11 @@ export function CarouselSection({
                         {/* Price */}
                         <div className="flex items-center gap-2">
                           <span className="text-lg font-bold text-gray-900">
-                            KWD {product.price.toFixed(3)}
+                            {SITE_CURRENCY} {product.price.toFixed(3)}
                           </span>
                           {product.originalPrice && (
                             <span className="text-sm text-gray-500 line-through">
-                              KWD {product.originalPrice.toFixed(3)}
+                              {SITE_CURRENCY} {product.originalPrice.toFixed(3)}
                             </span>
                           )}
                         </div>

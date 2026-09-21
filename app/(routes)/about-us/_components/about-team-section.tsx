@@ -7,7 +7,7 @@ export function AboutTeamSection() {
       <div className="mx-auto max-w-7xl px-4">
         <header className="mb-12 text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 md:text-4xl">
-            The People Behind Hammad Buckle
+            The People Behind Hanara
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-zinc-600">
             A small team focused on quality products and dependable service.

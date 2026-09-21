@@ -2,6 +2,7 @@ import { AlertCircleIcon, XIcon, ImageUpIcon } from "lucide-react"
 import { type FileWithPreview, useFileUpload } from "@/lib/hooks/useFileUpload"
 import Image from "next/image"
 import { useCallback } from "react"
+import { LOGO_PATH } from "@/lib/site-metadata"
 
 interface ImageUploadWrapperProps {
   onFilesAdded: (files: FileWithPreview[]) => void
@@ -60,7 +61,7 @@ const ImageUploadWrapper: React.FC<ImageUploadWrapperProps> = ({
 
           {previewUrl ? (
             <div className="absolute inset-0">
-              <Image fill src={previewUrl || "/placeholder.svg"} alt="Course thumbnail" className="size-full object-cover" />
+              <Image fill src={previewUrl || LOGO_PATH} alt="Product image preview" className="size-full object-cover" />
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center px-4 py-3 text-center">

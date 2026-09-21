@@ -42,6 +42,7 @@ import {
 } from 'lucide-react';
 import { useOrdersAdmin, useUpdateOrder } from '@/lib/hooks/useOrders';
 import { OrderListItem, OrderStatus } from '@/lib/types/order';
+import { LOGO_PATH } from '@/lib/site-metadata';
 import OrderFormModal from './order-form-modal';
 import OrderDeleteModal from './order-delete-modal';
 
@@ -349,7 +350,7 @@ export default function OrdersTable({
                       {order.items && order.items.length > 0 ? (
                         <>
                           <Image
-                            src={order.items[0].product?.image || '/default-product.png'}
+                            src={order.items[0].product?.image || LOGO_PATH}
                             alt={order.items[0].product?.name || 'Product'}
                             width={32}
                             height={32}

@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { OrderStatusBadge } from './order-status-badge';
 import type { OrderListItem } from '@/lib/types/order';
+import { LOGO_PATH } from '@/lib/site-metadata';
 import { 
   CalendarIcon, 
   PackageIcon, 
@@ -41,7 +42,7 @@ export const OrderCard = ({ order, className }: OrderCardProps) => {
 
   const getFirstProductImage = () => {
     const firstItem = order.items?.[0];
-    return firstItem?.product?.image || '/placeholder-product.jpg';
+    return firstItem?.product?.image || LOGO_PATH;
   };
 
   return (
@@ -121,7 +122,7 @@ export const OrderCard = ({ order, className }: OrderCardProps) => {
                 <div key={item.id} className="flex items-center gap-3 text-sm">
                   <div className="relative w-8 h-8 rounded overflow-hidden bg-gray-100">
                     <Image
-                      src={item.product?.image || '/placeholder-product.jpg'}
+                      src={item.product?.image || LOGO_PATH}
                       alt={item.product?.name || 'Product'}
                       fill
                       className="object-cover"

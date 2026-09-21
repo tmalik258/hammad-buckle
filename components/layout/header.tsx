@@ -8,14 +8,11 @@ import {
   Menu,
   Grid3X3,
   Package,
-  UserPlus,
   Settings,
   LogOut,
-  Info,
   LayoutDashboard,
   Sparkles,
   Tag,
-  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +41,7 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import { UserInitialsAvatar } from "@/components/ui/user-initials-avatar";
 import { UserRole } from "@prisma/client";
 import type { NavCategory } from "@/lib/storefront/get-nav-categories";
+import { LOGO_PATH, SITE_NAME } from "@/lib/site-metadata";
 
 type HeaderProps = {
   navCategories?: NavCategory[];
@@ -102,8 +100,8 @@ export function Header({ navCategories = [] }: HeaderProps) {
           <Link href="/" className="flex shrink-0 items-center cursor-pointer">
             <div className="font-bold text-2xl font-serif text-primary">
               <Image
-                src="/logo-transparent.png"
-                alt="Hammad Buckle"
+                src={LOGO_PATH}
+                alt={SITE_NAME}
                 width={100}
                 height={100}
                 className="h-10 w-auto sm:h-12"
@@ -125,12 +123,6 @@ export function Header({ navCategories = [] }: HeaderProps) {
             </Link>
             <Link href="/products?onSale=true" className={desktopLinkClass}>
               Sale
-            </Link>
-            <Link href="/contact" className={desktopLinkClass}>
-              Contact
-            </Link>
-            <Link href="/about-us" className={desktopLinkClass}>
-              About Us
             </Link>
           </nav>
 
@@ -176,24 +168,16 @@ export function Header({ navCategories = [] }: HeaderProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : isInitialized ? (
-              <div className="flex items-center gap-3">
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className="rounded-none rounded-tr-2xl rounded-bl-2xl cursor-pointer border-zinc-900 bg-transparent px-4 text-zinc-900 shadow-none hover:bg-zinc-900 hover:text-white"
-                >
-                  <Link href="/auth/login">Account</Link>
-                </Button>
-                <Link
-                  href="/auth/signup"
-                  className="text-sm font-medium text-zinc-600 underline-offset-4 transition-colors hover:text-zinc-900 hover:underline cursor-pointer"
-                >
-                  Join
-                </Link>
-              </div>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="cursor-pointer border-zinc-900/80 bg-transparent px-3.5 text-zinc-900 shadow-none hover:bg-zinc-900 hover:text-white"
+              >
+                <Link href="/auth/login">Sign in</Link>
+              </Button>
             ) : (
-              <div className="h-8 w-36" />
+              <div className="h-8 w-20" />
             )}
 
             {isInitialized ? (
@@ -233,8 +217,8 @@ export function Header({ navCategories = [] }: HeaderProps) {
                 <div className="flex flex-col h-full">
                   <div className="flex items-center mb-6">
                     <Image
-                      src="/logo-transparent.png"
-                      alt="Hammad Buckle"
+                      src={LOGO_PATH}
+                      alt={SITE_NAME}
                       width={100}
                       height={100}
                       className="h-full w-auto"
@@ -300,20 +284,6 @@ export function Header({ navCategories = [] }: HeaderProps) {
                       </span>
                     </Link>
 
-                    <Link href="/about-us" className={mobileLinkClass}>
-                      <Info className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      <span className="font-medium group-hover:text-foreground transition-colors">
-                        About Us
-                      </span>
-                    </Link>
-
-                    <Link href="/contact" className={mobileLinkClass}>
-                      <Mail className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                      <span className="font-medium group-hover:text-foreground transition-colors">
-                        Contact
-                      </span>
-                    </Link>
-
                     <Link href="/cart" className={mobileLinkClass}>
                       <div className="relative">
                         <ShoppingCart className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -359,22 +329,12 @@ export function Header({ navCategories = [] }: HeaderProps) {
                         </button>
                       </>
                     ) : (
-                      <>
-                        <Link href="/auth/login" className={mobileLinkClass}>
-                          <User className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                          <span className="font-medium group-hover:text-foreground transition-colors">
-                            Account
-                          </span>
-                        </Link>
-
-                        <Link
-                          href="/auth/signup"
-                          className="flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group cursor-pointer"
-                        >
-                          <UserPlus className="h-5 w-5 transition-colors" />
-                          <span className="font-medium transition-colors">Join</span>
-                        </Link>
-                      </>
+                      <Link href="/auth/login" className={mobileLinkClass}>
+                        <User className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                        <span className="font-medium group-hover:text-foreground transition-colors">
+                          Sign in
+                        </span>
+                      </Link>
                     )}
                   </div>
                 </div>

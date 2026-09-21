@@ -41,8 +41,7 @@ async function validateWithThirdPartyService(address: {
     }
   }
   
-  // Area validation - Kuwait specific areas or general validation
-    // For non-Kuwait countries, just ensure area is not empty
+  // Area validation — require a non-empty district/area for Pakistan addresses
     if (!address.area || address.area.trim().length < 1) {
       issues.push('Area/District/Region is required');
       isValid = false;

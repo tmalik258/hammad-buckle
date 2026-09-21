@@ -89,7 +89,7 @@ export function ForgotPasswordForm() {
           </div>
 
           <div className="space-y-3">
-            <Button asChild className="w-full cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl">
+            <Button asChild className="w-full cursor-pointer">
               <Link href="/auth/login">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Login
@@ -98,7 +98,7 @@ export function ForgotPasswordForm() {
 
             <Button
               variant="outline"
-              className="w-full cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl border-zinc-200"
+              className="w-full cursor-pointer border-zinc-200"
               onClick={() => {
                 setSuccess(false);
                 form.reset();
@@ -111,10 +111,10 @@ export function ForgotPasswordForm() {
           <div className={`text-center ${authMutedTextClassName}`}>
             <p>Need help? Contact support at</p>
             <a
-              href="mailto:support@hammadbuckle.com"
+              href="mailto:support@hanara.com"
               className={authLinkClassName}
             >
-              support@hammadbuckle.com
+              support@hanara.com
             </a>
           </div>
         </div>
@@ -160,7 +160,7 @@ export function ForgotPasswordForm() {
 
           <Button
             type="submit"
-            className="w-full cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl"
+            className="w-full cursor-pointer"
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? (
@@ -185,7 +185,7 @@ export function ForgotPasswordForm() {
           <div className={`text-center ${authMutedTextClassName}`}>
             <span>Don&apos;t have an account? </span>
             <Link href="/auth/signup" className={authLinkClassName}>
-              Sign up
+              Create account
             </Link>
           </div>
         </form>

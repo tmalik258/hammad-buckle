@@ -80,12 +80,9 @@ export async function updateSession(request: NextRequest) {
 
   // Define private API routes that require authentication
   const privateApiRoutes = [
-    "/api/cart",           // Cart operations
     "/api/orders",         // Order management (except /api/orders/submit)
     "/api/users",          // User management
     "/api/admin",          // Admin APIs
-    "/api/addresses",      // User addresses
-    "/api/wishlist",       // Wishlist operations
     "/api/variants",       // Product variants (admin)
   ];
 
@@ -99,6 +96,11 @@ export async function updateSession(request: NextRequest) {
   const isPublicApiRoute = publicApiRoutes.some(route => 
     pathname === route || pathname.startsWith(route + "/")
   );
+
+  // Guest checkout confirmation: opaque order id is enough to view the receipt
+  const isGuestOrderLookup =
+    request.method === "GET" &&
+    /^\/api\/orders\/[^/]+$/.test(pathname);
 
   const isPrivateRoute = privateRoutes.some(route => 
     pathname === route || pathname.startsWith(route + "/")
@@ -123,7 +125,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Public routes/APIs win over private prefixes (e.g. /api/orders/submit vs /api/orders)
-  if (isPublicRoute || isPublicApiRoute) {
+  if (isPublicRoute || isPublicApiRoute || isGuestOrderLookup) {
     return supabaseResponse;
   }
 

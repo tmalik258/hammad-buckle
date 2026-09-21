@@ -9,6 +9,7 @@ import { Heart, ArrowLeft, ShoppingBag, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
+import { SITE_CURRENCY } from "@/lib/site-metadata";
 
 export default function WishlistPage() {
   const { items, removeItem, toggleItem } = useWishlistStore();
@@ -107,7 +108,7 @@ export default function WishlistPage() {
                 Start adding products you love to your wishlist
               </p>
               <Link href="/products">
-                <Button className="rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-8 py-3 font-semibold text-white hover:bg-zinc-800 cursor-pointer">
+                <Button className="bg-zinc-900 px-8 py-3 font-semibold text-white hover:bg-zinc-800 cursor-pointer">
                   Browse Products
                 </Button>
               </Link>
@@ -126,7 +127,7 @@ export default function WishlistPage() {
                     {/* Stock Badge */}
                     <div className="absolute top-4 right-4 z-10">
                       <Badge
-                        className={`px-3 py-1 text-sm font-medium rounded-tr-2xl rounded-bl-2xl ${
+                        className={`px-3 py-1 text-sm font-medium rounded-none ${
                           item.inStock
                             ? "bg-zinc-900 text-white"
                             : "bg-zinc-200 text-zinc-600"
@@ -139,7 +140,7 @@ export default function WishlistPage() {
                     {/* Product Image */}
                     <div className="relative mb-4">
                       <Image
-                        src={item.image || "/logo-transparent.png"}
+                        src={item.image || "/logo_transparent.png"}
                         alt={item.name}
                         width={300}
                         height={300}
@@ -160,7 +161,7 @@ export default function WishlistPage() {
                       {/* Price and Actions */}
                       <div className="flex items-center justify-between pt-2">
                         <span className="text-lg font-bold text-zinc-900">
-                          {item.price} KWD
+                          {item.price} {SITE_CURRENCY}
                         </span>
                         <div className="flex items-center gap-2">
                           {/* Heart Icon */}
@@ -199,7 +200,7 @@ export default function WishlistPage() {
               <Link href="/my-account">
                 <Button
                   variant="outline"
-                  className="flex cursor-pointer items-center gap-2 rounded-none rounded-tr-2xl rounded-bl-2xl border-zinc-900 px-6 py-3 font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white"
+                  className="flex cursor-pointer items-center gap-2 border-zinc-900 px-6 py-3 font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white"
                 >
                   <ArrowLeft className="w-4 h-4 rotate-90" />
                   Back to Profile
@@ -207,7 +208,7 @@ export default function WishlistPage() {
               </Link>
 
               <Link href="/products">
-                <Button className="rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-6 py-3 font-semibold text-white hover:bg-zinc-800 cursor-pointer">
+                <Button className="bg-zinc-900 px-6 py-3 font-semibold text-white hover:bg-zinc-800 cursor-pointer">
                   Continue Shopping
                 </Button>
               </Link>

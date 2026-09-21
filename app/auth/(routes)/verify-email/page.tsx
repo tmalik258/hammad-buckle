@@ -123,10 +123,10 @@ function VerifyEmailContent() {
             <div className="text-center text-sm text-gray-500">
               <p>Need help? Contact support at</p>
               <a 
-                href="mailto:support@hammadbuckle.com" 
+                href="mailto:support@hanara.com" 
                 className="text-zinc-900 hover:underline"
               >
-                support@hammadbuckle.com
+                support@hanara.com
               </a>
             </div>
           </div>

@@ -102,13 +102,13 @@ export default function NewsletterSection({
                   </p>
                 ) : null}
                 {state === "success" ? (
-                  <p className="text-sm text-emerald-700">You&apos;re subscribed. Welcome to Hammad Buckle.</p>
+                  <p className="text-sm text-emerald-700">You&apos;re subscribed. Welcome to Hanara.</p>
                 ) : null}
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-zinc-900 px-5 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex h-11 w-full items-center justify-center rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-5 text-sm font-semibold tracking-wide text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? "Subscribing..." : "Subscribe"}
                 </button>

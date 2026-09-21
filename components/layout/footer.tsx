@@ -53,23 +53,6 @@ export function Footer({ className = "" }: FooterProps) {
       className={cn("relative isolate bg-[#0c0b0a] text-white", className)}
       role="contentinfo"
     >
-      {/* Page-colored wave on one ink plane — no SVG/div hairline seam */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 z-10 -translate-y-[calc(100%-2px)] leading-none"
-      >
-        <svg
-          className="block h-10 w-full text-zinc-50 sm:h-14"
-          viewBox="0 0 1440 64"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="currentColor"
-            d="M0 0H1440V28C1200 64 960 48 720 24C480 0 240 64 0 32V0Z"
-          />
-        </svg>
-      </div>
-
       <div className="relative overflow-hidden">
         <div
           aria-hidden
@@ -87,7 +70,7 @@ export function Footer({ className = "" }: FooterProps) {
           aria-hidden
           className="pointer-events-none absolute -right-4 -bottom-10 select-none font-serif text-[clamp(6rem,22vw,16rem)] font-bold leading-none tracking-tighter text-white/[0.04]"
         >
-          HB
+          H
         </p>
 
         <div className="relative overflow-hidden border-b border-white/10 py-3">
@@ -109,7 +92,7 @@ export function Footer({ className = "" }: FooterProps) {
                   Est. Lahore
                 </p>
                 <h2 className="font-serif text-4xl font-semibold tracking-tight text-[#FFF8E7] sm:text-5xl">
-                  Hammad Buckle
+                  Hanara
                 </h2>
                 <p className="max-w-md text-sm leading-relaxed text-white/60 sm:text-base">
                   Modern apparel and footwear for women — curated drops, timeless staples,
@@ -145,10 +128,10 @@ export function Footer({ className = "" }: FooterProps) {
                   </a>
                   <span className="mx-2 text-white/25">·</span>
                   <a
-                    href="mailto:hello@hammadbuckle.com"
+                    href="mailto:hello@hanara.com"
                     className="cursor-pointer transition-colors hover:text-[#FFF8E7]"
                   >
-                    hello@hammadbuckle.com
+                    hello@hanara.com
                   </a>
                 </p>
               </address>
@@ -164,7 +147,7 @@ export function Footer({ className = "" }: FooterProps) {
         <div className="relative border-t border-white/10">
           <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-6 text-xs text-white/45 sm:px-6 lg:flex-row lg:justify-between lg:px-8">
             <p className="text-center lg:text-left">
-              © {year} Hammad Buckle. All rights reserved.
+              © {year} Hanara. All rights reserved.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
               {legalLinks.map((link) => (

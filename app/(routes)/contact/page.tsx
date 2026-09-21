@@ -39,7 +39,7 @@ const contactInfo = {
     country: "Pakistan",
   },
   phone: "+92 300 847 2653",
-  email: "hello@hammadbuckle.com",
+  email: "hello@hanara.com",
   hours: {
     weekdays: "Monday - Friday: 10:00 AM - 7:00 PM PKT",
     weekends: "Saturday - Sunday: 11:00 AM - 5:00 PM PKT",
@@ -615,7 +615,7 @@ export default function ContactPage() {
                 Reach our support team by email during business hours
               </p>
               <Button asChild variant="outline" size="sm" className="cursor-pointer">
-                <Link href="mailto:hello@hammadbuckle.com">Email Support</Link>
+                <Link href="mailto:hello@hanara.com">Email Support</Link>
               </Button>
             </CardContent>
           </Card>

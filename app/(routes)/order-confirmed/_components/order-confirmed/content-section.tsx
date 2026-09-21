@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { SITE_CURRENCY } from "@/lib/site-metadata";
 
 interface OrderItem {
   id: string;
@@ -56,7 +57,7 @@ export function ContentSection({
                 </div>
                 <div className="text-right">
                   <span className="text-lg font-bold text-zinc-900">
-                    KWD {item.price.toFixed(2)}
+                    {SITE_CURRENCY} {item.price.toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -87,12 +88,12 @@ export function ContentSection({
         </div>
 
         <div className="flex justify-center gap-4">
-          <Button className="cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl bg-zinc-900 px-8 py-3 font-semibold text-white hover:bg-zinc-800">
+          <Button className="cursor-pointer bg-zinc-900 px-8 py-3 font-semibold text-white hover:bg-zinc-800">
             Track My Order
           </Button>
           <Button
             variant="outline"
-            className="cursor-pointer rounded-none rounded-tr-2xl rounded-bl-2xl border-zinc-900 px-8 py-3 font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white"
+            className="cursor-pointer border-zinc-900 px-8 py-3 font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white"
             asChild
           >
             <Link href="/products">Continue Shopping</Link>

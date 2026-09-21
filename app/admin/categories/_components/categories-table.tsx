@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { LOGO_PATH } from '@/lib/site-metadata';
 import {
   Select,
   SelectContent,
@@ -243,7 +244,7 @@ export default function CategoriesTable({
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Image
-                        src={category.image || '/placeholder-category.png'}
+                        src={category.image || LOGO_PATH}
                         alt={category.name}
                         width={40}
                         height={40}
